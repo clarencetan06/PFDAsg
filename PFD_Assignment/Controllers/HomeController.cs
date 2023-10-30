@@ -8,9 +8,9 @@ namespace PFD_Assignment.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> loggers)
 		{
-			_logger = logger;
+			_logger = loggers;
 		}
 
 		public IActionResult Index()
