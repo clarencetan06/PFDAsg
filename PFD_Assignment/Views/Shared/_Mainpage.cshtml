@@ -1,0 +1,41 @@
+﻿
+
+<!-- A grey navbar that expands horizontally at medium device -->
+<nav class="navbar navbar-expand-md bg-light navbar-light">
+    <div class="container-fluid">
+        <!-- The brand(or icon) of the navbar -->
+        <a class="navbar-brand" href="~/Home/StaffMain"
+           style="font-size:32px; font-weight:bold; color:darkred;">
+            SG HandBook
+        </a>
+        <!-- Toggle/collapsible Button, also known as hamburger button -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#staffNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Links in navbar, displayed as drop-down list when collapsed -->
+        <div class="collapse navbar-collapse" id="staffNavbar">
+            <!-- Links that are aligned to the left,
+            me-auto: margin-end, i.e., right margin, auto-adjusted -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Rental/Calculate">
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Fine/Calculate">Guides</a>
+                </li>
+                
+            </ul>
+            <!-- Links aligned to the right,
+            ms-auto: margin-start, i.e., left margin, auto-adjusted -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <!-- A link for logging out user -->
+                    <a class="nav-link" href="~/Home/LogOut">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
