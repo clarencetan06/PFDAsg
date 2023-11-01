@@ -66,7 +66,7 @@ VALUES(@first, @last, @username, @pass,
 			cmd.Parameters.AddWithValue("@first", member.FirstName);
 			cmd.Parameters.AddWithValue("@last", member.LastName);
 			cmd.Parameters.AddWithValue("@username", member.Username);
-			cmd.Parameters.AddWithValue("@pass", member.Password);
+			cmd.Parameters.AddWithValue("@pass", member.UserPassword);
 			cmd.Parameters.AddWithValue("@email", member.Email);
 			cmd.Parameters.AddWithValue("@dob", member.BirthDate);
 			//A connection to database must be opened before any operations made.
