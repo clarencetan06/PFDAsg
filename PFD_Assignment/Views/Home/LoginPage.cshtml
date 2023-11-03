@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Use Unicode character encoding - multi-language compatibility -->
+    <meta charset="utf-8">
+
+    <!-- Set the initial view zooming scale for mobile device -->
+    <meta name="viewport" content="width = device-width,
+ initial-scale = 1" />
+
+    <title>SG Handbook</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</head>
+
+<body>
+    <section class="login-forms-container">
+        <!-- Login Form -->
+        <div class="form login">
+            <div class="form-content">
+                <header>Login</header>
+                <form class="login-form" method="post" action="~/Home/Login">
+                    <div class="field input-field">
+                        <input type="text" placeholder="Username" name="txtLoginID"
+                               id="txtLoginID" class="input" required>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="Password" class="password"
+                               name="txtPassword" id="txtPassword" required>
+                    </div>
+
+                    <div class="field button-field">
+                        <button id="login">Login</button>
+                    </div>
+                    <span style="color:red;">@TempData["Message"]</span>
+                </form>
+                <!-- google login (implement ltr)
+                <form method="get" action="~/Home/GoogleLogin">
+                    <div class="field button-field">
+                            <button type="submit">Google Login</button>
+                    </div>
+                </form>-->
+
+                <p>
+                    <a href="~/Home/Privacy">Privacy Policy</a>
+                </p>
+
+                <div class="form-link">
+                    <span>
+                        Don't have an account? 
+                        <a href="~/Home/SignUp" class="link signup-link">Sign Up</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        </section>
+    <img class="bgimg" src="~/images/sgbackground.jpg"></img>
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿@model PFD_Assignment.Models.Member
+
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<section class="login-forms-container">
+    <div class="form login">
+        <div class="form-content">
+            <header>Sign Up</header>
+            <form id="login-form" asp-action="SignUp">
+                <div class="field input-field">
+                    <input asp-for="FirstName" type="text" placeholder="First Name">
+                    <span asp-validation-for="FirstName"
+                          class="text-danger"></span>
+                </div>
+                <div class="field input-field">
+                    <input asp-for="LastName" type="text" placeholder="Last Name">
+                    <span asp-validation-for="LastName"
+                          class="text-danger"></span>
+                </div>
+                <div class="field input-field">
+                    <input asp-for="Username" type="text" placeholder="Username" />
+                    <span asp-validation-for="Username"
+                          class="text-danger"></span>
+                </div>
+                <div class="field input-field">
+                    <input asp-for="UserPassword" type="text" placeholder="Set password">
+                    <span asp-validation-for="UserPassword"
+                          class="text-danger"></span>
+                </div>
+                <div class="field input-field">
+                    <input asp-for="Email" type="email" placeholder="Email">
+                    <span asp-validation-for="Email"
+                          class="text-danger"></span>
+                </div>
+                <div class="field input-field">
+                    <input asp-for="BirthDate" placeholder="Date of Birth"
+                           max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="BirthDate"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="field button-field">
+                    <button type="submit" value="Create"> Sign Up </button>
+                </div>
+            </form>
+            <div class="form-link">
+                <span>Already have an account? <a href="~/Home/LoginPage" class="link login-link">Login</a></span>
+            </div>
+        </div>
+    </div>
+</section>
+<img class="bgimg" src="~/images/sgbackground.jpg"></img>
+
+

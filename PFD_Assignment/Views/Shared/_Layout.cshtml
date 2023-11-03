@@ -10,7 +10,14 @@
 </head>
 <body>
     <header>
-         @await Html.PartialAsync("_Mainpage.cshtml")
+        @if (Context.Session.GetString("Role") == "Member")
+        {
+            @await Html.PartialAsync("_Mainpage.cshtml")
+        }
+        else
+        {
+            @await Html.PartialAsync("_DefaultMenu.cshtml")
+        }
     </header>
     <div class="container">
         
@@ -24,7 +31,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - SG HandBook - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 -  SG HandBook - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
