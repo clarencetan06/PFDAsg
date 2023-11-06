@@ -80,6 +80,69 @@ VALUES(@first, @last, @username, @pass,
 			return member.MemberId;
 		}
 
-		// TO DO: ENSURE NO DUPLICATED USERNAMES/EMAILS
-	}
+        // ENSURE NO DUPLICATED USERNAMES/EMAILS -> for unique users
+        public bool IsEmailExist(string email, int memberID)
+        {
+            bool emailFound = false;
+            //Create a SqlCommand object and specify the SQL statement 
+            //to get a Member record with the email address to be validated
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT MemberID FROM Members
+ WHERE Email=@selectedEmail";
+            cmd.Parameters.AddWithValue("@selectedEmail", email);
+            //Open a database connection and execute the SQL statement
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    if (reader.GetInt32(0) != memberID)
+                        //The email address is used by another member
+                        emailFound = true;
+                    else
+                        emailFound = false;
+                }
+            }
+            else
+            { //No record
+                emailFound = false; // The email address given does not exist
+            }
+            reader.Close();
+            conn.Close();
+            return emailFound;
+        }
+
+        public bool IfUserExist(string user, int memberID)
+        {
+            bool userFound = false;
+            //Create a SqlCommand object and specify the SQL statement 
+            //to get a member record with the username to be validated
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT MemberID FROM Members
+ WHERE Username=@selectedUsername";
+            cmd.Parameters.AddWithValue("@selectedUsername", user);
+            //Open a database connection and execute the SQL statement
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    if (reader.GetInt32(0) != memberID)
+                        //The username is used by another member
+                        userFound = true;
+                    else
+                        userFound = false;
+                }
+            }
+            else
+            { //No record
+                userFound = false; // The username given does not exist
+            }
+            reader.Close();
+            conn.Close();
+            return userFound;
+        }
+    }
 }
