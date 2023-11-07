@@ -41,6 +41,18 @@ footer {
         width: 100%;
         text-align: center;
     }
+
+/* --------------------------- navbar -------------------------------*/
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: white;
+}
+
+
+
 /* --------------------------- intro page -------------------------------*/
 
 .title {
@@ -90,7 +102,7 @@ footer {
     border-radius: 8vh;
     /* Maintain 50% opacity for the background rectangle */
     background-color: rgba(112, 128, 144, 0.5);
-    margin-bottom: 100px;
+    margin-bottom: 80px;
 }
 
 .aboutUs h2,
