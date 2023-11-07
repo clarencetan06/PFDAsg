@@ -21,9 +21,10 @@ namespace PFD_Assignment.Controllers
 		{
 			return View();
 		}
-        public IActionResult Guides()
+        public IActionResult Guide()
         {
-            return View();
+            return RedirectToAction("Index", "Guide");
+
         }
         public IActionResult AboutUs()
 		{
