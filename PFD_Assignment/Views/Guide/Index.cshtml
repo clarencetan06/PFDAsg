@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PFD_Assignment.Models.Post>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4 class="PageTitle">Guides</h4>
+
+<div>
+    @using (Html.BeginForm("Index","Guide",FormMethod.Get))
+    {
+        <table>
+            <tr>
+                <td>
+                    <span><b></b>Search By:</span>
+                    @Html.RadioButton("searchBy","PostTitle",true)
+                    <text>Title</text>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBox("searchValue",null, new{Class="form-control",placeholder="Enter Guide Title"})
+                </td>
+                <td>
+                    <input type="submit" value="Search" class=" btn btn-success"/>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+<br />
+
+<!-- Add a partial view to display a list of staff records
+in a tabular format. -->
+<partial name="~/Views/Guide/_ViewGuides.cshtml" model="@Model" />
