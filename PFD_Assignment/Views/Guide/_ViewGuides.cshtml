@@ -1,5 +1,37 @@
 ﻿@model IEnumerable<PFD_Assignment.Models.Post>
 
+
+
+
+<div>
+    @using (Html.BeginForm("Index","Guide",FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td>
+                    <span><b></b>Search By:</span>
+                    @Html.RadioButton("searchBy","PostTitle",true)
+                    <text>Title</text>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBox("searchValue",null, new{Class="form-control",placeholder="Enter Guide Title"})
+                </td>
+
+                <td>
+                    <input type="submit" value="Search" class=" btn btn-success"/>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+<br />
+<a href="#" id="sort-newest">Sort Newest to Oldest</a> |
+<a href="#" id="sort-oldest">Sort Oldest to Newest</a>
+
+
+
 @if (Model.ToList().Count > 0)
 {
 		<div class="table-responsive">
@@ -42,3 +74,10 @@ else
 {
 		<span style="color:red">No record found!</span>
 }
+
+<section class="scripts">
+<script src="~/js/site.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</section>
+
+ 

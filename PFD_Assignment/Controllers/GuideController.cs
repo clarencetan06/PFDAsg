@@ -12,9 +12,9 @@ namespace PFD_Assignment.Controllers
         public ActionResult Index(string searchBy, string searchValue)
         {
 
-            try
-            {
-                var postList = postContext.GetAllPost();
+            
+            
+                List<Post> postList = postContext.GetAllPost();
                 if (postList.Count == 0)
                 {
                     TempData["InfoMessage"] = "Currently there are no guides available in the database.";
@@ -29,7 +29,7 @@ namespace PFD_Assignment.Controllers
                     }
                     else
                     {
-                        if(searchBy.ToLower() == "PostTitle")
+                        if(searchBy == "PostTitle")
                         {
                             var searchByPostTitle = postList.Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower()));
                             return View(searchByPostTitle);
@@ -38,12 +38,8 @@ namespace PFD_Assignment.Controllers
                 }
                 return View(postList);
 
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-                return View();
-            }
+            
+            
             
         }
 

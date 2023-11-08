@@ -7,7 +7,7 @@ namespace PFD_Assignment.Models
 		public int PostID { get; set; }
 
 		[Required]
-		[Display(Name = "Title")]
+		[Display(Name = "Post Title")]
 		[StringLength(100, ErrorMessage = "Invalid title! Title cannot exceed 100 characters!")]
 		public string PostTitle { get; set; }
 
