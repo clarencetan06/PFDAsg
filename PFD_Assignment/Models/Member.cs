@@ -20,7 +20,9 @@ namespace PFD_Assignment.Models
 		[Required(ErrorMessage = "Please enter a username!")]
 		[StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
 		[Display(Name = "Username")]
-		public string Username { get; set; }
+        [ValidateUserExists]
+
+        public string Username { get; set; }
 
 		[Required(ErrorMessage = "Please set a password!")]
 		[StringLength(25, ErrorMessage = "Password cannot exceed 25 characters.")]
@@ -31,6 +33,7 @@ namespace PFD_Assignment.Models
 		[Required(ErrorMessage = "Please enter a email!")]
 		[StringLength(50, ErrorMessage = "Email cannot exceed 50 characters.")]
 		[EmailAddress(ErrorMessage = "Invalid email address format")] // validation annotation for email address format
+		[ValidateEmailExists]
 		/*
 		 [RegularExpression(
 		 @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
