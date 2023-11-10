@@ -34,7 +34,7 @@
     <div class="guidecontent" id="guidecontent">
         @foreach (var item in Model)
         {
-            <div class="guides" id="guides">
+            <div class="guides" id="guides" data-date="@item.DateofPost.ToString()">
                 <div>
                     <p class="guideUser">
                         <b> @item.Username.ToString() </b>| @item.DateofPost.ToString()

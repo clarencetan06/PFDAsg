@@ -14,7 +14,7 @@ if (window.pageYOffset >= sticky) {
 
 /* Fap material (Clarence noodes)*/
 $(document).ready(function () {
-    var table = $("#viewPost");
+    var container = $("#guidecontent");
 
     function attachSortEventHandler(linkSelector, sortFunction) {
         $(linkSelector).on("click", function (e) {
@@ -24,24 +24,24 @@ $(document).ready(function () {
     }
 
     function sortTableDesc() {
-        var rows = table.find("tbody > tr").get();
-        sortRowsByDate(rows, true);
+        var guides = container.find(".guides").get();
+        sortRowsByDate(guides, true);
     }
 
     function sortTableAsc() {
-        var rows = table.find("tbody > tr").get();
-        sortRowsByDate(rows, false);
+        var guides = container.find(".guides").get();
+        sortRowsByDate(guides, false);
     }
 
     function sortRowsByDate(rows, descending) {
         rows.sort(function (a, b) {
-            var dateA = convertToDateSortableString($(a).find("td:nth-child(7)").text());
-            var dateB = convertToDateSortableString($(b).find("td:nth-child(7)").text());
+            var dateA = convertToDateSortableString($(a).data("date"));
+            var dateB = convertToDateSortableString($(b).data("date"));
 
             return descending ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
         });
 
-        table.find("tbody").empty().append(rows);
+        container.empty().append(rows);
     }
 
     function convertToDateSortableString(dateString) {
@@ -70,5 +70,4 @@ $(document).ready(function () {
     attachSortEventHandler("#sort-newest", sortTableDesc);
     attachSortEventHandler("#sort-oldest", sortTableAsc);
 });
-
 
