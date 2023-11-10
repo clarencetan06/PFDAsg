@@ -144,5 +144,40 @@ VALUES(@first, @last, @username, @pass,
             conn.Close();
             return userFound;
         }
+
+        // get username for postVM
+        public List<Member> GetAllMembers()
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SQL statement that select all branches
+            cmd.CommandText = @"SELECT * FROM Members";
+            //Open a database connection
+            conn.Open();
+            //Execute SELCT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            //Read all records until the end, save data into a branch list
+            List<Member> memberList = new List<Member>();
+            while (reader.Read())
+            {
+                memberList.Add(
+                    new Member
+                    {
+                        MemberId = reader.GetInt32(0), 
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2), 
+                        Username = reader.GetString(3),
+                        UserPassword = reader.GetString(4),
+                        Email = reader.GetString(5),
+                        BirthDate = reader.GetDateTime(6)
+                    }
+                );
+            }
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+            return memberList;
+        }
     }
 }

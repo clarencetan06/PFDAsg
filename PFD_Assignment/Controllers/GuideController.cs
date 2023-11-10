@@ -8,45 +8,87 @@ namespace PFD_Assignment.Controllers
     public class GuideController : Controller
     {
         private PostDAL postContext = new PostDAL();
+        private MemberDAL memberContext = new MemberDAL();
         // GET: GuideController
         public ActionResult Index(string searchBy, string searchValue)
         {
+            List<PostViewModel> postVMList = new List<PostViewModel>();
 
-            
-            
-                List<Post> postList = postContext.GetAllPost();
-                if (postList.Count == 0)
+            List<Post> posts = postContext.GetAllPost();
+
+            foreach (Post Post in posts)
+            {
+                PostViewModel postviewmodel = MapToPostVM(Post);
+                postVMList.Add(postviewmodel);
+            }
+
+            if (posts.Count == 0)
+            {
+                TempData["InfoMessage"] = "Currently there are no guides available in the database.";
+                return View(postVMList);
+
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(searchValue))
                 {
-                    TempData["InfoMessage"] = "Currently there are no guides available in the database.";
+                    TempData["InfoMessage"] = "No records found!";
+                    return View(postVMList);
 
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(searchValue))
+                    if (searchBy == "PostTitle")
                     {
-                        TempData["InfoMessage"] = "Currently there are no guides for.";
-                        return View(postList);
-                    }
-                    else
-                    {
-                        if(searchBy == "PostTitle")
-                        {
-                            var searchByPostTitle = postList.Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower()));
-                            return View(searchByPostTitle);
-                        }
+                        var searchByPostTitle = postVMList.Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower()));
+                        return View(searchByPostTitle);
                     }
                 }
-                return View(postList);
+                return View(postVMList);
+            }
 
-            
-            
-            
         }
 
         // GET: GuideController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Post post = postContext.GetDetails(id);
+            PostViewModel postVM = MapToPostVM(post);
+            List<PostViewModel> postVMList = new List<PostViewModel> { postVM };
+            return View(postVMList);
+        }
+        public PostViewModel MapToPostVM(Post post)
+        {
+            string username = "";
+            if (post.MemberID != null)
+            {
+                List<Member> memberList = memberContext.GetAllMembers();
+                foreach (Member member in memberList)
+                {
+                    if (member.MemberId == post.MemberID)
+                    {
+                        username = member.Username;
+                        //Exit the foreach loop once the username is found
+                        break;
+                    }
+                }
+            }
+
+            PostViewModel postVM = new PostViewModel
+            {
+                PostID = post.PostID,
+                PostTitle = post.PostTitle,
+                PostDesc = post.PostDesc,
+                PostContent = post.PostContent,
+                Upvote = post.Upvote,
+                Downvote = post.Downvote,
+                DateofPost = post.DateofPost,
+                MemberID = post.MemberID,
+                Username = username
+                //Photo = staff.Name + ".jpg"
+            };
+
+            return postVM;
         }
 
         // GET: GuideController/Create

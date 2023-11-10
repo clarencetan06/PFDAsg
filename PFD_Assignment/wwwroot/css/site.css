@@ -28,19 +28,57 @@ body {
   margin-bottom: 60px;
 }
 
-/* ------------------------------ footer ---------------------------- */
-footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    text-align: center;
+/* --------------------------- guides -------------------------------*/
+.guidecontent {
+    align-items: center;
+    justify-content: center;
 }
 
-    footer .copyright {
-        width: 100%;
-        text-align: center;
-    }
+.guides {
+    display: flex;
+    flex: initial;
+    flex-wrap: wrap;
+    flex-direction:row;
+    width: 90%;
+    height: auto;
+    padding: 30px;
+    border-radius: 8vh;
+    /* Maintain 50% opacity for the background rectangle */
+    background-color: gainsboro; /*rgba(112, 128, 144, 0.5);*/
+    margin-top: 20px;
+}
+
+.guideUser, .guidePara {
+    font-size: 16px;
+    letter-spacing: 0.01cm;
+}
+
+.guideVotes {
+    font-size: 14px;
+    letter-spacing: 0.01cm;
+    color:dimgrey;
+}
+
+.guidebuttonposition {
+    padding: 20px;
+    object-position: left;
+}
+
+.guideButton {
+    border-radius: 3vh;
+    text-align: center;
+    background-color: ghostwhite;
+    height: 40px;
+    width: 60px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.guideButton:hover 
+{
+    background-color: lightgrey;
+}
+
 
 /* --------------------------- navbar -------------------------------*/
 .sticky {

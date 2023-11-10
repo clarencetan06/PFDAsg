@@ -1,7 +1,4 @@
-﻿@model IEnumerable<PFD_Assignment.Models.Post>
-
-
-
+﻿@model IEnumerable<PFD_Assignment.Models.PostViewModel>
 
 <div>
     @using (Html.BeginForm("Index","Guide",FormMethod.Post))
@@ -34,7 +31,37 @@
 
 @if (Model.ToList().Count > 0)
 {
-		<div class="table-responsive">
+    <div class="guidecontent" id="guidecontent">
+        @foreach (var item in Model)
+        {
+            <div class="guides" id="guides">
+                <div>
+                    <p class="guideUser">
+                        <b> @item.Username.ToString() </b>| @item.DateofPost.ToString()
+                    </p>
+                    <p class="guidePara">
+                        Title: @item.PostTitle.ToString()
+                    </p>
+                    <p class="guidePara">
+                        Description: @item.PostDesc.ToString()
+                    </p>
+                    <p class="guideVotes">
+                        Upvotes: @item.Upvote.ToString() |
+                        Downvotes: @item.Downvote.ToString()
+                    </p>
+                </div>
+
+                <div class="guidebuttonposition" id="guidebuttonposition">
+                    <button class="guideButton" id="guideButton">
+                    View 
+                    </button>
+                </div>
+            </div>
+
+        }
+    </div>
+    
+    <div class="table-responsive">
 		<table id="viewPost" class="table table-striped table-bordered">
 		<thead class="table-dark">
 		<tr>
@@ -74,6 +101,8 @@ else
 {
 		<span style="color:red">No record found!</span>
 }
+
+
 
 <section class="scripts">
 <script src="~/js/site.js"></script>

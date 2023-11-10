@@ -33,5 +33,6 @@ namespace PFD_Assignment.Models
 		public DateTime DateofPost { get; set; }
 
 		public int MemberID { get; set; }
+
 	}
 }

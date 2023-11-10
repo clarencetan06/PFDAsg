@@ -40,7 +40,7 @@ namespace PFD_Assignment.DAL
 			{
                 postList.Add(
 					new Post
-					{
+					{ 
 						PostID = reader.GetInt32(0), 
 						PostTitle = reader.GetString(1),                                 
                         PostDesc = reader.GetString(2), 
@@ -49,8 +49,6 @@ namespace PFD_Assignment.DAL
 						Downvote = reader.GetInt32(5), 
                         DateofPost = reader.GetDateTime(6), 
                         MemberID = reader.GetInt32(7), 
-															
-						
 					}
 				);
 			}
@@ -60,6 +58,43 @@ namespace PFD_Assignment.DAL
 			conn.Close();
 			return postList;
 		}
-		
-	}
+
+        public Post GetDetails(int postId)
+        {
+            Post post = new Post();
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement that 
+            //retrieves all attributes of a parcel record.
+            cmd.CommandText = @"SELECT * FROM Post
+WHERE PostID = @selectedPostID";
+            //Define the parameter used in SQL statement, value for the
+            //parameter is retrieved from the method parameter “postID”.
+            cmd.Parameters.AddWithValue("@selectedPostID", postId);
+            //Open a database connection
+            conn.Open();
+            //Execute SELCT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                //Read the record from database
+                while (reader.Read())
+                {
+                    post.PostID = postId;
+                    post.PostTitle = reader.GetString(1);
+                    post.PostDesc = reader.GetString(2);
+                    post.PostContent = reader.GetString(3);
+                    post.Upvote = reader.GetInt32(4);
+                    post.Downvote = reader.GetInt32(5);
+                    post.DateofPost = reader.GetDateTime(6);
+                    post.MemberID = reader.GetInt32(7);
+                }
+            }
+            //Close data reader
+            reader.Close();
+            //Close database connection
+            conn.Close();
+            return post;
+        }
+    }
 }
