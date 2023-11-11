@@ -38,14 +38,15 @@ body {
     display: flex;
     flex: initial;
     flex-wrap: wrap;
-    flex-direction:row;
-    width: 90%;
+    flex-direction: row;
+    width: 100%;
     height: auto;
     padding: 30px;
     border-radius: 8vh;
     /* Maintain 50% opacity for the background rectangle */
     background-color: gainsboro; /*rgba(112, 128, 144, 0.5);*/
     margin-top: 20px;
+    justify-content: space-between; /* Push the button to the right */
 }
 
 .guideUser, .guidePara {
@@ -60,7 +61,7 @@ body {
 }
 
 .guidebuttonposition {
-    padding: 20px;
+    padding: 20px; /* Adjust as needed */
     object-position: left;
 }
 
@@ -69,9 +70,14 @@ body {
     text-align: center;
     background-color: ghostwhite;
     height: 40px;
-    width: 60px;
+    width: 150px;
+    margin-left: auto; /* Push button to right edge */
+    margin-right: 10px; /* Control spacing between button and right side */
     transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
+    left: 50%; /* Move button horizontally to centre of its containing element */
+    transform: translateX(-50%); /* Center horizontally */
 }
 
 .guideButton:hover 
