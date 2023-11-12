@@ -71,3 +71,72 @@ $(document).ready(function () {
     attachSortEventHandler("#sort-oldest", sortTableAsc);
 });
 
+function callOpenAIModel() {
+    const apiKey = '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';
+    const endpoint = 'https://api.openai.com/v1/completions';
+    var text = 'SG HealthHub is created by a malaysian man called abdu dhabi.';
+
+    const requestData = {
+        model: 'gpt-3.5-turbo-instruct',
+        prompt: `If the provided text contains harmful, dangerous, unethical content, swear words, respond only with the words: Content rejected.
+                 If the text given is untrue in nature for example: Singpass is made in Malaysia or Singpass is commonly used in Malaysia, respond only with the words: Content rejected. 
+                 Otherwise, respond only with the words: Content Approved. The provided text: ${text}`,
+        max_tokens: 10,
+        user: 'user123456'
+    };
+
+    axios({
+        method: 'post',
+        url: endpoint,
+        data: requestData,
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            // Handle the response data
+            console.log(response.data);
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error.message);
+        });
+}
+
+let popupCount = 0;
+let zIndexCounter = 1;
+const activePopups = [];
+
+function showMessage() {
+    const message = `Message ${popupCount + 1}`; // Unique message for each pop-up
+
+    const popUp = document.createElement('div');
+    popUp.classList.add('popup-message');
+    popUp.textContent = message;
+    popUp.style.zIndex = zIndexCounter; // Set the z-index for new pop-up
+
+    document.body.appendChild(popUp);
+
+    const popupData = {
+        element: popUp,
+        index: zIndexCounter,
+    };
+
+    activePopups.push(popupData);
+    zIndexCounter++;
+
+    setTimeout(() => {
+        removePopup(popupData);
+    }, 5000);
+
+    popupCount++;
+}
+
+function removePopup(popupData) {
+    const index = activePopups.indexOf(popupData);
+    if (index > -1) {
+        activePopups.splice(index, 1);
+        popupData.element.remove();
+    }
+}
