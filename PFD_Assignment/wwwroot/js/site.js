@@ -12,7 +12,7 @@ if (window.pageYOffset >= sticky) {
 }
 }
 
-/* Fap material (Clarence noodes)*/
+/* Sorting for guide*/
 $(document).ready(function () {
     var container = $("#guidecontent");
 
@@ -71,8 +71,9 @@ $(document).ready(function () {
     attachSortEventHandler("#sort-oldest", sortTableAsc);
 });
 
+
 function callOpenAIModel() {
-    const apiKey = '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';
+    const apiKey = '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';
     const endpoint = 'https://api.openai.com/v1/completions';
     var text = 'SG HealthHub is created by a malaysian man called abdu dhabi.';
 
