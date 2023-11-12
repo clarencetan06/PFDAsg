@@ -297,4 +297,12 @@ body {
     opacity: 0.6;
 }
 
-
+.popup-message {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+}
