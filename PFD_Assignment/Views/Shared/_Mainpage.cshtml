@@ -1,5 +1,5 @@
 ﻿<nav class="navbar navbar-expand-md bg-light navbar-light">
-    <div class="container-fluid">
+    <div class="container-fluid" id="navbar">
         <!-- The brand(or icon) of the navbar -->
         <a class="navbar-brand" href="~/Home/Index"
            style="font-size:32px; font-weight:bold; color:firebrick;">
@@ -34,6 +34,10 @@
             <!-- Links aligned to the right,
                  ms-auto: margin-start, i.e., left margin, auto-adjusted -->
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <!-- A link for logging out user -->
+                    <a class="nav-link" href="~/Home/Profile">Profile</a>
+                </li>
                 <li class="nav-item">
                     <!-- A link for logging out user -->
                     <a class="nav-link" href="~/Home/LogOut">Log Out</a>
