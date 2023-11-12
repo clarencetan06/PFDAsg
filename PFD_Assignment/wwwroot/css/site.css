@@ -54,6 +54,17 @@ body {
     letter-spacing: 0.01cm;
 }
 
+.guidePara:nth-child(2) { /*for first (title) para */
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.guidePara:nth-child(3) { /*for second (description) para */
+    font-size: 20px;
+    font-weight: normal;
+}
+
+
 .guideVotes {
     font-size: 14px;
     letter-spacing: 0.01cm;
