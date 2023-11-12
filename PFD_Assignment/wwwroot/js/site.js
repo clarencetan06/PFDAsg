@@ -104,39 +104,3 @@ function callOpenAIModel() {
         });
 }
 
-let popupCount = 0;
-let zIndexCounter = 1;
-const activePopups = [];
-
-function showMessage() {
-    const message = `Message ${popupCount + 1}`; // Unique message for each pop-up
-
-    const popUp = document.createElement('div');
-    popUp.classList.add('popup-message');
-    popUp.textContent = message;
-    popUp.style.zIndex = zIndexCounter; // Set the z-index for new pop-up
-
-    document.body.appendChild(popUp);
-
-    const popupData = {
-        element: popUp,
-        index: zIndexCounter,
-    };
-
-    activePopups.push(popupData);
-    zIndexCounter++;
-
-    setTimeout(() => {
-        removePopup(popupData);
-    }, 5000);
-
-    popupCount++;
-}
-
-function removePopup(popupData) {
-    const index = activePopups.indexOf(popupData);
-    if (index > -1) {
-        activePopups.splice(index, 1);
-        popupData.element.remove();
-    }
-}
