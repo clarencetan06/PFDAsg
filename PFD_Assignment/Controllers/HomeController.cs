@@ -7,33 +7,40 @@ using System.Diagnostics;
 
 namespace PFD_Assignment.Controllers
 {
-	public class HomeController : Controller
-	{
-		private readonly ILogger<HomeController> _logger;
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
         private MemberDAL memberContext = new MemberDAL();
-
-        public HomeController(ILogger<HomeController> logger)
-		{
-			_logger = logger;
-		}
-
-		public IActionResult Index()
-		{
-			return View();
-		}
+        private IConfiguration _configuration;
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+        {
+            _logger = logger;
+            _configuration = configuration;
+        }
+        
+        public IActionResult Index()
+        {
+            // Retrieve the API key from user secrets
+            var indexModel = new IndexModel(_configuration);
+            indexModel.OnGet();
+            string apiKey = indexModel.ApiKey;
+            // Pass the API key to the view
+            ViewBag.ApiKey = apiKey;
+            return View();
+        }
         public IActionResult Guide()
         {
             return RedirectToAction("Index", "Guide");
 
         }
         public IActionResult AboutUs()
-		{
-			return View();
-		}
-		public ActionResult LoginPage()
-		{
-			return View();
-		}
+        {
+            return View();
+        }
+        public ActionResult LoginPage()
+        {
+            return View();
+        }
         public ActionResult SignUp()
         {
             return View();
@@ -43,6 +50,12 @@ namespace PFD_Assignment.Controllers
         {
             return View();
         }
+
+        public ActionResult Profile()
+        {
+            return View();
+        }
+
 
         [HttpPost]
         public ActionResult Login(IFormCollection formData)
@@ -92,15 +105,15 @@ namespace PFD_Assignment.Controllers
         }
 
         public IActionResult Privacy()
-		{
-			return View();
-		}
+        {
+            return View();
+        }
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
 
         public async Task<ActionResult> LogOut()
         {

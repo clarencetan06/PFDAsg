@@ -73,7 +73,8 @@ $(document).ready(function () {
 
 
 function callOpenAIModel() {
-    const apiKey = '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';
+    const apiKeyContainer = document.getElementById('apiKeyContainer');
+    const apiKey = apiKeyContainer.dataset.apiKey;
     const endpoint = 'https://api.openai.com/v1/completions';
     var text = 'SG HealthHub is created by a malaysian man called abdu dhabi.';
 
