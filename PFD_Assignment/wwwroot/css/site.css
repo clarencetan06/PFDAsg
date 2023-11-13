@@ -96,6 +96,71 @@ body {
     background-color: lightgrey;
 }
 
+/* --------------------------- guide details-------------------------------*/
+.guidedetailscontainer {
+    display: flex;
+    flex: initial;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    border-radius: 8vh;
+    background-color: gainsboro; 
+    margin-top: 20px;
+}
+
+.postcontent {
+    position:center;
+    font-size: 18px;
+    color:black;
+}
+
+.postvotes {
+    display: flex;
+    flex: initial;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between; /* Push the button to the right */
+    padding: 30px;
+}
+
+.postdetails {
+    display: flex;
+    flex: initial;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between; /* Push the button to the right */
+    font-size: 16px;
+    color: dimgray;
+    
+}
+
+.postvotingcontainer {
+    display: flex;
+    flex: initial;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between; /* Push the button to the right */
+}
+
+.postvotingbutton {
+    border-radius: 3vh;
+    text-align: center;
+    background-color: ghostwhite;
+    height: 30px;
+    width: 80px;
+    margin-right: 10px; /* Control spacing between button and right side */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    left: 30%; /* Move button horizontally to centre of its containing element */
+}
+
+    .postvotingbutton:hover {
+        background-color: lightgrey;
+    }
+
 
 /* --------------------------- navbar -------------------------------*/
 .sticky {
