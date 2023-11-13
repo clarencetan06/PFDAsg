@@ -1,7 +1,24 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Profile";
 }
+<!DOCTYPE html>
+<html>
+<body style="background-color: lightgrey">
+    <div class="myProfile" id="myProfile">
+        <h1>My Profile</h1>
+        <h3>Personal Details</h3>
+        <p>
+        <p>
+            Member ID: @ViewData["MemberID"]<br />
+            First Name: @ViewData["FirstName"]<br />
+            Last Name: @ViewData["LastName"]<br />
+            Username: @ViewData["Username"]<br />
+            Email: @ViewData["Email"]<br />
+            Birthdate: @ViewData["BirthDate"]
+        </p>
+        </p>
+    </div>
 
-<h1>My Profile</h1>
 
+</body>
+</html>
