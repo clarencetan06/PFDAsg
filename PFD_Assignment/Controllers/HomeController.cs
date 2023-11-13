@@ -11,7 +11,7 @@ namespace PFD_Assignment.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private MemberDAL memberContext = new MemberDAL();
-        private readonly IConfiguration _configuration;
+        private IConfiguration _configuration;
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
@@ -21,8 +21,9 @@ namespace PFD_Assignment.Controllers
         public IActionResult Index()
         {
             // Retrieve the API key from user secrets
-            string apiKey = _configuration["OpenAI:ApiKey"];
-            Console.WriteLine(apiKey + "test");
+            var indexModel = new IndexModel(_configuration);
+            indexModel.OnGet();
+            string apiKey = indexModel.ApiKey;
             // Pass the API key to the view
             ViewBag.ApiKey = apiKey;
             return View();
