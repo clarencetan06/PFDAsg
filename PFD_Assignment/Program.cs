@@ -2,7 +2,7 @@
 //using Google.Apis.Auth.AspNetCore3;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var OpenAIKey = builder.Configuration["OpenAI:ApiKey"];
 // Add a default in-memory implementation of distributed cache
 builder.Services.AddDistributedMemoryCache();
 // Add the session service

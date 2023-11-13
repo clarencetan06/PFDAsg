@@ -11,14 +11,20 @@ namespace PFD_Assignment.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private MemberDAL memberContext = new MemberDAL();
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IConfiguration _configuration;
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
-
+        
         public IActionResult Index()
         {
+            // Retrieve the API key from user secrets
+            string apiKey = _configuration["OpenAI:ApiKey"];
+            Console.WriteLine(apiKey + "test");
+            // Pass the API key to the view
+            ViewBag.ApiKey = apiKey;
             return View();
         }
         public IActionResult Guide()
