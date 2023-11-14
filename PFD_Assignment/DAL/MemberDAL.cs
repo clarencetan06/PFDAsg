@@ -23,9 +23,10 @@ namespace PFD_Assignment.DAL
 		}
 
 		// allow only registered members to sign in
-		public bool Login(string username, string password)
+		public bool Login(string username, string password, out int memberID)
 		{
 			bool authenticated = false;
+            memberID = 0;
 			//Create a SqlCommand object from connection object
 			SqlCommand cmd = conn.CreateCommand();
 			//Specify the SELECT SQL statement 
@@ -43,9 +44,12 @@ namespace PFD_Assignment.DAL
 				(reader.GetString(4) == password))
 				{
 					authenticated = true;
+                    memberID = reader.GetInt32(0);
 					break; // Exit the while loop
 				}
 			}
+            reader.Close();
+            conn.Close();
 			return authenticated;
 		}
 

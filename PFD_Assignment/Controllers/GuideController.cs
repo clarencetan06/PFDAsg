@@ -122,31 +122,35 @@ namespace PFD_Assignment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Vote(int id, string votetype)
+        public ActionResult Vote(int postid, int voteid, int votetype)
         {
-            Post post = postContext.GetDetails(id);
+            Post post = postContext.GetDetails(postid);
             PostViewModel postVM = MapToPostVM(post);
 
             if ((HttpContext.Session.GetString("Role") == null) ||
                 (HttpContext.Session.GetString("Role") != "Member"))
             {
                 TempData["SignInMessage"] = "Please sign in to vote!";
-                return RedirectToAction("GuideDetails", new { id = id });
+                return RedirectToAction("GuideDetails", new { id = postid });
             }
 
             if (ModelState.IsValid)
             {
-                postContext.Vote(id, votetype);
+                string voteMessage = postContext.Vote(postid, voteid, votetype);
+
+                // Store the message in TempData
+                TempData["VoteMessage"] = voteMessage;
 
                 // Redirect back to the same GuideDetails page
-                return RedirectToAction("GuideDetails", new { id = id });
+                return RedirectToAction("GuideDetails", new { id = postid });
             }
             else
             {
                 // Input validation fails, return to the view to display error message
-                return View(postVM);
+                return RedirectToAction("GuideDetails", new { id = postid });
             }
         }
+
 
 
 

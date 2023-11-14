@@ -88,10 +88,12 @@ namespace PFD_Assignment.Controllers
             // username converted to lowercase
             string loginID = formData["txtLoginID"].ToString().ToLower();
             string password = formData["txtPassword"].ToString();
-            if (memberContext.Login(loginID, password))
+            int memberID;
+            if (memberContext.Login(loginID, password, out memberID))
             {
                 // Store Login ID in session with the key "LoginID"
                 HttpContext.Session.SetString("LoginID", loginID);
+                HttpContext.Session.SetInt32("MemberID", memberID);
                 // Store user role "Member" as a string in session with the key "Role"
                 HttpContext.Session.SetString("Role", "Member");
                 HttpContext.Session.SetString("LoggedInTime", DateTime.Now.ToString());

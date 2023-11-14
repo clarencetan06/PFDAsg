@@ -12,7 +12,7 @@
 <div class="guidedetailscontainer">
     <h4 class="posttitle">@Html.Display("PostTitle")</h4>
     <hr />
-
+             
     <div class="postphoto">
         <img src="~/images/@Model.Photo" />
     </div>
@@ -32,11 +32,11 @@
     <p>Upvotes: @Html.Display("Upvote") | Downvotes: @Html.Display("Downvote") </p>
 
     <div class="postvotingcontainer">
-        <form asp-action="Vote" asp-route-id="@Model.PostID" asp-route-voteType="upvote">
+        <form asp-action="Vote" asp-route-postid="@Model.PostID" asp-route-voteType=1>
             <button type="submit" class="postvotingbutton" style="font-size:15px">
                 <i class="fa fa-thumbs-up"></i></button>
         </form>
-        <form asp-action="Vote" asp-route-id="@Model.PostID" asp-route-voteType="downvote">
+        <form asp-action="Vote" asp-route-postid="@Model.PostID" asp-route-voteType=2>
             <button class="postvotingbutton" style="font-size:15px">
                 <i class="fa fa-thumbs-down"></i>
             </button>
@@ -49,5 +49,12 @@
 {
     <script>
         alert('@TempData["SignInMessage"]');
+    </script>
+}
+
+@if (TempData["VoteMessage"] != null)
+{
+    <script>
+        alert('@TempData["VoteMessage"]');
     </script>
 }
