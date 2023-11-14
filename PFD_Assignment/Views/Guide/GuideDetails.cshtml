@@ -1,0 +1,60 @@
+﻿@model PFD_Assignment.Models.PostViewModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<div class="guidedetailscontainer">
+    <h4 class="posttitle">@Html.Display("PostTitle")</h4>
+    <hr />
+             
+    <div class="postphoto">
+        <img src="~/images/@Model.Photo" />
+    </div>
+
+    <div class="postcontent">
+        @Html.Display("PostContent")
+    </div>
+
+    <div class="postdetails"> 
+        <p>Author: @Html.Display("Username") </p>
+        <p>Date: @Html.Display("DateofPost") </p>
+    </div>
+
+</div>
+
+<div class="postvotes">
+    <p>Upvotes: @Html.Display("Upvote") | Downvotes: @Html.Display("Downvote") </p>
+
+    <div class="postvotingcontainer">
+        <form asp-action="Vote" asp-route-postid="@Model.PostID" asp-route-voteType=1>
+            <button type="submit" class="postvotingbutton" style="font-size:15px">
+                <i class="fa fa-thumbs-up"></i></button>
+        </form>
+        <form asp-action="Vote" asp-route-postid="@Model.PostID" asp-route-voteType=2>
+            <button class="postvotingbutton" style="font-size:15px">
+                <i class="fa fa-thumbs-down"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+
+@if (TempData["SignInMessage"] != null)
+{
+    <script>
+        alert('@TempData["SignInMessage"]');
+    </script>
+}
+
+@if (TempData["VoteMessage"] != null)
+{
+    <script>
+        alert('@TempData["VoteMessage"]');
+    </script>
+}

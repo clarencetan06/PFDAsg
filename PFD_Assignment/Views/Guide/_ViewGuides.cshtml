@@ -25,7 +25,9 @@
 </div>
 <br />
 <a href="#" id="sort-newest">Sort Newest to Oldest</a> |
-<a href="#" id="sort-oldest">Sort Oldest to Newest</a>
+<a href="#" id="sort-oldest">Sort Oldest to Newest</a> |
+<a href="#" id="sort-mostliked">Sort Most to Least Liked</a> |
+<a href="#" id="sort-leastliked">Sort Least to Most Liked</a>
 
 
 
@@ -45,57 +47,23 @@
                     <p class="guidePara">
                         Description: @item.PostDesc.ToString()
                     </p>
-                    <p class="guideVotes">
+                    <p class="guideVotes" data-likes="@item.Upvote">
                         Upvotes: @item.Upvote.ToString() |
                         Downvotes: @item.Downvote.ToString()
                     </p>
                 </div>
 
                 <div class="guidebuttonposition" id="guidebuttonposition">
-                    <button class="guideButton" id="guideButton">
-                    View 
-                    </button>
+                    <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@item.PostID">
+                        <button class="guideButton" id="guideButton">
+                            View
+                        </button>
+                    </a>
                 </div>
             </div>
 
         }
     </div>
-    
-    <div class="table-responsive">
-		<table id="viewPost" class="table table-striped table-bordered">
-		<thead class="table-dark">
-		<tr>
-		<th>Post ID</th>
-		<th>Title</th>
-		<th>Post Description</th>
-		<th>Post Content</th>
-		<th>Upvote</th>
-		<th>Downvote</th>
-		<th>Date of Post</th>
-		<th>MemberID</th>
-		<th></th>
-		</tr>
-		</thead>
-		<tbody>
-				@foreach (var item in Model)
-				{
-				<tr>
-						<td>@item.PostID.ToString()</td>
-						<td>@item.PostTitle.ToString()</td>
-						<td>@item.PostDesc.ToString()</td>
-						<td>@item.PostContent.ToString()</td>
-						<td>@item.Upvote.ToString()</td>
-						<td>@item.Downvote.ToString()</td>
-						<td>@item.DateofPost.ToString()</td>
-						<td>@item.MemberID.ToString()</td>
-
-				
-				
-				</tr>
-				}
-		</tbody>
-		</table>
-		</div>
 }
 else
 {

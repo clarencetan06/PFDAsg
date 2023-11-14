@@ -59,6 +59,14 @@ namespace PFD_Assignment.Controllers
             List<PostViewModel> postVMList = new List<PostViewModel> { postVM };
             return View(postVMList);
         }
+
+        public ActionResult GuideDetails(int id)
+        {
+            Post post = postContext.GetDetails(id);
+            PostViewModel postVM = MapToPostVM(post);
+            return View(postVM);
+        }
+
         public PostViewModel MapToPostVM(Post post)
         {
             string username = "";
@@ -76,7 +84,7 @@ namespace PFD_Assignment.Controllers
                 }
             }
 
-            PostViewModel postVM = new PostViewModel
+            PostViewModel postVM = new PostViewModel 
             {
                 PostID = post.PostID,
                 PostTitle = post.PostTitle,
@@ -86,8 +94,8 @@ namespace PFD_Assignment.Controllers
                 Downvote = post.Downvote,
                 DateofPost = post.DateofPost,
                 MemberID = post.MemberID,
-                Username = username
-                //Photo = staff.Name + ".jpg"
+                Username = username,
+                Photo = post.PostTitle + ".jpg"
             };
 
             return postVM;
@@ -148,8 +156,42 @@ namespace PFD_Assignment.Controllers
 
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Vote(int postid, int voteid, int votetype)
+        {
+            Post post = postContext.GetDetails(postid);
+            PostViewModel postVM = MapToPostVM(post);
+
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                TempData["SignInMessage"] = "Please sign in to vote!";
+                return RedirectToAction("GuideDetails", new { id = postid });
+            }
+
+            if (ModelState.IsValid)
+            {
+                string voteMessage = postContext.Vote(postid, voteid, votetype);
+
+                // Store the message in TempData
+                TempData["VoteMessage"] = voteMessage;
+
+                // Redirect back to the same GuideDetails page
+                return RedirectToAction("GuideDetails", new { id = postid });
+            }
+            else
+            {
+                // Input validation fails, return to the view to display error message
+                return RedirectToAction("GuideDetails", new { id = postid });
+            }
+        }
+
+
+
+
         // GET: GuideController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Vote(int id)
         {
             return View();
         }
