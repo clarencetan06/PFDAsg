@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -95,6 +96,33 @@ WHERE PostID = @selectedPostID";
             //Close database connection
             conn.Close();
             return post;
+        }
+
+        public bool Vote(int id, string voteType)
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an UPDATE SQL statement
+
+            if (voteType == "upvote")
+            {
+                cmd.CommandText = @"UPDATE Post SET Upvote = Upvote + 1 WHERE PostID = @postId";
+            }
+            else if (voteType == "downvote")
+            {
+                cmd.CommandText = @"UPDATE Post SET Downvote = Downvote + 1 WHERE PostID = @postId";
+            }
+            else
+            {
+                // Handle invalid voteType
+                return false;
+            }
+            cmd.Parameters.AddWithValue("@postId", id);
+
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count > 0;
         }
     }
 }

@@ -36,5 +36,8 @@ namespace PFD_Assignment.Models
 
         public string Username { get; set; }
 
+        public string Photo { get; set; }
+
+        public IFormFile fileToUpload { get; set; }
     }
 }
