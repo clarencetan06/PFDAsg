@@ -222,9 +222,10 @@ WHERE PostID = @selectedPostID";
 
             //Specify an INSERT SQL statement which will
             //return the auto-generated StaffID after insertion
+            Console.WriteLine(post.PostTitle + post.PostDesc + post.PostContent + memberid);
             cmd.CommandText = @"INSERT INTO Post(PostTitle, PostDesc, PostContent, Upvote, Downvote,
-DateofPost, MemberID, Photo) OUTPUT INSERTED.PostID
-VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @MemberID, @photo)";
+DateofPost, MemberID) OUTPUT INSERTED.PostID
+VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @MemberID)";
             //Define the parameters used in SQL statement, value for each parameter
             //is retrieved from respective class's property.
             
@@ -234,8 +235,8 @@ VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @Me
             cmd.Parameters.AddWithValue("@DateofPost", DateTime.Now);
             cmd.Parameters.AddWithValue("@Upvote", 0);
             cmd.Parameters.AddWithValue("@Downvote", 0);
-            cmd.Parameters.AddWithValue("@MemberID" , memberid);
-            cmd.Parameters.AddWithValue("@photo", null);
+            cmd.Parameters.AddWithValue("@MemberID" , memberid);/*
+            cmd.Parameters.AddWithValue("@Image", null);*/
 
 
             //A connection to database must be opened before any operations made.

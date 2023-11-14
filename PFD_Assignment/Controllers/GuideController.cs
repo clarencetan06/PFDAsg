@@ -122,8 +122,8 @@ namespace PFD_Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Post post)
         {
-            if (ModelState.IsValid)
-            {
+            /*if (ModelState.IsValid)
+            {*/
                 //Add post record to database
                 post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
                 TempData["SuccessMessage"] = "You have successfully created a post! :)";
@@ -132,14 +132,14 @@ namespace PFD_Assignment.Controllers
 
                 return RedirectToAction("Index");
                 
-            }
-            else
+            /*}*/
+            /*else
             {
                 //Input validation fails, return to the Create view
                 //to display error message
-                
+                Console.WriteLine("sdfd");
                 return View(post);
-            }
+            }*/
         }
         
         
