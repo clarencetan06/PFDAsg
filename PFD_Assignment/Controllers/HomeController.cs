@@ -56,6 +56,27 @@ namespace PFD_Assignment.Controllers
 
         public ActionResult Profile()
         {
+            // Get the logged-in member's ID from the session
+            string loginID = HttpContext.Session.GetString("LoginID");
+
+            // Get the member details from the database based on the login ID
+            Member member = memberContext.GetAllMembers().FirstOrDefault(m => m.Username.ToLower() == loginID);
+
+            // Check if the member exists
+            if (member == null)
+            {
+                // Redirect to login page if member not found
+                return RedirectToAction("LoginPage");
+            }
+            List<Member> members = memberContext.GetAllMembers().ToList();
+            // Pass the member details to the view
+            ViewData["MemberID"] = member.MemberId;
+            ViewData["FirstName"] = member.FirstName;   
+            ViewData["LastName"] = member.LastName;
+            ViewData["Username"] = member.Username;
+            ViewData["Email"] = member.Email;
+            ViewData["BirthDate"] = string.Format("{0:yyyy-MM-dd}", member.BirthDate);
+
             return View();
         }
 
@@ -131,7 +152,7 @@ namespace PFD_Assignment.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult viewProfile()
+        /*public IActionResult viewProfile()
         {
 
             // Get the logged-in member's ID from the session
@@ -156,6 +177,6 @@ namespace PFD_Assignment.Controllers
             ViewData["BirthDate"] = string.Format("{0:yyyy-MM-dd}", member.BirthDate);
             
             return View();
-        }
+        }*/
     }
 }

@@ -177,3 +177,12 @@ function removePopup(popupData) {
     }
 }
 
+function showProfile() {
+        document.getElementById("profileContent").style.display = "block";
+        document.getElementById("loginSecurityContent").style.display = "none";
+    }
+
+    function showLoginSecurity() {
+        document.getElementById("profileContent").style.display = "none";
+        document.getElementById("loginSecurityContent").style.display = "block";
+    }
