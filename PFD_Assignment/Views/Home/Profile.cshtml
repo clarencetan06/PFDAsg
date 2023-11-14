@@ -4,8 +4,18 @@
 <!DOCTYPE html>
 <html>
 <body style="background-color: white">
-    <div class="myProfile" id="myProfile">
-        <h1>My Profile</h1>
+    <div class="profilePage" id="profilePage" style="width: 100%;
+                                                        height: auto;
+                                                        padding: 20px;
+                                                        border-radius: 8vh;
+                                                        /* Maintain 50% opacity for the background rectangle */
+                                                        background-color: rgba(112, 128, 144, 0.5);
+                                                        margin-bottom: 50px;
+                                                        margin-top: 20px;
+                                                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+        <h1 style="text-align: center;">
+            My Profile
+        </h1>
         <h3>Personal Details</h3>
         <p>
             Member ID: @ViewData["MemberID"]<br />
@@ -13,10 +23,9 @@
             Last Name: @ViewData["LastName"]<br />
             Username: @ViewData["Username"]<br />
             Email: @ViewData["Email"]<br />
-            Birthdate: @ViewData["BirthDate"]
+            Birthdate: @ViewData["BirthDate"] <br />
         </p>
     </div>
-
 
 </body>
 </html>

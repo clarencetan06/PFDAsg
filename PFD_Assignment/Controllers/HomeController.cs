@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using PFD_Assignment.DAL;
 using PFD_Assignment.Models;
 using System.Diagnostics;
+using System.Linq;
+using System.Buffers.Text;
 
 namespace PFD_Assignment.Controllers
 {
@@ -126,5 +129,31 @@ namespace PFD_Assignment.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult viewProfile()
+        {
+
+            // Get the logged-in member's ID from the session
+            string loginID = HttpContext.Session.GetString("LoginID");
+
+            // Get the member details from the database based on the login ID
+            Member member = memberContext.GetAllMembers().FirstOrDefault(m => m.Username.ToLower() == loginID);
+
+            // Check if the member exists
+            if (member == null)
+            {
+                // Redirect to login page if member not found
+                return RedirectToAction("LoginPage");
+            }
+            List<Member> members = memberContext.GetAllMembers().ToList();
+            // Pass the member details to the view
+            ViewData["MemberID"] = member.MemberId;
+            ViewData["FirstName"] = member.FirstName;
+            ViewData["LastName"] = member.LastName;
+            ViewData["Username"] = member.Username;
+            ViewData["Email"] = member.Email;
+            ViewData["BirthDate"] = string.Format("{0:yyyy-MM-dd}", member.BirthDate);
+            
+            return View();
+        }
     }
 }
