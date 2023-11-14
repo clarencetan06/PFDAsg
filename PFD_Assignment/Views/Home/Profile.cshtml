@@ -3,29 +3,94 @@
 }
 <!DOCTYPE html>
 <html>
-<body style="background-color: white">
-    <div class="profilePage" id="profilePage" style="width: 100%;
-                                                        height: auto;
-                                                        padding: 20px;
-                                                        border-radius: 8vh;
-                                                        /* Maintain 50% opacity for the background rectangle */
-                                                        background-color: rgba(112, 128, 144, 0.5);
-                                                        margin-bottom: 50px;
-                                                        margin-top: 20px;
-                                                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-        <h1 style="text-align: center;">
-            My Profile
-        </h1>
-        <h3>Personal Details</h3>
-        <p>
-            Member ID: @ViewData["MemberID"]<br />
-            First Name: @ViewData["FirstName"]<br />
-            Last Name: @ViewData["LastName"]<br />
-            Username: @ViewData["Username"]<br />
-            Email: @ViewData["Email"]<br />
-            Birthdate: @ViewData["BirthDate"] <br />
-        </p>
+<body style="background-color: #FAFAFA">
+    <div @*class="container" *@style="padding-top: 20px; padding-left: 25px;">
+        <div class="row">
+            <div class="col-md-3" style="background-color:white; padding-top: 15px;">
+                <div class="row">
+                    <div class="col-md-2" style="padding-top:5px;">
+                        <img src="~/images/profileicon.png" width="100%" />
+                    </div>
+                    <div class="col-md-10">
+                        <b>
+                            @ViewData["Username"]<br />
+                        </b>
+                        @ViewData["Email"]<br />
+                    </div>
+                </div>
+                <hr class="solid"/>
+                <div style="padding-top: 5px;">
+                    <button type="button" class="btn btn-default btn-lg btn-block" style="width: 100%; text-align:left;" onclick="showProfile()">
+                        <img src="~/images/myprofile.webp" alt="myprofile" width="20" height="20" /> Your Profile
+                    </button>
+                    <button type="button" class="btn btn-default btn-lg btn-block" style="width: 100%; text-align:left;" onclick="showLoginSecurity()">
+                        <img src="~/images/lock.png" alt="locknsecurity" width="20" height="20" /> Login & Security
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-9" style="background-color: white; padding-top: 12px;">
+                <div id="profileContent">
+                    <h4 style="font-weight: bold;">Your Profile</h4>
+                    <hr class="solid" style="margin-top: 38px;" />
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h6 style="font-weight: bold;">Username</h6>
+                            <p style="padding-top: 5px;">@ViewData["Username"]</p>
+                        </div>
+                        <div class="col-md-1" style="padding-right:5px;padding-top:10px;">
+                            <button type="button" class="btn btn-secondary btn-block btn-md" >Edit</button>
+                        </div>
+                    </div>
+                    <hr class="solid" />
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h6 style="font-weight: bold;">Email</h6>
+                            <p style="padding-top: 5px;">@ViewData["Email"]</p>
+                        </div>
+                        <div class="col-md-1" style="padding-right:5px;padding-top:10px;">
+                            <button type="button" class="btn btn-secondary btn-block btn-md">Edit</button>
+                        </div>
+                    </div>
+                    <hr class="solid"/>
+                    <h6 style="font-weight: bold;">Language</h6>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p>Current Language:</p>
+                        </div>
+                        <div class="col-md-10" style="margin-top: -6px;">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    English
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">English</a></li>
+                                    <li><a class="dropdown-item" href="#">Chinese</a></li>
+                                    <li><a class="dropdown-item" href="#">Korean</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="solid" />
+                </div>
+                <div id="loginSecurityContent" style="display: none;">
+                    <h4 style="font-weight: bold;">Login & Security</h4>
+                    <hr class="solid" style="margin-top: 38px;" />
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h6 style="font-weight: bold;">Password</h6>
+                            <p style="padding-top: 5px; font-weight: bold">**********</p>
+                        </div>
+                        <div class="col-md-1" style="padding-right:5px;padding-top:10px;">
+                            <button type="button" class="btn btn-secondary btn-block btn-md">Edit</button>
+                        </div>
+                    </div>
+                    <hr class="solid" />
+                </div>
+            </div>
+        </div>
     </div>
+
 
 </body>
 </html>
+

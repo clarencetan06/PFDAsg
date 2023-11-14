@@ -682,3 +682,33 @@ body {
     color: #fff;
     border-radius: 5px;
 }
+
+.profilePage {
+    padding-left: 10px;
+}
+
+.profilePage h1 {
+    text-align:center;
+}
+
+.btn-label {
+    position: relative;
+    left: -12px;
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 5px 0 0 5px;
+}
+
+.btn-labeled {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.btn {
+    margin-bottom: 10px;
+}
+
+.btn:hover {
+    background-color: #e7e7e7;
+}
