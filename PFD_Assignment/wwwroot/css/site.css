@@ -424,22 +424,7 @@ body {
         color: black;
     }
 
-/* ------------------- Profile page --------------------------------- */
-.myProfile {
-    width: 100%;
-    height: auto;
-    padding: 20px;
-    border-radius: 8vh;
-    /* Maintain 50% opacity for the background rectangle */
-    background-color: rgba(112, 128, 144, 0.5);
-    margin-bottom: 50px;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
 
-    .myProfile h1 {
-        text-align: center;
-    }
 
 /* ------------------- LOGIN AND SIGN UP FORMS --------------------------------- */
 * {
