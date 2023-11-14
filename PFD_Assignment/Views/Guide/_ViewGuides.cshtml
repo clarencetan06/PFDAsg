@@ -25,7 +25,9 @@
 </div>
 <br />
 <a href="#" id="sort-newest">Sort Newest to Oldest</a> |
-<a href="#" id="sort-oldest">Sort Oldest to Newest</a>
+<a href="#" id="sort-oldest">Sort Oldest to Newest</a> |
+<a href="#" id="sort-mostliked">Sort Most to Least Liked</a> |
+<a href="#" id="sort-leastliked">Sort Least to Most Liked</a>
 
 
 
@@ -45,7 +47,7 @@
                     <p class="guidePara">
                         Description: @item.PostDesc.ToString()
                     </p>
-                    <p class="guideVotes">
+                    <p class="guideVotes" data-likes="@item.Upvote">
                         Upvotes: @item.Upvote.ToString() |
                         Downvotes: @item.Downvote.ToString()
                     </p>

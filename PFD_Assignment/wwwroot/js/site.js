@@ -12,7 +12,7 @@ if (window.pageYOffset >= sticky) {
 }
 }
 
-/* Sorting for guide*/
+/* Sorting for guide by dates and likes*/
 $(document).ready(function () {
     var container = $("#guidecontent");
 
@@ -67,11 +67,45 @@ $(document).ready(function () {
         return "";
     }
 
+    function sortTableDescLikes() {
+        var guides = container.find(".guides").get();
+        sortRowsByLikes(guides, true);
+    }
+
+    function sortTableAscLikes() {
+        var guides = container.find(".guides").get();
+        sortRowsByLikes(guides, false);
+    }
+    function sortRowsByLikes(rows, descending) {
+        // Create a new container to append the sorted rows
+        var newContainer = $("<div>");
+
+        // Sort the rows
+        rows.sort(function (a, b) {
+            var likesA = parseInt($(a).data("likes"));
+            var likesB = parseInt($(b).data("likes"));
+
+            // Compare the number of likes
+            return descending ? likesB - likesA : likesA - likesB;
+        });
+
+        // Append the sorted rows to the new container
+        newContainer.append(rows);
+
+        // Replace the content of the original container with the new container's content
+        container.html(newContainer.html());
+    }
+
+
+
     attachSortEventHandler("#sort-newest", sortTableDesc);
     attachSortEventHandler("#sort-oldest", sortTableAsc);
+    attachSortEventHandler("#sort-mostliked", sortTableDescLikes);
+    attachSortEventHandler("#sort-leastliked", sortTableAscLikes);
 });
 
 
+/* api */
 function callOpenAIModel() {
     const apiKeyContainer = document.getElementById('apiKeyContainer');
     const apiKey = apiKeyContainer.dataset.apiKey;
@@ -142,3 +176,4 @@ function removePopup(popupData) {
         popupData.element.remove();
     }
 }
+
