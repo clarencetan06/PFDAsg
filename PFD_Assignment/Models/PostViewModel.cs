@@ -42,10 +42,5 @@ namespace PFD_Assignment.Models
         
         public IFormFile fileToUpload { get; set; }
     
-        }
-
-        public string Photo { get; set; }
-
-        public IFormFile fileToUpload { get; set; }
     }
 }

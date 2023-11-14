@@ -3,10 +3,9 @@
 @{
 	ViewData["Title"] = "Create";
 }
-
 <h4 class="PageTitle">Create guide</h4>
 <hr />
-<form asp-action="Create">
+<form asp-action="Create" method="post">
 	<fieldset class="FormContent">
 		<div class="row mb-3">
 			<label asp-for="PostTitle"
@@ -44,12 +43,13 @@
                 
             </div>
         </div>
-		
+	</fieldset>
+</form>
+
 		<div>
 			
 			<a asp-action="Index">Back to List</a>
 		</div>
-	</fieldset>
-</form>
+
 
 

@@ -126,8 +126,10 @@ namespace PFD_Assignment.Controllers
             {
                 //Add post record to database
                 post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
+                TempData["SuccessMessage"] = "You have successfully created a post! :)";
+
                 //Redirect user to Staff/Index view
-                
+
                 return RedirectToAction("Index");
                 
             }
