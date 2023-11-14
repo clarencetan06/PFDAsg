@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PFD_Assignment.Models
 {
     public class PostViewModel
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostID { get; set; }
 
         [Required]
@@ -35,6 +37,10 @@ namespace PFD_Assignment.Models
         public int MemberID { get; set; }
 
         public string Username { get; set; }
-
-    }
+        
+        public string Photo { get; set; }
+        
+        public IFormFile fileToUpload { get; set; }
+    
+        }
 }

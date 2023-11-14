@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace PFD_Assignment.Models
 {
 	public class Post
 	{
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int PostID { get; set; }
 
 		[Required]
@@ -32,7 +35,11 @@ namespace PFD_Assignment.Models
 		[DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
 		public DateTime DateofPost { get; set; }
 
-		public int MemberID { get; set; }
-
-	}
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MemberID { get; set; }
+		
+        public IFormFile fileToUpload { get; set; }
+		public string Photo { get; set; }	
+		
+    }
 }

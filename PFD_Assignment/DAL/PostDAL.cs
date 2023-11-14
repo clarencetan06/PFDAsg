@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -48,8 +49,9 @@ namespace PFD_Assignment.DAL
                         Upvote = reader.GetInt32(4), 
 						Downvote = reader.GetInt32(5), 
                         DateofPost = reader.GetDateTime(6), 
-                        MemberID = reader.GetInt32(7), 
-					}
+                        MemberID = reader.GetInt32(7),
+                        
+                    }
 				);
 			}
 			//Close DataReader
@@ -96,5 +98,40 @@ WHERE PostID = @selectedPostID";
             conn.Close();
             return post;
         }
+
+        public int Add(Post post, int? memberid)
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an INSERT SQL statement which will
+            //return the auto-generated StaffID after insertion
+            cmd.CommandText = @"INSERT INTO Post (PostTitle, PostDesc, PostContent,
+ DateofPost, Upvote, Downvote, MemberID) OUTPUT INSERTED.PostID
+VALUES(@PostTitle, @PostDesc, @PostContent, @DateofPost, @Upvote, @Downvote, @MemberID)";
+            //Define the parameters used in SQL statement, value for each parameter
+            //is retrieved from respective class's property.
+            
+            cmd.Parameters.AddWithValue("@PostTitle", post.PostTitle);
+            cmd.Parameters.AddWithValue("@PostDesc", post.PostDesc);
+            cmd.Parameters.AddWithValue("@PostContent", post.PostContent);
+            cmd.Parameters.AddWithValue("@DateofPost", DateTime.Now);
+            cmd.Parameters.AddWithValue("@Upvote", 0);
+            cmd.Parameters.AddWithValue("@Downvote", 0);
+            cmd.Parameters.AddWithValue("@MemberID" , memberid);
+            //cmd.Parameters.AddWithValue("@Photo", post.Photo);
+
+
+            //A connection to database must be opened before any operations made.
+            conn.Open();
+            //ExecuteScalar is used to retrieve the auto-generated
+            //StaffID after executing the INSERT SQL statement
+            post.PostID = (int)cmd.ExecuteScalar();
+            //A connection should be closed after operations.
+            conn.Close();
+            //Return id when no error occurs.
+            return post.PostID;
+        }
+
+
     }
 }

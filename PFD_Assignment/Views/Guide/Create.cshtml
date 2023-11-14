@@ -1,0 +1,55 @@
+﻿@model PFD_Assignment.Models.Post
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+<h4 class="PageTitle">Create guide</h4>
+<hr />
+<form asp-action="Create">
+	<fieldset class="FormContent">
+		<div class="row mb-3">
+			<label asp-for="PostTitle"
+				   class="col-sm-3 col-form-label"></label>
+			<div class="col-sm-9 col-md-5">
+				<input asp-for="PostTitle" class="form-control" />
+				<span asp-validation-for="PostTitle"
+					  class="text-danger"></span>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label asp-for="PostDesc"
+				   class="col-sm-3 col-form-label"></label>
+			<div class="col-sm-9 col-md-5">
+				<input asp-for="PostDesc" class="form-control" />
+				<span asp-validation-for="PostDesc"
+					  class="text-danger"></span>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label asp-for="PostContent"
+				   class="col-sm-3 col-form-label"></label>
+			<div class="col-sm-9 col-md-5">
+				<input asp-for="PostContent" class="form-control" style="height: 100px;"/>
+				<span asp-validation-for="PostContent"
+					  class="text-danger"></span>
+			</div>
+		</div>
+		
+		
+		
+		<div class="row mb-3">
+            <div class="col-sm-9 offset-sm-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                
+            </div>
+        </div>
+		
+		<div>
+			
+			<a asp-action="Index">Back to List</a>
+		</div>
+	</fieldset>
+</form>
+
+

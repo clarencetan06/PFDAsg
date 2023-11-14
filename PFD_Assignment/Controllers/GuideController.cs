@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using PFD_Assignment.DAL;
 using PFD_Assignment.Models;
+using System.IO;
 
 namespace PFD_Assignment.Controllers
 {
     public class GuideController : Controller
-    {
+    {      
         private PostDAL postContext = new PostDAL();
         private MemberDAL memberContext = new MemberDAL();
         // GET: GuideController
@@ -94,23 +96,57 @@ namespace PFD_Assignment.Controllers
         // GET: GuideController/Create
         public ActionResult Create()
         {
+            // Stop accessing the action if not logged in
+            // or account not in the "Member" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                
+                return RedirectToAction("Index", "Home");
+            }
+
+            
             return View();
         }
-
+        
         // POST: GuideController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Post post)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                //Add post record to database
+                post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
+                //Redirect user to Staff/Index view
+                
+                return RedirectToAction("Index");
+                
             }
-            catch
+            else
             {
-                return View();
+                //Input validation fails, return to the Create view
+                //to display error message
+                
+                return View(post);
             }
         }
+        
+        
+
+        // Helper method to map PostViewModel to Post
+        private Post MapToPost(PostViewModel postVM)
+        {
+            return new Post
+            {
+                PostTitle = postVM.PostTitle,
+                PostDesc = postVM.PostDesc,
+                PostContent = postVM.PostContent,
+                // Add other properties as needed
+            };
+        }
+
+
 
         // GET: GuideController/Edit/5
         public ActionResult Edit(int id)
