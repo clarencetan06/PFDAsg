@@ -136,7 +136,10 @@ namespace PFD_Assignment.Controllers
 
             if (ModelState.IsValid)
             {
-                postContext.Vote(postid, voteid, votetype);
+                string voteMessage = postContext.Vote(postid, voteid, votetype);
+
+                // Store the message in TempData
+                TempData["VoteMessage"] = voteMessage;
 
                 // Redirect back to the same GuideDetails page
                 return RedirectToAction("GuideDetails", new { id = postid });
@@ -144,9 +147,10 @@ namespace PFD_Assignment.Controllers
             else
             {
                 // Input validation fails, return to the view to display error message
-                return View(postVM);
+                return RedirectToAction("GuideDetails", new { id = postid });
             }
         }
+
 
 
 
