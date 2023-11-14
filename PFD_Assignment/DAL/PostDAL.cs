@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics.Metrics;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PFD_Assignment.Models;
@@ -98,31 +99,159 @@ WHERE PostID = @selectedPostID";
             return post;
         }
 
-        public bool Vote(int id, string voteType)
+        /*
+        public bool Vote(int postid, int memberid, int voteType)
         {
+            int votefound = 0;
+
             //Create a SqlCommand object from connection object
             SqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"SELECT * FROM Votes 
+ WHERE PostID=@postId";
+            cmd.Parameters.AddWithValue("@postId", postid);
+            cmd.Parameters.AddWithValue("@memberId", memberid);
+
+            //Open a database connection and execute the SQL statement
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    if (reader.GetInt32(1) != postid && reader.GetInt32(2) != memberid)
+                        votefound = reader.GetInt32(3);
+                    else
+                        votefound = 0;
+                }
+            }
+            else
+            { //No record
+                votefound = 0; // The vote given does not exist
+            }
+            reader.Close();
+            conn.Close();
+
+            Vote vote = new Vote();
+
             //Specify an UPDATE SQL statement
 
-            if (voteType == "upvote")
+            if (voteType == 1)
             {
-                cmd.CommandText = @"UPDATE Post SET Upvote = Upvote + 1 WHERE PostID = @postId";
+                if (votefound == 1)
+                {
+                    cmd.CommandText = @"UPDATE Post SET Upvote = Upvote - 1 WHERE PostID = @postId";
+                    cmd.CommandText = @"DELETE FROM Post WHERE PostID = @postId";
+                }
+                else
+                {
+                    cmd.CommandText = @"UPDATE Post SET Upvote = Upvote + 1 WHERE PostID = @postId";
+                    cmd.CommandText = @"INSERT INTO Votes (PostID, MemberID, Vote) OUTPUT INSERTED.VoteID 
+VALUES(@postId, @memberId, @vote)";
+                    cmd.Parameters.AddWithValue("@vote", 1);
+                }
+
             }
-            else if (voteType == "downvote")
+            else if (voteType == 2)
             {
-                cmd.CommandText = @"UPDATE Post SET Downvote = Downvote + 1 WHERE PostID = @postId";
+                if (votefound == 2)
+                {
+                    cmd.CommandText = @"UPDATE Post SET Downvote = Downvote - 1 WHERE PostID = @postId";
+                    cmd.CommandText = @"DELETE FROM Post WHERE PostID = @postId";
+                }
+                else
+                {
+                    cmd.CommandText = @"UPDATE Post SET Downvote = Downvote + 1 WHERE PostID = @postId";
+                    cmd.CommandText = @"INSERT INTO Votes (PostID, MemberID, Vote) OUTPUT INSERTED.VoteID 
+VALUES(@postId, @memberId, @vote)";
+                    cmd.Parameters.AddWithValue("@vote", 2);
+                }
             }
             else
             {
                 // Handle invalid voteType
                 return false;
             }
-            cmd.Parameters.AddWithValue("@postId", id);
 
             conn.Open();
             int count = cmd.ExecuteNonQuery();
+            vote.VoteID = (int)cmd.ExecuteScalar();
             conn.Close();
             return count > 0;
+        }*/
+
+        public bool Vote(int postid, int memberid, int voteType)
+        {
+            int votefound = 0;
+
+            // Check if a vote exists for the post and member
+            using (SqlCommand checkCmd = conn.CreateCommand())
+            {
+                checkCmd.CommandText = @"SELECT * FROM Votes WHERE PostID = @postId AND MemberID = @memberId";
+                checkCmd.Parameters.AddWithValue("@postId", postid);
+                checkCmd.Parameters.AddWithValue("@memberId", memberid);
+
+                conn.Open();
+                SqlDataReader reader = checkCmd.ExecuteReader();
+                if (reader.HasRows)
+                { //Records found
+                    while (reader.Read())
+                    {
+                        if (reader.GetInt32(1) != postid && reader.GetInt32(2) != memberid)
+                            votefound = reader.GetInt32(3);
+                    }
+                }
+                conn.Close();
+            }
+
+            using (SqlCommand updateCmd = conn.CreateCommand())
+            {
+                conn.Open();
+
+                if (voteType == 1)
+                {
+                    if (votefound == 1)
+                    {
+                        updateCmd.CommandText = @"UPDATE Post SET Upvote = Upvote - 1 WHERE PostID = @postId";
+                        updateCmd.CommandText = @"DELETE FROM Votes WHERE PostID = @postId AND MemberID = @memberId";
+                    }
+                    else
+                    {
+                        updateCmd.CommandText = @"UPDATE Post SET Upvote = Upvote + 1 WHERE PostID = @postId";
+                        updateCmd.CommandText = @"INSERT INTO Votes (PostID, MemberID, Vote) VALUES (@postId, @memberId, @vote)";
+                        updateCmd.Parameters.AddWithValue("@vote", 1);
+                    }
+                }
+                else if (voteType == 2)
+                {
+                    if (votefound == 2)
+                    {
+                        updateCmd.CommandText = @"UPDATE Post SET Downvote = Downvote - 1 WHERE PostID = @postId";
+                        updateCmd.CommandText = @"DELETE FROM Votes WHERE PostID = @postId AND MemberID = @memberId";
+
+                    }
+                    else
+                    {
+                        updateCmd.CommandText = @"UPDATE Post SET Downvote = Downvote + 1 WHERE PostID = @postId";
+                        updateCmd.CommandText = @"INSERT INTO Votes (PostID, MemberID, Vote) VALUES (@postId, @memberId, @vote)";
+                        updateCmd.Parameters.AddWithValue("@vote", 2);
+                    }
+                }
+                else
+                {
+                    // Handle invalid voteType
+                    return false;
+                }
+
+                updateCmd.Parameters.AddWithValue("@postId", postid);
+                updateCmd.Parameters.AddWithValue("@memberId", memberid);
+
+                int count = updateCmd.ExecuteNonQuery();
+
+                conn.Close();
+                return count > 0;
+            }
         }
+
     }
 }
