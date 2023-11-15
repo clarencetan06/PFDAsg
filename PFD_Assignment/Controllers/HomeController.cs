@@ -9,6 +9,7 @@ using System.Linq;
 using System.Buffers.Text;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
 
 namespace PFD_Assignment.Controllers
 {
@@ -212,7 +213,7 @@ namespace PFD_Assignment.Controllers
                 (HttpContext.Session.GetString("Role") != "Member"))
             {
                 TempData["SignInMessage"] = "Please sign in to update username!";
-                return RedirectToAction("Profile");
+                return RedirectToAction("LoginPage");
             }
 
             string updateMessage = memberContext.UpdateUser(newusername, HttpContext.Session.GetInt32("MemberID"));
@@ -230,12 +231,59 @@ namespace PFD_Assignment.Controllers
                 (HttpContext.Session.GetString("Role") != "Member"))
             {
                 TempData["SignInMessage"] = "Please sign in to update email!";
-                return RedirectToAction("Profile");
+                return RedirectToAction("LoginPage");
             }
 
-            string updateMessage = memberContext.UpdateUser(newemail, HttpContext.Session.GetInt32("MemberID"));
+            string updateMessage = memberContext.UpdateEmail(newemail, HttpContext.Session.GetInt32("MemberID"));
             TempData["updateMessage"] = updateMessage;
             return RedirectToAction("Profile");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePass(string currentPassword, string newPassword)
+        {
+
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                TempData["SignInMessage"] = "Please sign in to update password!";
+                return RedirectToAction("LoginPage");
+            }
+
+            // Check if the entered current password matches the actual current password
+            string currentpass = memberContext.GetPasswordForMember(HttpContext.Session.GetInt32("MemberID"));
+
+            if (currentPassword == currentpass)
+            {
+                string updateMessage = memberContext.UpdatePass(newPassword, HttpContext.Session.GetInt32("MemberID"));
+                TempData["updateMessage"] = updateMessage;
+                return RedirectToAction("LoginPage");
+            }
+
+            /*
+            // Continue with password change logic if the current password is correct
+            if (ModelState.IsValid)
+            {
+                // Update the password in the database
+                memberContext.UpdatePass(newpassword, memberId);
+
+                // Add a success message or perform any additional logic
+                TempData["updateMessage"] = "Password changed successfully.";
+                return RedirectToAction("Profile");
+            }
+            else
+            {
+                // Validation failed, return to the view to display error messages
+                return RedirectToAction("Profile");
+            }*/
+             else
+            {
+                // Passwords don't match, add an error to ModelState
+                ModelState.AddModelError("currentPassword", "Incorrect current password");
+                // Return the view directly instead of redirecting
+                return View("Profile"); // Assuming your view name is "Profile"
+            }
         }
     }
 }

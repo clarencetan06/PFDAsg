@@ -90,8 +90,12 @@
                             <p style="padding-top: 5px; font-weight: bold">**********</p>
                         </div>
                         <div class="col-md-1" style="padding-right:5px;padding-top:10px;">
-                            <button type="button" class="btn btn-secondary btn-block btn-md">Edit</button>
+                            <button type="button" class="btn btn-secondary btn-block btn-md"
+                                    data-toggle="modal" data-target="#passwordModal">
+                                Edit
+                            </button>
                         </div>
+
                     </div>
                     <hr class="solid" />
                 </div>
@@ -112,9 +116,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <p>New Username: </p>
+                            <p>New Username: 
                             <input id="usernameInput" class="form-control" name="newusername" />
                             <span asp-validation-for="Username" class="text-danger"></span>
+                            </p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -139,10 +144,43 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <input class="updateuser" type="hidden" asp-for="Email" />
-                            <p>New Email: </p>
-                            <input id="emailInput" class="form-control" asp-for="Email" />
+                            <p>New Email: 
+                            <input id="emailInput" class="form-control" name="newemail" />
                             <span asp-validation-for="Email" class="text-danger"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btncancel" data-dismiss="modal">Close</button>
+                        <button id="btnsaveEmail" type="submit" value="Update" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update password Modal -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form asp-action="UpdatePass" id="EditformPass" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passModalLongTitle">Edit Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p>
+                                Current Password:
+                                <input id="currentPasswordInput" class="form-control" name="currentPassword" />
+                            </p>
+                            <p>
+                                New Password:
+                                <input id="newPasswordInput" class="form-control" name="newPassword" />
+                                <span asp-validation-for="UserPassword" class="text-danger"></span>
+                            </p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -157,3 +195,20 @@
 </body>
 </html>
 
+
+@if (TempData["updateMessage"] != null)
+{
+    <script>
+        alert('@TempData["updateMessage"]');
+    </script>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <script>
+        // Display an alert with the validation error message
+        $(document).ready(function () {
+            alert('@Html.Raw(Html.Encode(ViewData.ModelState["currentPassword"].Errors[0].ErrorMessage))');
+        });
+    </script>
+}

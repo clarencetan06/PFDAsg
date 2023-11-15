@@ -274,8 +274,49 @@ Email =@email, UserPassword =@pass WHERE MemberID = @selectedMemberID";
                 conn.Open();
                 int count = cmd.ExecuteNonQuery();
                 conn.Close();
-                return "You have successfully update your email. Please log in again.";
+                return "You have successfully update your email.";
             }
+        }
+
+        public string UpdatePass(string newpass, int? memberid)
+        {
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                Console.WriteLine(newpass + " " + memberid);
+                cmd.CommandText = @"UPDATE Members SET UserPassword=@pass WHERE MemberID = @memberID";
+                cmd.Parameters.AddWithValue("@pass", newpass);
+                cmd.Parameters.AddWithValue("@memberID", memberid);
+
+                conn.Open();
+                int count = cmd.ExecuteNonQuery();
+                conn.Close();
+                return "You have successfully update your password. Please log in again.";
+            }
+        }
+
+        // Method to retrieve the current password for a given member
+        public string GetPasswordForMember(int? memberId)
+        {
+            string password = null;
+
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT UserPassword FROM Members WHERE MemberID = @memberId";
+                cmd.Parameters.AddWithValue("@memberId", memberId);
+
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                { // Records found
+                    while (reader.Read())
+                    {
+                        password = reader.GetString(0); 
+                    }
+                }
+                conn.Close();
+            }
+
+            return password;
         }
 
     }
