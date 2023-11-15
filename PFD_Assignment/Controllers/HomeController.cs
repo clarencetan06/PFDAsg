@@ -231,8 +231,7 @@ namespace PFD_Assignment.Controllers
             {
                 string updateMessage = memberContext.UpdateEmail(newemail, HttpContext.Session.GetInt32("MemberID"));
                 TempData["updateMessage"] = updateMessage;
-                HttpContext.Session.Clear();
-                return RedirectToAction("LoginPage");
+                return RedirectToAction("Profile");
             }
         }
 

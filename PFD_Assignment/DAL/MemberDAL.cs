@@ -206,7 +206,7 @@ WHERE MemberID = @selectedMemberID";
                 conn.Open();
                 int count = cmd.ExecuteNonQuery();
                 conn.Close();
-                return "You have successfully update your username. Please log in again.";
+                return "You have successfully updated your username. Please log in again.";
             }
         }
 
@@ -222,7 +222,7 @@ WHERE MemberID = @selectedMemberID";
                 conn.Open();
                 int count = cmd.ExecuteNonQuery();
                 conn.Close();
-                return "You have successfully update your email.";
+                return "You have successfully updated your email.";
             }
         }
 
@@ -238,7 +238,7 @@ WHERE MemberID = @selectedMemberID";
                 conn.Open();
                 int count = cmd.ExecuteNonQuery();
                 conn.Close();
-                return "You have successfully update your password. Please log in again.";
+                return "You have successfully updated your password. Please log in again.";
             }
         }
 
