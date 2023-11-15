@@ -224,7 +224,7 @@ WHERE PostID = @selectedPostID";
 
             //Specify an INSERT SQL statement which will
             //return the auto-generated StaffID after insertion
-
+            //Console.WriteLine(post.PostTitle + post.PostDesc + post.PostContent + memberid);
             cmd.CommandText = @"INSERT INTO Post(PostTitle, PostDesc, PostContent, Upvote, Downvote,
 DateofPost, MemberID) OUTPUT INSERTED.PostID
 VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @MemberID)";

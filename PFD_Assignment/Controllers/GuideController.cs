@@ -110,8 +110,8 @@ namespace PFD_Assignment.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Member"))
             {
-                
-                return RedirectToAction("Index", "Home");
+                TempData["Message"] = "You must login to create a post!";
+                return RedirectToAction("Index", "Guide");
             }
 
             

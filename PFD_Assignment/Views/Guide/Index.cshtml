@@ -21,7 +21,13 @@
         <h2>Dashboard</h2>
         <h4 class="PageTitle">Guides</h4>
 
-        <a asp-action="Create" class="btn btn-primary">Create New Guide</a>
+        <a asp-action="Create" class="btn btn-primary">Create New Guide</a><br />
+        @if (Context.Session.GetString("MemberID") == null)
+        {
+            <div style="color: red; font-weight: 500;">
+            @TempData["Message"]
+            </div>
+        }
         <partial name="~/Views/Guide/_ViewGuides.cshtml" model="@Model" />
     </div>
 </div>
