@@ -126,7 +126,6 @@ WHERE PostID = @selectedPostID";
             using (SqlCommand updateCmd = conn.CreateCommand())
             {
                 conn.Open();
-                Console.WriteLine(voteType + " " + votefound);
 
                 updateCmd.Parameters.AddWithValue("@postId", postid);
                 updateCmd.Parameters.AddWithValue("@memberId", memberid);
@@ -135,8 +134,6 @@ WHERE PostID = @selectedPostID";
                 {
                     if (voteType == 1)
                     {
-                        Console.WriteLine("test 1");
-
                         if (votefound == 1)
                         {
                             updateCmd.CommandText = @"UPDATE Post SET Upvote = Upvote - 1 WHERE PostID = @postId";
@@ -222,7 +219,6 @@ WHERE PostID = @selectedPostID";
 
             //Specify an INSERT SQL statement which will
             //return the auto-generated StaffID after insertion
-            Console.WriteLine(post.PostTitle + post.PostDesc + post.PostContent + memberid);
             cmd.CommandText = @"INSERT INTO Post(PostTitle, PostDesc, PostContent, Upvote, Downvote,
 DateofPost, MemberID) OUTPUT INSERTED.PostID
 VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @MemberID)";

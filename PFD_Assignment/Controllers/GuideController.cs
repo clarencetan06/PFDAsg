@@ -160,11 +160,8 @@ namespace PFD_Assignment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Vote(int postid, int voteid, int votetype)
+        public ActionResult Vote(int postid, int votetype)
         {
-            Post post = postContext.GetDetails(postid);
-            PostViewModel postVM = MapToPostVM(post);
-
             if ((HttpContext.Session.GetString("Role") == null) ||
                 (HttpContext.Session.GetString("Role") != "Member"))
             {
@@ -174,7 +171,7 @@ namespace PFD_Assignment.Controllers
 
             if (ModelState.IsValid)
             {
-                string voteMessage = postContext.Vote(postid, voteid, votetype);
+                string voteMessage = postContext.Vote(postid, HttpContext.Session.GetInt32("MemberID"), votetype);
 
                 // Store the message in TempData
                 TempData["VoteMessage"] = voteMessage;
@@ -189,29 +186,6 @@ namespace PFD_Assignment.Controllers
             }
         }
 
-
-
-
-        // GET: GuideController/Edit/5
-        public ActionResult Vote(int id)
-        {
-            return View();
-        }
-
-        // POST: GuideController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: GuideController/Delete/5
         public ActionResult Delete(int id)

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model PFD_Assignment.Models.Member
+
+@{
     ViewData["Title"] = "Profile";
 }
 <!DOCTYPE html>
@@ -38,8 +40,12 @@
                             <p style="padding-top: 5px;">@ViewData["Username"]</p>
                         </div>
                         <div class="col-md-1" style="padding-right:5px;padding-top:10px;">
-                            <button type="button" class="btn btn-secondary btn-block btn-md" >Edit</button>
+                            <button type="button" class="btn btn-secondary btn-block btn-md"
+                                    data-toggle="modal" data-target="#usernameModal">
+                                Edit
+                            </button>
                         </div>
+
                     </div>
                     <hr class="solid" />
                     <div class="row">
@@ -48,7 +54,10 @@
                             <p style="padding-top: 5px;">@ViewData["Email"]</p>
                         </div>
                         <div class="col-md-1" style="padding-right:5px;padding-top:10px;">
-                            <button type="button" class="btn btn-secondary btn-block btn-md">Edit</button>
+                            <button type="button" class="btn btn-secondary btn-block btn-md"
+                                    data-toggle="modal" data-target="#emailModal">
+                                Edit
+                            </button>
                         </div>
                     </div>
                     <hr class="solid"/>
@@ -90,6 +99,60 @@
         </div>
     </div>
 
+    <!-- Update username Modal -->
+    <div class="modal fade" id="usernameModal" tabindex="-1" role="dialog" aria-labelledby="usernameModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form asp-action="UpdateUsername" id="EditformUsername" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="usernameModalLongTitle">Edit Username</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p>New Username: </p>
+                            <input id="usernameInput" class="form-control" name="newusername" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btncancel" data-dismiss="modal">Close</button>
+                        <button id="btnsaveUsername" type="submit" value="Update" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update email Modal -->
+    <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form asp-action="UpdateEmail" id="EditformEmail" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="emailModalLongTitle">Edit Email</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input class="updateuser" type="hidden" asp-for="Email" />
+                            <p>New Email: </p>
+                            <input id="emailInput" class="form-control" asp-for="Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btncancel" data-dismiss="modal">Close</button>
+                        <button id="btnsaveEmail" type="submit" value="Update" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

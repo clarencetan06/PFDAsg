@@ -185,4 +185,4 @@ function showProfile() {
     function showLoginSecurity() {
         document.getElementById("profileContent").style.display = "none";
         document.getElementById("loginSecurityContent").style.display = "block";
-    }
+}

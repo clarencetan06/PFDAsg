@@ -60,3 +60,12 @@
     <img class="bgimg" src="~/images/sgbackground.jpg"></img>
 </body>
 </html>
+
+
+
+@if (TempData["updateMessage"] != null)
+{
+    <script>
+        alert('@TempData["updateMessage"]');
+    </script>
+}

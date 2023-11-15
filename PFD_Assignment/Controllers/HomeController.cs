@@ -7,6 +7,8 @@ using PFD_Assignment.Models;
 using System.Diagnostics;
 using System.Linq;
 using System.Buffers.Text;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace PFD_Assignment.Controllers
 {
@@ -20,7 +22,7 @@ namespace PFD_Assignment.Controllers
             _logger = logger;
             _configuration = configuration;
         }
-        
+
         public IActionResult Index()
         {
             // Retrieve the API key from user secrets
@@ -71,7 +73,7 @@ namespace PFD_Assignment.Controllers
             List<Member> members = memberContext.GetAllMembers().ToList();
             // Pass the member details to the view
             ViewData["MemberID"] = member.MemberId;
-            ViewData["FirstName"] = member.FirstName;   
+            ViewData["FirstName"] = member.FirstName;
             ViewData["LastName"] = member.LastName;
             ViewData["Username"] = member.Username;
             ViewData["Email"] = member.Email;
@@ -178,5 +180,62 @@ namespace PFD_Assignment.Controllers
             
             return View();
         }*/
+
+        /*
+        // POST: HomeController/Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(Member member)
+        {
+            //Get branch list for drop-down list
+            //in case of the need to return to Edit.cshtml view
+            if (ModelState.IsValid)
+            {
+                //Update staff record to database
+                memberContext.Update(member);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                //Input validation fails, return to the view
+                //to display error message
+                return View(member);
+            }
+        }*/
+
+    
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateUsername(string newusername)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                TempData["SignInMessage"] = "Please sign in to update username!";
+                return RedirectToAction("Profile");
+            }
+
+            string updateMessage = memberContext.UpdateUser(newusername, HttpContext.Session.GetInt32("MemberID"));
+            TempData["updateMessage"] = updateMessage;
+            return RedirectToAction("Profile");
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateEmail(string newemail)
+        {
+
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                TempData["SignInMessage"] = "Please sign in to update email!";
+                return RedirectToAction("Profile");
+            }
+
+            string updateMessage = memberContext.UpdateUser(newemail, HttpContext.Session.GetInt32("MemberID"));
+            TempData["updateMessage"] = updateMessage;
+            return RedirectToAction("Profile");
+        }
     }
 }

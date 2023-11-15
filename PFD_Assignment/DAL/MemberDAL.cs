@@ -183,5 +183,101 @@ VALUES(@first, @last, @username, @pass,
             conn.Close();
             return memberList;
         }
+
+        // get details of member
+        public Member GetDetails(int memberid)
+        {
+            Member member = new Member();
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement that 
+            //retrieves all attributes of a staff record.
+            cmd.CommandText = @"SELECT * FROM Members
+WHERE MemberID = @selectedMemberID";
+            cmd.Parameters.AddWithValue("@selectedMemberID", memberid);
+            //Open a database connection
+            conn.Open();
+            //Execute SELCT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                //Read the record from database
+                while (reader.Read())
+                {
+                    member.MemberId = memberid;
+                    member.FirstName = reader.GetString(1);
+                    member.LastName = reader.GetString(2);
+                    member.Username = reader.GetString(3);
+                    member.UserPassword = reader.GetString(4);
+                    member.Email = reader.GetString(5);
+                    member.BirthDate = !reader.IsDBNull(6) ?
+                        reader.GetDateTime(6) : (DateTime?)null;
+                }
+            }
+            //Close data reader
+            reader.Close();
+            //Close database connection
+            conn.Close();
+            return member;
+        }
+
+
+        /*
+        // member update profile
+        public int Update(Member member)
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an UPDATE SQL statement
+            cmd.CommandText = @"UPDATE Members SET Username=@username,
+Email =@email, UserPassword =@pass WHERE MemberID = @selectedMemberID";
+            //Define the parameters used in SQL statement, value for each parameter
+            //is retrieved from respective class's property.
+            cmd.Parameters.AddWithValue("@username", member.Username);
+            cmd.Parameters.AddWithValue("@email", member.Email);
+            cmd.Parameters.AddWithValue("@pass", member.UserPassword);
+
+            cmd.Parameters.AddWithValue("@selectedMemberID", member.MemberId);
+            //Open a database connection
+            conn.Open();
+            //ExecuteNonQuery is used for UPDATE and DELETE
+            int count = cmd.ExecuteNonQuery();
+            //Close the database connection
+            conn.Close();
+            return count;
+        }*/
+
+        public string UpdateUser(string newuser, int? memberid)
+        {
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"UPDATE Members SET Username=@username WHERE MemberID = @memberID";
+                cmd.Parameters.AddWithValue("@username", newuser);
+                cmd.Parameters.AddWithValue("@memberID", memberid);
+
+                conn.Open();
+                int count = cmd.ExecuteNonQuery();
+                conn.Close();
+                return "You have successfully update your username. Please log in again.";
+            }
+        }
+
+
+        public string UpdateEmail(string newemail, int? memberid)
+        {
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"UPDATE Members SET Email=@email WHERE MemberID = @memberID";
+                cmd.Parameters.AddWithValue("@email", newemail);
+                cmd.Parameters.AddWithValue("@memberID", memberid);
+
+                conn.Open();
+                int count = cmd.ExecuteNonQuery();
+                conn.Close();
+                return "You have successfully update your email. Please log in again.";
+            }
+        }
+
     }
+
 }
