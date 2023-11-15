@@ -4,12 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h4 class="PageTitle">Guides</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <h2 style="padding-left: 10px;">Filter</h2>
+        <hr style="border-top: dotted 1px; margin-left: 10px;" />
+    </div>
+    <div class="col-sm-9">
+        <h2>Dashboard</h2>
+        <h4 class="PageTitle">Guides</h4>
 
-<a asp-action="Create" class="btn btn-primary">Create New Guide</a>
-
-
-
-<!-- Add a partial view to display a list of staff records
-in a tabular format. -->
-<partial name="~/Views/Guide/_ViewGuides.cshtml" model="@Model" />
+        <a asp-action="Create" class="btn btn-primary">Create New Guide</a>
+        <partial name="~/Views/Guide/_ViewGuides.cshtml" model="@Model" />
+    </div>
+</div>
