@@ -86,36 +86,7 @@ VALUES(@first, @last, @username, @pass,
 
         // ENSURE NO DUPLICATED USERNAMES/EMAILS -> for unique users
         public bool IsEmailExist(string email)
-        {/*
-            bool emailFound = false;
-            //Create a SqlCommand object and specify the SQL statement 
-            //to get a Member record with the email address to be validated
-            SqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = @"SELECT MemberID FROM Members
- WHERE Email=@selectedEmail";
-            cmd.Parameters.AddWithValue("@selectedEmail", email);
-            //Open a database connection and execute the SQL statement
-            conn.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows)
-            { //Records found
-                while (reader.Read())
-                {
-                    if (reader.GetInt32(0) != memberID)
-                        //The email address is used by another member
-                        emailFound = true;
-                    else
-                        emailFound = false;
-                }
-            }
-            else
-            { //No record
-                emailFound = false; // The email address given does not exist
-            }
-            reader.Close();
-            conn.Close();
-            return emailFound;*/
-
+        {
             bool exists = false;
 
             using (SqlCommand cmd = conn.CreateCommand())
@@ -134,36 +105,7 @@ VALUES(@first, @last, @username, @pass,
         }
 
         public bool IfUserExist(string user /*, int? memberID*/)
-        {/*
-            bool userFound = false;
-            //Create a SqlCommand object and specify the SQL statement 
-            //to get a member record with the username to be validated
-            SqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = @"SELECT MemberID FROM Members
- WHERE Username=@selectedUsername";
-            cmd.Parameters.AddWithValue("@selectedUsername", user);
-            //Open a database connection and execute the SQL statement
-            conn.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows)
-            { //Records found
-                while (reader.Read())
-                {
-                    if (reader.GetInt32(0) != memberID)
-                        //The username is used by another member
-                        userFound = true;
-                    else
-                        userFound = false;
-                }
-            }
-            else
-            { //No record
-                userFound = false; // The username given does not exist
-            }
-            reader.Close();
-            conn.Close();
-            return userFound;*/
-
+        {
             bool exists = false;
 
             using (SqlCommand cmd = conn.CreateCommand())
@@ -252,32 +194,6 @@ WHERE MemberID = @selectedMemberID";
             conn.Close();
             return member;
         }
-
-
-        /*
-        // member update profile
-        public int Update(Member member)
-        {
-            //Create a SqlCommand object from connection object
-            SqlCommand cmd = conn.CreateCommand();
-            //Specify an UPDATE SQL statement
-            cmd.CommandText = @"UPDATE Members SET Username=@username,
-Email =@email, UserPassword =@pass WHERE MemberID = @selectedMemberID";
-            //Define the parameters used in SQL statement, value for each parameter
-            //is retrieved from respective class's property.
-            cmd.Parameters.AddWithValue("@username", member.Username);
-            cmd.Parameters.AddWithValue("@email", member.Email);
-            cmd.Parameters.AddWithValue("@pass", member.UserPassword);
-
-            cmd.Parameters.AddWithValue("@selectedMemberID", member.MemberId);
-            //Open a database connection
-            conn.Open();
-            //ExecuteNonQuery is used for UPDATE and DELETE
-            int count = cmd.ExecuteNonQuery();
-            //Close the database connection
-            conn.Close();
-            return count;
-        }*/
 
         public string UpdateUser(string newuser, int? memberid)
         {

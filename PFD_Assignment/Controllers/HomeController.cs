@@ -194,7 +194,7 @@ namespace PFD_Assignment.Controllers
                 return RedirectToAction("LoginPage");
             }
 
-            if (memberContext.IfUserExist(newusername/*, HttpContext.Session.GetInt32("MemberID")*/))
+            if (memberContext.IfUserExist(newusername))
             {
                 // record already exists, return an error message
                 TempData["updateMessage"] = "Username is already taken.";
@@ -221,7 +221,7 @@ namespace PFD_Assignment.Controllers
                 TempData["SignInMessage"] = "Please sign in to update email!";
                 return RedirectToAction("LoginPage");
             }
-            if (memberContext.IsEmailExist(newemail/*, HttpContext.Session.GetInt32("MemberID")*/))
+            if (memberContext.IsEmailExist(newemail))
             {
                 // record already exists, return an error message
                 TempData["updateMessage"] = "Email is already linked to an account.";
