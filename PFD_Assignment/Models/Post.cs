@@ -37,9 +37,9 @@ namespace PFD_Assignment.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MemberID { get; set; }
-		
-        public IFormFile fileToUpload { get; set; }
-		public string Photo { get; set; }	
-		
+	
+		public string Image { get; set; }
+
+        public byte[] fileToUpload { get; set; }
     }
 }

@@ -5,6 +5,8 @@ using System.Diagnostics.Metrics;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PFD_Assignment.Models;
+using System.IO;
+
 namespace PFD_Assignment.DAL
 {
 	public class PostDAL
@@ -215,14 +217,17 @@ WHERE PostID = @selectedPostID";
         }
 
 
-        public int Add(Post post, int? memberid)
+        public int Add(Post post, int? memberid )
         {
             //Create a SqlCommand object from connection object
             SqlCommand cmd = conn.CreateCommand();
+            
+            //string fileName = Path.GetFileName(image.FileName);
+            //string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
 
             //Specify an INSERT SQL statement which will
             //return the auto-generated StaffID after insertion
-            Console.WriteLine(post.PostTitle + post.PostDesc + post.PostContent + memberid);
+
             cmd.CommandText = @"INSERT INTO Post(PostTitle, PostDesc, PostContent, Upvote, Downvote,
 DateofPost, MemberID) OUTPUT INSERTED.PostID
 VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @MemberID)";
@@ -235,8 +240,8 @@ VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @Me
             cmd.Parameters.AddWithValue("@DateofPost", DateTime.Now);
             cmd.Parameters.AddWithValue("@Upvote", 0);
             cmd.Parameters.AddWithValue("@Downvote", 0);
-            cmd.Parameters.AddWithValue("@MemberID" , memberid);/*
-            cmd.Parameters.AddWithValue("@Image", null);*/
+            cmd.Parameters.AddWithValue("@MemberID" , memberid);
+            //cmd.Parameters.AddWithValue("@Image", post.fileToUpload);
 
 
             //A connection to database must be opened before any operations made.
