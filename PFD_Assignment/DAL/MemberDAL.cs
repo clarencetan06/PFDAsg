@@ -85,8 +85,8 @@ VALUES(@first, @last, @username, @pass,
 		}
 
         // ENSURE NO DUPLICATED USERNAMES/EMAILS -> for unique users
-        public bool IsEmailExist(string email, int memberID)
-        {
+        public bool IsEmailExist(string email)
+        {/*
             bool emailFound = false;
             //Create a SqlCommand object and specify the SQL statement 
             //to get a Member record with the email address to be validated
@@ -114,11 +114,27 @@ VALUES(@first, @last, @username, @pass,
             }
             reader.Close();
             conn.Close();
-            return emailFound;
+            return emailFound;*/
+
+            bool exists = false;
+
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "SELECT COUNT(*) FROM Members WHERE Email = @email";
+                cmd.Parameters.AddWithValue("@email", email);
+
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+
+                exists = count > 0;
+            }
+
+            return exists;
         }
 
-        public bool IfUserExist(string user, int memberID)
-        {
+        public bool IfUserExist(string user /*, int? memberID*/)
+        {/*
             bool userFound = false;
             //Create a SqlCommand object and specify the SQL statement 
             //to get a member record with the username to be validated
@@ -146,7 +162,23 @@ VALUES(@first, @last, @username, @pass,
             }
             reader.Close();
             conn.Close();
-            return userFound;
+            return userFound;*/
+
+            bool exists = false;
+
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "SELECT COUNT(*) FROM Members WHERE Username=@selectedUsername";
+                cmd.Parameters.AddWithValue("@selectedUsername", user);
+
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+
+                exists = count > 0;
+            }
+
+            return exists;
         }
 
         // get username for postVM
@@ -315,7 +347,6 @@ Email =@email, UserPassword =@pass WHERE MemberID = @selectedMemberID";
                 }
                 conn.Close();
             }
-
             return password;
         }
 

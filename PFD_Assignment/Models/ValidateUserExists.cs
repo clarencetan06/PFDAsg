@@ -15,7 +15,7 @@ namespace PFD_Assignment.Models
             Member member = (Member)validationContext.ObjectInstance;
             // Get the member Id from the member instance
             int memberID = member.MemberId;
-            if (memberContext.IfUserExist(user, memberID))
+            if (memberContext.IfUserExist(user/*, memberID*/))
                 // validation failed
                 return new ValidationResult
                 ("Username is already in use! Please choose a different one.");

@@ -182,28 +182,6 @@ namespace PFD_Assignment.Controllers
             return View();
         }*/
 
-        /*
-        // POST: HomeController/Update
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Update(Member member)
-        {
-            //Get branch list for drop-down list
-            //in case of the need to return to Edit.cshtml view
-            if (ModelState.IsValid)
-            {
-                //Update staff record to database
-                memberContext.Update(member);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                //Input validation fails, return to the view
-                //to display error message
-                return View(member);
-            }
-        }*/
-
     
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -216,9 +194,19 @@ namespace PFD_Assignment.Controllers
                 return RedirectToAction("LoginPage");
             }
 
-            string updateMessage = memberContext.UpdateUser(newusername, HttpContext.Session.GetInt32("MemberID"));
-            TempData["updateMessage"] = updateMessage;
-            return RedirectToAction("Profile");
+            if (memberContext.IfUserExist(newusername/*, HttpContext.Session.GetInt32("MemberID")*/))
+            {
+                // record already exists, return an error message
+                TempData["updateMessage"] = "Username is already taken.";
+                return RedirectToAction("Profile");
+            }
+            else
+            {
+                string updateMessage = memberContext.UpdateUser(newusername, HttpContext.Session.GetInt32("MemberID"));
+                TempData["updateMessage"] = updateMessage;
+                HttpContext.Session.Clear();
+                return RedirectToAction("LoginPage");
+            }
 
         }
 
@@ -233,10 +221,19 @@ namespace PFD_Assignment.Controllers
                 TempData["SignInMessage"] = "Please sign in to update email!";
                 return RedirectToAction("LoginPage");
             }
-
-            string updateMessage = memberContext.UpdateEmail(newemail, HttpContext.Session.GetInt32("MemberID"));
-            TempData["updateMessage"] = updateMessage;
-            return RedirectToAction("Profile");
+            if (memberContext.IsEmailExist(newemail/*, HttpContext.Session.GetInt32("MemberID")*/))
+            {
+                // record already exists, return an error message
+                TempData["updateMessage"] = "Email is already linked to an account.";
+                return RedirectToAction("Profile");
+            }
+            else
+            {
+                string updateMessage = memberContext.UpdateEmail(newemail, HttpContext.Session.GetInt32("MemberID"));
+                TempData["updateMessage"] = updateMessage;
+                HttpContext.Session.Clear();
+                return RedirectToAction("LoginPage");
+            }
         }
 
         [HttpPost]
@@ -258,29 +255,12 @@ namespace PFD_Assignment.Controllers
             {
                 string updateMessage = memberContext.UpdatePass(newPassword, HttpContext.Session.GetInt32("MemberID"));
                 TempData["updateMessage"] = updateMessage;
+                HttpContext.Session.Clear();
                 return RedirectToAction("LoginPage");
             }
-
-            /*
-            // Continue with password change logic if the current password is correct
-            if (ModelState.IsValid)
-            {
-                // Update the password in the database
-                memberContext.UpdatePass(newpassword, memberId);
-
-                // Add a success message or perform any additional logic
-                TempData["updateMessage"] = "Password changed successfully.";
-                return RedirectToAction("Profile");
-            }
-            else
-            {
-                // Validation failed, return to the view to display error messages
-                return RedirectToAction("Profile");
-            }*/
              else
             {
-                // Passwords don't match, add an error to ModelState
-                ModelState.AddModelError("currentPassword", "Incorrect current password");
+                TempData["updateMessage"] = "Current password is incorrect.";
                 // Return the view directly instead of redirecting
                 return View("Profile"); // Assuming your view name is "Profile"
             }
