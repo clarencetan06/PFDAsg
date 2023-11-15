@@ -7,6 +7,9 @@ using PFD_Assignment.Models;
 using System.Diagnostics;
 using System.Linq;
 using System.Buffers.Text;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
 
 namespace PFD_Assignment.Controllers
 {
@@ -20,7 +23,7 @@ namespace PFD_Assignment.Controllers
             _logger = logger;
             _configuration = configuration;
         }
-        
+
         public IActionResult Index()
         {
             // Retrieve the API key from user secrets
@@ -71,7 +74,7 @@ namespace PFD_Assignment.Controllers
             List<Member> members = memberContext.GetAllMembers().ToList();
             // Pass the member details to the view
             ViewData["MemberID"] = member.MemberId;
-            ViewData["FirstName"] = member.FirstName;   
+            ViewData["FirstName"] = member.FirstName;
             ViewData["LastName"] = member.LastName;
             ViewData["Username"] = member.Username;
             ViewData["Email"] = member.Email;
@@ -178,5 +181,88 @@ namespace PFD_Assignment.Controllers
             
             return View();
         }*/
+
+    
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateUsername(string newusername)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                TempData["SignInMessage"] = "Please sign in to update username!";
+                return RedirectToAction("LoginPage");
+            }
+
+            if (memberContext.IfUserExist(newusername))
+            {
+                // record already exists, return an error message
+                TempData["updateMessage"] = "Username is already taken.";
+                return RedirectToAction("Profile");
+            }
+            else
+            {
+                string updateMessage = memberContext.UpdateUser(newusername, HttpContext.Session.GetInt32("MemberID"));
+                TempData["updateMessage"] = updateMessage;
+                HttpContext.Session.Clear();
+                return RedirectToAction("LoginPage");
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateEmail(string newemail)
+        {
+
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                TempData["SignInMessage"] = "Please sign in to update email!";
+                return RedirectToAction("LoginPage");
+            }
+            if (memberContext.IsEmailExist(newemail))
+            {
+                // record already exists, return an error message
+                TempData["updateMessage"] = "Email is already linked to an account.";
+                return RedirectToAction("Profile");
+            }
+            else
+            {
+                string updateMessage = memberContext.UpdateEmail(newemail, HttpContext.Session.GetInt32("MemberID"));
+                TempData["updateMessage"] = updateMessage;
+                return RedirectToAction("Profile");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePass(string currentPassword, string newPassword)
+        {
+
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                TempData["SignInMessage"] = "Please sign in to update password!";
+                return RedirectToAction("LoginPage");
+            }
+
+            // Check if the entered current password matches the actual current password
+            string currentpass = memberContext.GetPasswordForMember(HttpContext.Session.GetInt32("MemberID"));
+
+            if (currentPassword == currentpass)
+            {
+                string updateMessage = memberContext.UpdatePass(newPassword, HttpContext.Session.GetInt32("MemberID"));
+                TempData["updateMessage"] = updateMessage;
+                HttpContext.Session.Clear();
+                return RedirectToAction("LoginPage");
+            }
+             else
+            {
+                TempData["updateMessage"] = "Current password is incorrect.";
+                // Return the view directly instead of redirecting
+                return View("Profile"); // Assuming your view name is "Profile"
+            }
+        }
     }
 }

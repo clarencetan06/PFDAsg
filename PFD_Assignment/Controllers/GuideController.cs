@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using PFD_Assignment.DAL;
 using PFD_Assignment.Models;
+using System;
 using System.IO;
 
 namespace PFD_Assignment.Controllers
@@ -116,33 +117,63 @@ namespace PFD_Assignment.Controllers
             
             return View();
         }
+        /*
+        private int AddImageToDatabase(IFormFile image)
+        {
+            // Convert the image file to a byte array
+            byte[] imageData = image.ToArray();
+
+            // Insert the image data into the database
+            // ...
+
+            // Return the image ID
+            return imageID;
+        }
+        */
+
+        
+
         
         // POST: GuideController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post)
+        public ActionResult Create(Post post, IFormFile images)
         {
-            /*if (ModelState.IsValid)
-            {*/
-                //Add post record to database
-                post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
-                TempData["SuccessMessage"] = "You have successfully created a post! :)";
-
-                //Redirect user to Staff/Index view
-
-                return RedirectToAction("Index");
-                
-            /*}*/
-            /*else
+			/*if (ModelState.IsValid)
             {
-                //Input validation fails, return to the Create view
-                //to display error message
-                Console.WriteLine("sdfd");
-                return View(post);
-            }*/
+
+            if (images != null && images.Length > 0)
+            {
+                // Process and save the image data to the database
+                foreach (var image in images)
+                {
+                    int imageID = AddImageToDatabase(image);
+                    post.Image.Add(imageID);
+                }
+            }
+            */
+			
+
+			//Add post record to database
+			post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
+            TempData["SuccessMessage"] = "You have successfully created a post! :)";
+            
+
+            //Redirect user to Staff/Index view
+
+            return RedirectToAction("Index");
+                
+           }
+        /*else
+        {
+            //Input validation fails, return to the Create view
+            //to display error message
+            Console.WriteLine("sdfd");
+            return View(post);
         }
-        
-        
+    }
+    */
+
 
         // Helper method to map PostViewModel to Post
         private Post MapToPost(PostViewModel postVM)
@@ -160,11 +191,8 @@ namespace PFD_Assignment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Vote(int postid, int voteid, int votetype)
+        public ActionResult Vote(int postid, int votetype)
         {
-            Post post = postContext.GetDetails(postid);
-            PostViewModel postVM = MapToPostVM(post);
-
             if ((HttpContext.Session.GetString("Role") == null) ||
                 (HttpContext.Session.GetString("Role") != "Member"))
             {
@@ -174,7 +202,7 @@ namespace PFD_Assignment.Controllers
 
             if (ModelState.IsValid)
             {
-                string voteMessage = postContext.Vote(postid, voteid, votetype);
+                string voteMessage = postContext.Vote(postid, HttpContext.Session.GetInt32("MemberID"), votetype);
 
                 // Store the message in TempData
                 TempData["VoteMessage"] = voteMessage;
@@ -189,29 +217,6 @@ namespace PFD_Assignment.Controllers
             }
         }
 
-
-
-
-        // GET: GuideController/Edit/5
-        public ActionResult Vote(int id)
-        {
-            return View();
-        }
-
-        // POST: GuideController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: GuideController/Delete/5
         public ActionResult Delete(int id)
