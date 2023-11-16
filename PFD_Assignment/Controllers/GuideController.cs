@@ -282,7 +282,7 @@ namespace PFD_Assignment.Controllers
                 string voteMessage = postContext.Vote(postid, HttpContext.Session.GetInt32("MemberID"), votetype);
 
                 // Store the message in TempData
-                TempData["VoteMessage"] = voteMessage;
+                TempData["SuccessMessage"] = voteMessage;
 
                 // Redirect back to the same GuideDetails page
                 return RedirectToAction("GuideDetails", new { id = postid });
@@ -312,7 +312,7 @@ namespace PFD_Assignment.Controllers
                 string commentMessage = commentsContext.CreateComment(postid, comment, HttpContext.Session.GetInt32("MemberID"));
 
                 // Store the message in TempData
-                TempData["VoteMessage"] = commentMessage;
+                TempData["SuccessMessage"] = commentMessage;
 
                 // Redirect back to the same GuideDetails page
                 return RedirectToAction("GuideDetails", new { id = postid });

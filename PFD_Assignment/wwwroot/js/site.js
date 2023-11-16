@@ -164,7 +164,7 @@ function callOpenAIModel(text) {
     });
 }
 /* api */
-/*function callOpenAIModel() {
+function callOpenAIModel() {
     const apiKeyContainer = document.getElementById('apiKeyContainer');
     const apiKey = apiKeyContainer.dataset.apiKey;
     const endpoint = 'https://api.openai.com/v1/completions';
@@ -196,7 +196,7 @@ function callOpenAIModel(text) {
             // Handle errors
             console.error('Error:', error.message);
         });
-}*/
+}
 
 let popupCount = 0;
 let zIndexCounter = 1;

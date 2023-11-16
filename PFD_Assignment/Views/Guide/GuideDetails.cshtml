@@ -72,7 +72,7 @@
     }
 
 </style>
-
+<!--
 <div id="myContainer" class="container" @*style="display:none;"*@>
 <button onclick="showContainer()">Show Container</button>
     <button class= "fullwidth" style="display: block; background-color: #fafafa; text-align: left; padding-left: 10px;">
@@ -99,7 +99,60 @@
             </div>
         }
     </div>
+</div>-->
+
+<div id="myContainer" class="container">
+    <button onclick="toggleContainer()">Toggle Container</button>
+    <button class="fullwidth" style="display: block; background-color: #fafafa; text-align: left; padding-left: 10px;" onclick="toggleComments()">
+        Comments
+    </button>
+    <h2>Leave Us a Comment</h2>
+    <form asp-action="CreateComment" asp-route-postid="@Model.Post.PostID" style="display:none;" id="commentForm">
+        <textarea name="comment" placeholder="Add Your Comment" style=""></textarea>
+        <div class="btn">
+            <input type="submit" value="Comment">
+            <button type="button" id="clear" href="#" onclick="hideComments()">Cancel</button>
+        </div>
+    </form>
+    <div class="comments-container" style="display:none;" id="commentsSection">
+        <h2>Comments</h2>
+        @foreach (Comments comment in Model.CommentList)
+        {
+            <div>
+                <p><b>@comment.Username</b> | @comment.DateofComment</p>
+            </div>
+            <div>
+                <p>@comment.UserComments</p>
+            </div>
+        }
+    </div>
 </div>
+
+<script>
+    function toggleContainer() {
+        var container = document.getElementById("myContainer");
+        container.style.display = (container.style.display == "none") ? "block" : "none";
+    }
+
+    function toggleComments() {
+        var commentForm = document.getElementById("commentForm");
+        var commentsSection = document.getElementById("commentsSection");
+
+        if (commentForm.style.display === "none" && commentsSection.style.display === "none") {
+            commentForm.style.display = "block";
+            commentsSection.style.display = "block";
+        } else {
+            commentForm.style.display = "none";
+            commentsSection.style.display = "none";
+        }
+    }
+
+    function hideComments() {
+        document.getElementById("commentForm").style.display = "none";
+        document.getElementById("commentsSection").style.display = "none";
+    }
+</script>
+
 
 @if (TempData["SignInMessage"] != null)
 {
@@ -108,7 +161,7 @@
     </script>
 }
 
-@if (TempData["VoteMessage"] != null)
+@if (TempData["SuccessMessage"] != null)
 {
     <script>
         alert('@TempData["VoteMessage"]');
