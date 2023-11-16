@@ -3,32 +3,63 @@
 @{
     ViewData["Title"] = "Index";
 }
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <div class="row">
     <div class="col-sm-3">
+        <h2 style="padding-left: 10px;">Create a guide</h2>
+        <hr style="border-top: dotted 2px; margin-left: 10px;" />
+        <a asp-action="Create" class="createguide-button">Create New Guide</a>
+        <hr style="border-top: dotted 2px; margin-left: 10px;" />
         <h2 style="padding-left: 10px;">Filter</h2>
-        <hr style="border-top: dotted 1px; margin-left: 10px;" />
-        <a style=" "href="#" id="sort-newest">Sort Newest to Oldest</a> <br />
+        <hr style="border-top: dotted 2px; margin-left: 10px;" />
 
-        <a href="#" id="sort-oldest">Sort Oldest to Newest</a> <br />
+        <div class="searchbarguide">
+            @using (Html.BeginForm("Index", "Guide", FormMethod.Post))
+            {
+                <table id="Post">
+                    <tr>
+                        <td>
+                            <span><b></b>Search By:</span>
+                            @Html.RadioButton("searchBy", "PostTitle", true)
+                            <text>Title</text>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBox("searchValue", null, new { Class = "form-control", placeholder = "Enter Guide Title" })
+                        </td>
 
-        <a href="#" id="sort-mostliked">Sort Most to Least Liked</a> <br />
+                        <td>
+                            <input type="submit" value="Search" style="background-color:darkred;color:white; padding:5px;border-radius: 10px;border:none" />
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+        </br> 
 
-        <a href="#" id="sort-leastliked">Sort Least to Most Liked</a> <br />
+        <button type="button" class="btn btn-default btn-lg btn-block " style="width: 100%; " href="#" id="sort-newest">
+            Sort Newest to Oldest
+        </button>
+
+        <button type="button" class="btn btn-default btn-lg btn-block" style="width: 100%; " href="#" id="sort-oldest">
+            Sort Oldest to Newest
+        </button>
+
+        <button type="button" class="btn btn-default btn-lg btn-block" style="width: 100%; " href="#" id="sort-mostliked">
+            Sort Most to Least Liked
+        </button>
+
+
+        
 
     </div>
+    
     <div class="col-sm-9">
-        <h2>Dashboard</h2>
-        <h4 class="PageTitle">Guides</h4>
+ 
+        <partial name="~/Views/Guide/_ViewGuides.cshtml" model="@Model" /> 
 
-        <a asp-action="Create" class="btn btn-primary">Create New Guide</a><br />
-        @if (Context.Session.GetString("MemberID") == null)
-        {
-            <div style="color: red; font-weight: 500;">
-            @TempData["Message"]
-            </div>
-        }
-        <partial name="~/Views/Guide/_ViewGuides.cshtml" model="@Model" />
     </div>
 </div>
 

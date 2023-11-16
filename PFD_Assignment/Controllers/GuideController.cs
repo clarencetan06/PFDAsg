@@ -218,7 +218,7 @@ namespace PFD_Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Post post)
         {
-            /*if (ModelState.IsValid)
+			/*if (ModelState.IsValid)
             {
 
             if (images != null && images.Length > 0)
@@ -252,7 +252,7 @@ namespace PFD_Assignment.Controllers
             return View(post);
         }
     }
-    */
+   
 
 
 		// Helper method to map PostViewModel to Post
