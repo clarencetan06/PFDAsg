@@ -6,7 +6,7 @@ namespace PFD_Assignment.Models
 	{
 		public int CommentID { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "Please enter a comment!")]
 		[Display(Name = "Comment")]
 		[StringLength(255, ErrorMessage = "Invalid comment! Comment cannot exceed 255 characters!")]
 		public string UserComments { get; set; }
@@ -20,5 +20,7 @@ namespace PFD_Assignment.Models
 		public int PostID { get; set; }
 
 		public int MemberID { get; set; }
+
+		public string Username { get; set; }
 	}
 }
