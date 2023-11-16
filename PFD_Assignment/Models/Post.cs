@@ -30,7 +30,6 @@ namespace PFD_Assignment.Models
 		[Display(Name = "Dislikes")]
 		public int Downvote { get; set; }
 
-		[Required]
 		[DataType(DataType.Date)]
 		[DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
 		public DateTime DateofPost { get; set; }
@@ -43,7 +42,7 @@ namespace PFD_Assignment.Models
 		public string postImageData { get; set; }
 		
         [NotMapped]
-        [Display(Name = "Upload File")]*/
-        public IFormFile fileToUpload { get; set; }
+        [Display(Name = "Upload File")]
+        public IFormFile fileToUpload { get; set; }*/
     }
 }

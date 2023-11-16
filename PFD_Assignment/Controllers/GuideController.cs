@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using PFD_Assignment.DAL;
 using PFD_Assignment.Models;
 using System;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -187,13 +188,14 @@ namespace PFD_Assignment.Controllers
                 return RedirectToAction("Index", "Guide");
             }
 
-			var indexModel = new IndexModel(_configuration);
-			indexModel.OnGet();
-			string apiKey = indexModel.ApiKey;
-			// Pass the API key to the view
-			ViewBag.ApiKey = apiKey;
-			return View();
+	        var indexModel = new IndexModel(_configuration);
+	        indexModel.OnGet();
+	        string apiKey = indexModel.ApiKey;
+	        // Pass the API key to the view
+	        ViewBag.ApiKey = apiKey;
+	        return View();
         }
+
         /*
         private int AddImageToDatabase(IFormFile image)
         {
@@ -208,15 +210,15 @@ namespace PFD_Assignment.Controllers
         }
         */
 
-        
 
-        
+
+
         // POST: GuideController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Post post)
         {
-			/*if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
 
             if (images != null && images.Length > 0)
@@ -229,16 +231,17 @@ namespace PFD_Assignment.Controllers
                 }
             }
             */
-
-			//Add post record to database
-			post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
-            TempData["SuccessMessage"] = "You have successfully created a post! :)";
-
-
-
-            //Redirect user to Staff/Index view
-
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                //Add post record to database
+                post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
+                TempData["SuccessMessage"] = "You have successfully created a post! :)";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(post);
+            }
                 
         }
 		/*else

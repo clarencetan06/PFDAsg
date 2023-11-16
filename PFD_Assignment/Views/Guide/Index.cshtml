@@ -31,3 +31,11 @@
         <partial name="~/Views/Guide/_ViewGuides.cshtml" model="@Model" />
     </div>
 </div>
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        alert('@TempData["SuccessMessage"]');
+    </script>
+}
