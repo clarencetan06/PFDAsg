@@ -64,6 +64,12 @@
     </div>
 </div>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        alert('@TempData["SuccessMessage"]');
+    </script>
+}
 
 @if (TempData["Message"] != null)
 {
