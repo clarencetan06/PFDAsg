@@ -240,7 +240,6 @@ namespace PFD_Assignment.Controllers
             {
                 //Input validation fails, return to the Create view
                 //to display error message
-                Console.WriteLine("sdfd");
                 return View(post);
             }
         
