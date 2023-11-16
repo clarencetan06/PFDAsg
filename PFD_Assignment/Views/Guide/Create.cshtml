@@ -91,7 +91,7 @@
             const endpoint = 'https://api.openai.com/v1/completions';
             const requestData = {
                 model: 'gpt-3.5-turbo-instruct',
-                prompt: `If the provided text contains harmful, dangerous, unethical content, swear words, respond only with the words: Content rejected.
+                prompt: `If the provided text contains harmful, dangerous, unethical content, swear words, gibberish or not in English, respond only with the words: Content rejected.
                      If the text given is untrue in nature for example: Singpass is made in Malaysia or Singpass is commonly used in Malaysia, respond only with the words: Content rejected.
                      Otherwise, respond only with the words: Content Approved. The provided text: ${text}`,
                 max_tokens: 10,
