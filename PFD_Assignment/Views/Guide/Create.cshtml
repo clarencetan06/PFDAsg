@@ -5,18 +5,22 @@
 }
 <h4 class="PageTitle">Create guide</h4>
 <hr />
+
+
+
 <form asp-action="Create" method="post" onsubmit="return validateContent()">
+
 	<fieldset class="FormContent">
-		<div class="row mb-3">
+		<div class="row mb-3 create-fields">
 			<label asp-for="PostTitle"
-				   class="col-sm-3 col-form-label"></label>
+				   class="col-sm-3 col-form-label" ></label>
 			<div class="col-sm-9 col-md-5">
 				<input asp-for="PostTitle" class="form-control" />
 				<span asp-validation-for="PostTitle"
 					  class="text-danger"></span>
 			</div>
 		</div>
-		<div class="row mb-3">
+		<div class="row mb-3 create-fields">
 			<label asp-for="PostDesc"
 				   class="col-sm-3 col-form-label"></label>
 			<div class="col-sm-9 col-md-5">
@@ -25,15 +29,15 @@
 					  class="text-danger"></span>
 			</div>
 		</div>
-		<div class="row mb-3">
+		<div class="row mb-3 create-fields">
 			<label asp-for="PostContent"
 				   class="col-sm-3 col-form-label"></label>
 			<div class="col-sm-9 col-md-5" style="display: flex; flex-direction: column; align-items: flex-start;">
 				<textarea asp-for="PostContent" class="form-control" style="flex-grow: 1; box-sizing: border-box; height: 100px"></textarea>
 				<span asp-validation-for="PostContent" class="text-danger"></span>
 			</div>
-
-		</div>
+	</div>
+		
 		<div id="apiKeyContainer" data-api-key="@ViewBag.ApiKey">
 			<button type="button" onclick="validatePostContent()">Validate</button>
 		</div>
@@ -50,9 +54,10 @@
 	</fieldset>
 </form>
 
-<div>
+<div class="back-to-list-button">
 			
 	<a asp-action="Index">Back to List</a>
+
 </div>
 
 

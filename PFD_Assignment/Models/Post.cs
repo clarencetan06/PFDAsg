@@ -44,6 +44,6 @@ namespace PFD_Assignment.Models
 		
         [NotMapped]
         [Display(Name = "Upload File")]*/
-        public IFormFile fileToUpload { get; set; }
+        //public IFormFile fileToUpload { get; set; }
     }
 }

@@ -208,44 +208,41 @@ namespace PFD_Assignment.Controllers
         }
         */
 
-        
 
-        
+
+
         // POST: GuideController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Post post)
         {
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                // Process and save the image data to the database
+                /*// Process and save the image data to the database
                 foreach (var image in images)
                 {
                     int imageID = AddImageToDatabase(image);
                     post.Image.Add(imageID);
                 }
+                */
+                //Add post record to database
+                post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
+                TempData["SuccessMessage"] = "You have successfully created a post! :)";
+
+                //Redirect user to Staff/Index view
+                return RedirectToAction("Index");
             }
-            */
-
-			//Add post record to database
-			post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
-            TempData["SuccessMessage"] = "You have successfully created a post! :)";
 
 
-
-            //Redirect user to Staff/Index view
-
-            return RedirectToAction("Index");
-                
+            else
+            {
+                //Input validation fails, return to the Create view
+                //to display error message
+                Console.WriteLine("sdfd");
+                return View(post);
+            }
+        
         }
-		/*else
-        {
-            //Input validation fails, return to the Create view
-            //to display error message
-            Console.WriteLine("sdfd");
-            return View(post);
-        }
-    }
    
 
 

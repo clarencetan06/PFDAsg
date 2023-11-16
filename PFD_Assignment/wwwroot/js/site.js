@@ -266,6 +266,7 @@ function showProfile() {
 }
 
 /* To hide featured post when sort button is clicked */
+/* To hide featured post when sort button is clicked */
 
 $(document).ready(function () {
     // Define a flag to track whether the sorting button was clicked
@@ -286,3 +287,49 @@ $(document).ready(function () {
         toggleFeaturedPosts();
     });
 });
+
+
+
+
+
+
+
+//var feild = document.querySelector('textarea');/*var backUp = field.getAttribute('placeholder');*/
+//var btn = document.querySelector('.btn'); var clear = document.getElementById('clear')
+//feild.onfocus = function () {
+//    this.setAttribute('placeholder', ''); this.style.borderColor = '#333';
+//    btn.style.display = 'block'
+//}
+//feild.onblur = function () {
+//    this.setAttribute('placeholder', backUp); this.style.borderColor = '#aaa'
+//}
+//clear.onclick = function () {
+//    btn.style.display = 'none';
+//    feild.value = '';
+//}
+//function showContainer() {
+//    var container = document.getElementById('myContainer'); container.style.display = 'block';
+//    container.id = 'visibleContainer'; // Set the id to 'visibleContainer'}
+//    function hideContainer() {
+//        var container = document.getElementById('visibleContainer'); container.style.display = 'none';
+//    }
+
+//$(document).ready(function () {
+//    // Define a flag to track whether the sorting button was clicked
+//    var sortingButtonClicked = false;
+
+//    // Toggle the visibility of featured posts based on the flag
+//    function toggleFeaturedPosts() {
+//        if (sortingButtonClicked) {
+//            $("#guidecontent2").hide();
+//        } else {
+//            $("#guidecontent2").show();
+//        }
+//    }
+
+//    // Attach a click event handler to the sorting buttons
+//    $("#sort-newest, #sort-oldest, #sort-mostliked").click(function () {
+//        sortingButtonClicked = true;
+//        toggleFeaturedPosts();
+//    });
+//});

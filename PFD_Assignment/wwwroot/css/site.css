@@ -33,14 +33,16 @@ body {
     align-items: center;
     justify-content: center;
 }
-
-
-
+ .create-fields{
+     padding-left:50px;
+     font-size: 20px;
+     font-weight:bold;
+}
+/*searchbar*/
 .searchbarguide {
-    margin-left: 20px;
+    margin-left: 45px;
     width: 80%;
     padding: 10px;
-    background-color: #f0f0f0; /* Background color for the search bar */
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for a stylish look */
 }
@@ -61,7 +63,7 @@ body {
 
     /* Style the text box */
     .searchbarguide input[type="text"] {
-        width: calc(100% - 20px); /* Adjust the width of the text box */
+        width: 100%; /* Adjust the width of the text box */
         padding: 8px;
         border: 1px solid #ccc; /* Add a border for a cleaner look */
         border-radius: 5px;
@@ -70,14 +72,40 @@ body {
     /* Style the submit button */
     .searchbarguide input[type="submit"] {
         background-color: darkred;
+        padding-left: 10px;
         color: white;
-        padding: 8px 15px;
+        padding: 8px;
+        margin:auto;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         /* Add additional styles as needed */
     }
 
+.back-to-list-button {
+    background-color: darkred;
+    color: white;
+    padding: 10px 20px;
+    
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+    .back-to-list-button a {
+        color: white;
+    }
+
+
+    .back-to-list-button:hover {
+        transition: background-color 0.2s ease-in-out;
+        background-color: #660000;
+    }
 
 .featuredguide {
     display: flex;
@@ -89,9 +117,10 @@ body {
     padding: 30px;
     border-radius: 5px;
     /* Maintain 50% opacity for the background rectangle */
-    background-color: lightblue; /*rgba(112, 128, 144, 0.5);*/
+    background-color: beige; /*rgba(112, 128, 144, 0.5);*/
     margin-top: 20px;
     justify-content: space-between; /* Push the button to the right */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .guides {
@@ -104,9 +133,10 @@ body {
     padding: 30px;
     border-radius: 5px;
     /* Maintain 50% opacity for the background rectangle */
-    background-color: lightcyan; /*rgba(112, 128, 144, 0.5);*/
+    background-color: lightskyblue; /*rgba(112, 128, 144, 0.5);*/
     margin-top: 20px;
     justify-content: space-between; /* Push the button to the right */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .guideUser, .guidePara {
