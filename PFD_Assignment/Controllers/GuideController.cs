@@ -12,12 +12,18 @@ namespace PFD_Assignment.Controllers
     {      
         private PostDAL postContext = new PostDAL();
         private MemberDAL memberContext = new MemberDAL();
+
+
+        
+
         // GET: GuideController
         public ActionResult Index(string searchBy, string searchValue)
         {
             List<PostViewModel> postVMList = new List<PostViewModel>();
 
-            List<Post> posts = postContext.GetAllPost();
+            List<Post> posts = postContext.GetPopularPost();
+            List<Post> regularposts = postContext.GetAllPost();
+            posts.AddRange(regularposts);
 
             foreach (Post Post in posts)
             {
@@ -139,20 +145,8 @@ namespace PFD_Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Post post, IFormFile images)
         {
-			/*if (ModelState.IsValid)
+			if (ModelState.IsValid)
             {
-
-            if (images != null && images.Length > 0)
-            {
-                // Process and save the image data to the database
-                foreach (var image in images)
-                {
-                    int imageID = AddImageToDatabase(image);
-                    post.Image.Add(imageID);
-                }
-            }
-            */
-			
 
 			//Add post record to database
 			post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
@@ -164,7 +158,7 @@ namespace PFD_Assignment.Controllers
             return RedirectToAction("Index");
                 
            }
-        /*else
+        else
         {
             //Input validation fails, return to the Create view
             //to display error message
@@ -172,7 +166,7 @@ namespace PFD_Assignment.Controllers
             return View(post);
         }
     }
-    */
+   
 
 
         // Helper method to map PostViewModel to Post

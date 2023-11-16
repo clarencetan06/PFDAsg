@@ -28,22 +28,14 @@
 		<div class="row mb-3">
 			<label asp-for="PostContent"
 				   class="col-sm-3 col-form-label"></label>
-			<div class="col-sm-9 col-md-5">
-				<input asp-for="PostContent" class="form-control" style="height: 100px;"/>
-				<span asp-validation-for="PostContent"
-					  class="text-danger"></span>
+			<div class="col-sm-9 col-md-5" style="display: flex; flex-direction: column; align-items: flex-start;">
+				<textarea asp-for="PostContent" class="form-control" style="flex-grow: 1; box-sizing: border-box; height: 100px"></textarea>
+				<span asp-validation-for="PostContent" class="text-danger"></span>
 			</div>
+
 		</div>
 		
-		<div class="row mb-3">
-			<label asp-for="fileToUpload"
-				   class="col-sm-3 col-form-label"></label>
-			<div class="col-sm-9 col-md-5">
-				<input asp-for="fileToUpload" class="form-control" style="height: 100px;" />
-				<span asp-validation-for="fileToUpload"
-					  class="text-danger"></span>
-			</div>
-		</div>
+		
 
 		
 		<div class="row mb-3">

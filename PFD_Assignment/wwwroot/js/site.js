@@ -1,4 +1,6 @@
-﻿/* For sticky navbar */
+﻿
+
+/* For sticky navbar */
 window.onscroll = function() {myFunction()};
 
 var navbar = document.getElementById("navbar");
@@ -37,9 +39,23 @@ $(document).ready(function () {
         rows.sort(function (a, b) {
             var dateA = convertToDateSortableString($(a).data("date"));
             var dateB = convertToDateSortableString($(b).data("date"));
-
+            console.log(dateA,dateB);
             return descending ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
         });
+
+        container.empty().append(rows);
+    }
+
+    function sortRowsByLikes(rows, descending) {
+        rows.sort(function (a, b) {
+            var likeA = parseInt($(a).data("likes")) || 0;
+            var likeB = parseInt($(b).data("likes")) || 0;
+
+            return descending ? likeB - likeA : likeA - likeB;
+        });
+
+        // Assuming "container" is defined somewhere in your code
+        // If not, you may need to replace it with the appropriate container reference
 
         container.empty().append(rows);
     }
@@ -69,14 +85,18 @@ $(document).ready(function () {
 
     function sortTableDescLikes() {
         var guides = container.find(".guides").get();
-        sortRowsByLikes(guides, true);
+        console.log("Before sorting:", guides);
+        sortRowsByLikes(guides, false); // Change to true for descending order
+        console.log("After sorting:", guides);
     }
 
     function sortTableAscLikes() {
         var guides = container.find(".guides").get();
-        sortRowsByLikes(guides, false);
+        console.log("Before sorting:", guides);
+        sortRowsByLikes(guides, false); // Change to true for descending order
+        console.log("After sorting:", guides);
     }
-    function sortRowsByLikes(rows, descending) {
+    /*function sortRowsByLikes(rows, descending) {
         // Create a new container to append the sorted rows
         var newContainer = $("<div>");
 
@@ -95,7 +115,7 @@ $(document).ready(function () {
         // Replace the content of the original container with the new container's content
         container.html(newContainer.html());
     }
-
+*/
 
 
     attachSortEventHandler("#sort-newest", sortTableDesc);
@@ -185,4 +205,26 @@ function showProfile() {
     function showLoginSecurity() {
         document.getElementById("profileContent").style.display = "none";
         document.getElementById("loginSecurityContent").style.display = "block";
+}
+
+/* To hide featured post when sort button is clicked */
+
+$(document).ready(function () {
+    // Define a flag to track whether the sorting button was clicked
+    var sortingButtonClicked = false;
+
+    // Toggle the visibility of featured posts based on the flag
+    function toggleFeaturedPosts() {
+        if (sortingButtonClicked) {
+            $("#guidecontent2").hide();
+        } else {
+            $("#guidecontent2").show();
+        }
     }
+
+    // Attach a click event handler to the sorting buttons
+    $("#sort-newest, #sort-oldest, #sort-mostliked").click(function () {
+        sortingButtonClicked = true;
+        toggleFeaturedPosts();
+    });
+});

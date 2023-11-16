@@ -1,37 +1,54 @@
 ﻿@model IEnumerable<PFD_Assignment.Models.PostViewModel>
 
-<div>
-    @using (Html.BeginForm("Index","Guide",FormMethod.Post))
-    {
-        <table id="Post">
-            <tr>
-                <td>
-                    <span><b></b>Search By:</span>
-                    @Html.RadioButton("searchBy","PostTitle",true)
-                    <text>Title</text>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.TextBox("searchValue",null, new{Class="form-control",placeholder="Enter Guide Title"})
-                </td>
-
-                <td>
-                    <input type="submit" value="Search" class=" btn btn-success"/>
-                </td>
-            </tr>
-        </table>
-    }
-</div>
-<br />
 
 
+@if (Model.ToList().Count > 0)
+{
+    <div class="guidecontent" id="guidecontent2">
+        <h2 class="PageTitle" style="font-weight:bold; font-size:60px">Featured Posts</h2>
+        @foreach (var item in Model.Take(3))
+        {
+            <div class="featuredguide" id="featuredguide2" data-date="@item.DateofPost.ToString()">
+                <div>
+                    <p class="guideUser">
+                        <b> @item.Username.ToString() </b>| @item.DateofPost.ToString()
+                    </p>
+                    <p class="guidePara">
+                        Title: @item.PostTitle.ToString()
+                    </p>
+                    <p class="guidePara">
+                        Description: @item.PostDesc.ToString()
+                    </p>
+                </div>
+                
+                  
+                <div class="guidebuttonposition" id="guidebuttonposition2">
+                    <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@item.PostID">
+                        <button class="guideButton" id="guideButton">
+                            View
+                        </button>
+                    </a>
+                    <div class="guidebuttonposition" data-likes="@item.Upvote" >
+                        Upvotes: @item.Upvote.ToString() |
+                        Downvotes: @item.Downvote.ToString()
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+
+<hr class="solid" />
+
+<h2 class="PageTitle" style="font-weight:bold; font-size:60px">Guides</h2>
 
 
 @if (Model.ToList().Count > 0)
 {
     <div class="guidecontent" id="guidecontent">
-        @foreach (var item in Model)
+        @foreach (var item in Model.Skip(3))
         {
             <div class="guides" id="guides" data-date="@item.DateofPost.ToString()">
                 <div>
@@ -44,10 +61,7 @@
                     <p class="guidePara">
                         Description: @item.PostDesc.ToString()
                     </p>
-                    <p class="guideVotes" data-likes="@item.Upvote">
-                        Upvotes: @item.Upvote.ToString() |
-                        Downvotes: @item.Downvote.ToString()
-                    </p>
+                    
                 </div>
 
                 <div class="guidebuttonposition" id="guidebuttonposition">
@@ -56,6 +70,10 @@
                             View
                         </button>
                     </a>
+                    <p class="guidebuttonposition" data-likes="@item.Upvote">
+                        Upvotes: @item.Upvote.ToString() |
+                        Downvotes: @item.Downvote.ToString()
+                    </p>
                 </div>
             </div>
 

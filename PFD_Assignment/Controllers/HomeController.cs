@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using PFD_Assignment.DAL;
 using PFD_Assignment.Models;
 using System.Diagnostics;
-using System.Linq;
-using System.Buffers.Text;
 
 namespace PFD_Assignment.Controllers
 {
@@ -20,7 +16,7 @@ namespace PFD_Assignment.Controllers
             _logger = logger;
             _configuration = configuration;
         }
-        
+
         public IActionResult Index()
         {
             // Retrieve the API key from user secrets
@@ -71,7 +67,7 @@ namespace PFD_Assignment.Controllers
             List<Member> members = memberContext.GetAllMembers().ToList();
             // Pass the member details to the view
             ViewData["MemberID"] = member.MemberId;
-            ViewData["FirstName"] = member.FirstName;   
+            ViewData["FirstName"] = member.FirstName;
             ViewData["LastName"] = member.LastName;
             ViewData["Username"] = member.Username;
             ViewData["Email"] = member.Email;

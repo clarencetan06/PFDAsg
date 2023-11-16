@@ -1,30 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using Humanizer;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using PFD_Assignment.Models;
+﻿using System.Data.SqlClient;
 namespace PFD_Assignment.DAL
 {
-	public class CommentsDAL
-	{
-		private IConfiguration Configuration { get; }
-		private SqlConnection conn;
-		//Constructor
-		public CommentsDAL()
-		{
-			//Read ConnectionString from appsettings.json file
-			var builder = new ConfigurationBuilder()
-			.SetBasePath(Directory.GetCurrentDirectory())
-			.AddJsonFile("appsettings.json");
-			Configuration = builder.Build();
-			string strConn = Configuration.GetConnectionString(
-			"SGHandbookConnectionString");
-			//Instantiate a SqlConnection object with the
-			//Connection String read.
-			conn = new SqlConnection(strConn);
-		}
+    public class CommentsDAL
+    {
+        private IConfiguration Configuration { get; }
+        private SqlConnection conn;
+        //Constructor
+        public CommentsDAL()
+        {
+            //Read ConnectionString from appsettings.json file
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+            Configuration = builder.Build();
+            string strConn = Configuration.GetConnectionString(
+            "SGHandbookConnectionString");
+            //Instantiate a SqlConnection object with the
+            //Connection String read.
+            conn = new SqlConnection(strConn);
+        }
 
-		/*public List<Member> GetAllStaff()
+        /*public List<Member> GetAllStaff()
 		{
 			//Create a SqlCommand object from connection object
 			SqlCommand cmd = conn.CreateCommand();
@@ -64,5 +60,5 @@ namespace PFD_Assignment.DAL
 			return staffList;
 		}
 		*/
-	}
+    }
 }
