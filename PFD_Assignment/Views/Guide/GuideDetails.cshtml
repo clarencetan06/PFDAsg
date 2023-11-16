@@ -14,7 +14,8 @@
     <hr />
              
     <div class="postphoto">
-        <img src="~/images/@Model.Photo" />
+        <img src="@Url.Content("~/UploadedImages/" + Model.postFileName)"
+        <!--<img src="~/images/@Model.Photo" />-->
     </div>
 
     <div class="postcontent">

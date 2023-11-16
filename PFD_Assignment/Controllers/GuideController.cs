@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Hosting;
 using PFD_Assignment.DAL;
 using PFD_Assignment.Models;
@@ -9,9 +12,79 @@ using System.IO;
 namespace PFD_Assignment.Controllers
 {
     public class GuideController : Controller
-    {      
+    {
+        /*
+        private readonly ILogger<GuideController> _logger;
+        private readonly ImgDBContext _dBContext;
+        private readonly IWebHostEnvironment webHostEnvironment;
+        */
         private PostDAL postContext = new PostDAL();
         private MemberDAL memberContext = new MemberDAL();
+
+        /*
+        public GuideController(ILogger<HomeController> logger,
+           IWebHostEnvironment hostEnvironment, ImgDBContext context)
+        {
+            _logger = logger;
+            _dBContext = context;
+            webHostEnvironment = hostEnvironment;
+        }
+
+
+        // upload photo
+        public IActionResult PostUpload(Post post)
+        {
+            string uniqueFileName = null;
+
+            if (post.fileToUpload != null)
+            {
+                string ImageUploadFolder = Path.Combine
+                    (webHostEnvironment.WebRootPath, "UploadedImages");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + post.fileToUpload.FileName;
+                string filepath = Path.Combine(ImageUploadFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filepath, FileMode.Create))
+                {
+                    post.fileToUpload.CopyTo(fileStream);
+                }
+
+                post.postPhotoPath = "~/wwwroot/UploadedImages";
+                post.postFileName = uniqueFileName;
+
+                _dBContext.posts.Add(post);
+                _dBContext.SaveChanges();
+
+                return RedirectToAction("Index", "Guide");
+            }
+            return View();
+        }
+
+        public IActionResult PostUploadPic(Post post)
+        {
+            string uniqueFileName = null;
+            byte[] bytes = null;
+
+            if (post.fileToUpload != null)
+            {
+                using (Stream fs = post.fileToUpload.OpenReadStream())
+                {
+                    using (BinaryReader br = new BinaryReader(fs))
+                    {
+                        bytes= br.ReadBytes((Int32)fs.Length);
+                    }
+                }
+
+                post.postImageData = Convert.ToBase64String(bytes,0, bytes.Length);
+
+                _dBContext.posts.Add(post);
+                _dBContext.SaveChanges();
+
+                return RedirectToAction("Index", "Guide");
+            }
+            return View();
+        }*/
+
+
         // GET: GuideController
         public ActionResult Index(string searchBy, string searchValue)
         {
