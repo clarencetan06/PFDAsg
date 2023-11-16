@@ -186,3 +186,35 @@ function showProfile() {
         document.getElementById("profileContent").style.display = "none";
         document.getElementById("loginSecurityContent").style.display = "block";
 }
+
+var feild = document.querySelector('textarea');
+var backUp = feild.getAttribute('placeholder');
+var btn = document.querySelector('.btn');
+var clear = document.getElementById('clear')
+
+feild.onfocus = function () {
+    this.setAttribute('placeholder', '');
+    this.style.borderColor = '#333';
+    btn.style.display = 'block'
+}
+
+feild.onblur = function () {
+    this.setAttribute('placeholder', backUp);
+    this.style.borderColor = '#aaa'
+}
+
+clear.onclick = function () {
+    btn.style.display = 'none';
+    feild.value = '';
+}
+
+function showContainer() {
+    var container = document.getElementById('myContainer');
+    container.style.display = 'block';
+    container.id = 'visibleContainer'; // Set the id to 'visibleContainer'
+}
+
+function hideContainer() {
+    var container = document.getElementById('visibleContainer');
+    container.style.display = 'none';
+}

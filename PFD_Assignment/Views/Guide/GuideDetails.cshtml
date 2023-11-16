@@ -1,16 +1,7 @@
-﻿@model PFD_Assignment.Models.PostViewModel
+﻿@model PFD_Assignment.Models.PostComments
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-
-<div class="guidedetailscontainer">
-    <h4 class="posttitle">@Html.Display("PostTitle")</h4>
+<div class="guidedetailscontainer container">
+    <h4 class="posttitle">@Html.Display("Post.PostTitle")</h4>
     <hr />
 
     <!--
@@ -26,32 +17,99 @@
 
 
     <div class="postcontent">
-        @Html.Display("PostContent")
+        @Html.Display("Post.PostContent")
     </div>
 
     <div class="postdetails"> 
         <p>Author: @Html.Display("Username") </p>
-        <p>Date: @Html.Display("DateofPost") </p>
+        <p>Date: @Html.Display("Post.DateofPost") </p>
     </div>
 
 </div>
 
-<div class="postvotes">
-    <p>Upvotes: @Html.Display("Upvote") | Downvotes: @Html.Display("Downvote") </p>
+<div class="postvotes container">
+    <p>Upvotes: @Html.Display("Post.Upvote") | Downvotes: @Html.Display("Post.Downvote") </p>
 
     <div class="postvotingcontainer">
-        <form asp-action="Vote" asp-route-postid="@Model.PostID" asp-route-voteType=1>
+        <form asp-action="Vote" asp-route-postid="@Model.Post.PostID" asp-route-voteType=1>
             <button type="submit" class="postvotingbutton" style="font-size:15px">
                 <i class="fa fa-thumbs-up"></i></button>
         </form>
-        <form asp-action="Vote" asp-route-postid="@Model.PostID" asp-route-voteType=2>
+        <form asp-action="Vote" asp-route-postid="@Model.Post.PostID" asp-route-voteType=2>
             <button class="postvotingbutton" style="font-size:15px">
                 <i class="fa fa-thumbs-down"></i>
             </button>
         </form>
     </div>
 </div>
+<style>
+    input[type="submit"], button {
+        padding: 10px 15px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
+    input[type="submit"] {
+        color: #fff;
+        background-color: #273c75
+    }
+
+    button {
+        color: #333;
+        background-color: transparent
+    }
+
+    .btn {
+        display: none
+    }
+
+    .button2 {
+        display: block;
+        background-color: #bbb;
+        margin: 10px;
+        padding: 10px
+    }
+
+    .fullwidth {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+        display: block;
+    }
+
+</style>
+
+<div id="myContainer" class="container" @*style="display:none;"*@>
+<button onclick="showContainer()">Show Container</button>
+    <button class= "fullwidth" style="display: block; background-color: #fafafa; text-align: left; padding-left: 10px;">
+        Comments @*<div> @Model.ToList().Count </div>*@
+    </button>
+    <h2>Leave Us a Comment</h2>
+    <form>
+        <textarea placeholder='Add Your Comment'></textarea>
+        <button onclick="hideContainer()">Hide Container</button>
+        <div class="btn">
+            <input type="submit" value='Comment'>
+            <button id='clear' href='#'>Cancel</button>
+        </div>
+    </form>
+    <div class="comments-container">
+        <h2>Comments</h2>
+        @foreach (Comments comment in Model.CommentList)
+        {
+            <div>
+                <p>@comment.UserComments</p>
+                <!-- Display other comment properties as needed -->
+            </div>
+        }
+    </div>
+</div>
 
 @if (TempData["SignInMessage"] != null)
 {
@@ -66,3 +124,4 @@
         alert('@TempData["VoteMessage"]');
     </script>
 }
+ 
