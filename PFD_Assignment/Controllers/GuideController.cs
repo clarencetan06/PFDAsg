@@ -4,10 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using PFD_Assignment.DAL;
 using PFD_Assignment.Models;
 using System;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace PFD_Assignment.Controllers
 {
@@ -21,75 +26,10 @@ namespace PFD_Assignment.Controllers
         private PostDAL postContext = new PostDAL();
         private MemberDAL memberContext = new MemberDAL();
         private CommentsDAL commentsContext = new CommentsDAL();
-
-        /*
-        public GuideController(ILogger<HomeController> logger,
-           IWebHostEnvironment hostEnvironment, ImgDBContext context)
-        {
-            _logger = logger;
-            _dBContext = context;
-            webHostEnvironment = hostEnvironment;
-        }
-
-
-        // upload photo
-        public IActionResult PostUpload(Post post)
-        {
-            string uniqueFileName = null;
-
-            if (post.fileToUpload != null)
-            {
-                string ImageUploadFolder = Path.Combine
-                    (webHostEnvironment.WebRootPath, "UploadedImages");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + post.fileToUpload.FileName;
-                string filepath = Path.Combine(ImageUploadFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filepath, FileMode.Create))
-                {
-                    post.fileToUpload.CopyTo(fileStream);
-                }
-
-                post.postPhotoPath = "~/wwwroot/UploadedImages";
-                post.postFileName = uniqueFileName;
-
-                _dBContext.posts.Add(post);
-                _dBContext.SaveChanges();
-
-                return RedirectToAction("Index", "Guide");
-            }
-            return View();
-        }
-
-        public IActionResult PostUploadPic(Post post)
-        {
-            string uniqueFileName = null;
-            byte[] bytes = null;
-
-            if (post.fileToUpload != null)
-            {
-                using (Stream fs = post.fileToUpload.OpenReadStream())
-                {
-                    using (BinaryReader br = new BinaryReader(fs))
-                    {
-                        bytes= br.ReadBytes((Int32)fs.Length);
-                    }
-                }
-
-                post.postImageData = Convert.ToBase64String(bytes,0, bytes.Length);
-
-                _dBContext.posts.Add(post);
-                _dBContext.SaveChanges();
-
-                return RedirectToAction("Index", "Guide");
-            }
-            return View();
-        }*/
-
-
         // GET: GuideController
         public ActionResult Index(string searchBy, string searchValue)
         {
-            List<PostViewModel> postVMList = new List<PostViewModel>();
+			List<PostViewModel> postVMList = new List<PostViewModel>();
             List<Post> posts = postContext.GetAllPost();
 
             foreach (Post Post in posts)
@@ -128,6 +68,7 @@ namespace PFD_Assignment.Controllers
         // GET: GuideController/Details/5
         public ActionResult Details(int id)
         {
+
             Post post = postContext.GetDetails(id);
             PostViewModel postVM = MapToPostVM(post);
             List<PostViewModel> postVMList = new List<PostViewModel> { postVM };
@@ -241,8 +182,12 @@ namespace PFD_Assignment.Controllers
                 return RedirectToAction("Index", "Guide");
             }
 
-            
-            return View();
+			var indexModel = new IndexModel(_configuration);
+			indexModel.OnGet();
+			string apiKey = indexModel.ApiKey;
+			// Pass the API key to the view
+			ViewBag.ApiKey = apiKey;
+			return View();
         }
         /*
         private int AddImageToDatabase(IFormFile image)
@@ -264,7 +209,7 @@ namespace PFD_Assignment.Controllers
         // POST: GuideController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post, IFormFile images)
+        public ActionResult Create(Post post)
         {
 			/*if (ModelState.IsValid)
             {
@@ -279,19 +224,19 @@ namespace PFD_Assignment.Controllers
                 }
             }
             */
-			
 
 			//Add post record to database
 			post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
             TempData["SuccessMessage"] = "You have successfully created a post! :)";
-            
+
+
 
             //Redirect user to Staff/Index view
 
             return RedirectToAction("Index");
                 
-           }
-        /*else
+        }
+		/*else
         {
             //Input validation fails, return to the Create view
             //to display error message
@@ -302,8 +247,8 @@ namespace PFD_Assignment.Controllers
     */
 
 
-        // Helper method to map PostViewModel to Post
-        private Post MapToPost(PostViewModel postVM)
+		// Helper method to map PostViewModel to Post
+		private Post MapToPost(PostViewModel postVM)
         {
             return new Post
             {
