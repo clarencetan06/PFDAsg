@@ -4,18 +4,6 @@
     <h4 class="posttitle">@Html.Display("Post.PostTitle")</h4>
     <hr />
 
-    <!--
-    <div class="postphoto">
-        @if (!string.IsNullOrEmpty(Model.Photo))
-    {
-        <img src="~/images/@Model.Photo" />
-    }
-    
-    </div>
-     -->
-    <!--<img src="@Url.Content("~/UploadedImages/" + @Model.Photo)" alt="Post Image" />-->
-
-
     <div class="postcontent">
         @Html.Display("Post.PostContent")
     </div>
@@ -32,11 +20,11 @@
 
     <div class="postvotingcontainer">
         <form asp-action="Vote" asp-route-postid="@Model.Post.PostID" asp-route-voteType=1>
-            <button type="submit" class="postvotingbutton" style="font-size:15px">
+            <button type="submit" class="postvotingbutton" style="font-size:15px;">
                 <i class="fa fa-thumbs-up"></i></button>
         </form>
         <form asp-action="Vote" asp-route-postid="@Model.Post.PostID" asp-route-voteType=2>
-            <button class="postvotingbutton" style="font-size:15px">
+            <button class="postvotingbutton" style="font-size:15px;">
                 <i class="fa fa-thumbs-down"></i>
             </button>
         </form>
@@ -91,12 +79,12 @@
         Comments @*<div> @Model.ToList().Count </div>*@
     </button>
     <h2>Leave Us a Comment</h2>
-    <form>
-        <textarea placeholder='Add Your Comment'></textarea>
+    <form asp-action="CreateComment" asp-route-postid="@Model.Post.PostID">
+        <textarea name="comment" placeholder='Add Your Comment'style=""></textarea>
         <button onclick="hideContainer()">Hide Container</button>
         <div class="btn">
             <input type="submit" value='Comment'>
-            <button id='clear' href='#'>Cancel</button>
+            <button type="button" id='clear' href='#'>Cancel</button>
         </div>
     </form>
     <div class="comments-container">
@@ -104,8 +92,10 @@
         @foreach (Comments comment in Model.CommentList)
         {
             <div>
+                <p><b>@comment.Username</b> | @comment.DateofComment</p>
+            </div>
+            <div>
                 <p>@comment.UserComments</p>
-                <!-- Display other comment properties as needed -->
             </div>
         }
     </div>
@@ -124,4 +114,4 @@
         alert('@TempData["VoteMessage"]');
     </script>
 }
- 
+

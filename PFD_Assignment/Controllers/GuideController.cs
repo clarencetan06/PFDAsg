@@ -20,6 +20,7 @@ namespace PFD_Assignment.Controllers
         */
         private PostDAL postContext = new PostDAL();
         private MemberDAL memberContext = new MemberDAL();
+        private CommentsDAL commentsContext = new CommentsDAL();
 
         /*
         public GuideController(ILogger<HomeController> logger,
@@ -145,7 +146,9 @@ namespace PFD_Assignment.Controllers
             }
 
             return View(postVM, commentList);*/
-            Post post = postContext.GetDetails(id);/*
+
+            Post post = postContext.GetDetails(id);
+            /*
             PostViewModel postVM = MapToPostVM(post);*/
             List<Comments> commentList = new List<Comments>();
             List<Comments> comments = commentsContext.GetAllPostComments(id);
@@ -165,7 +168,20 @@ namespace PFD_Assignment.Controllers
             }
             foreach (Comments comment in comments)
             {
-                commentList.Add(comment);
+                if (comment.MemberID < int.MaxValue && comment.MemberID > int.MinValue)
+                {
+                    List<Member> memberList = memberContext.GetAllMembers();
+                    foreach (Member member in memberList)
+                    {
+                        if (member.MemberId == comment.MemberID)
+                        {
+                            comment.Username = member.Username;
+                            // Exit the foreach loop once the username is found
+                            commentList.Add(comment);
+                            break;
+                        }
+                    }
+                }
             }
 
             PostComments postComments = new PostComments
@@ -317,6 +333,36 @@ namespace PFD_Assignment.Controllers
 
                 // Store the message in TempData
                 TempData["VoteMessage"] = voteMessage;
+
+                // Redirect back to the same GuideDetails page
+                return RedirectToAction("GuideDetails", new { id = postid });
+            }
+            else
+            {
+                // Input validation fails, return to the view to display error message
+                return RedirectToAction("GuideDetails", new { id = postid });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateComment(string comment, int postid)
+        {
+            // Stop accessing the action if not logged in
+            // or account not in the "Member" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Member"))
+            {
+                TempData["SignInMessage"] = "Please sign in to comment!";
+                return RedirectToAction("GuideDetails", new { id = postid });
+            }
+
+            if (ModelState.IsValid)
+            {
+                string commentMessage = commentsContext.CreateComment(postid, comment, HttpContext.Session.GetInt32("MemberID"));
+
+                // Store the message in TempData
+                TempData["VoteMessage"] = commentMessage;
 
                 // Redirect back to the same GuideDetails page
                 return RedirectToAction("GuideDetails", new { id = postid });
