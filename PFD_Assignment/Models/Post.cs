@@ -37,13 +37,13 @@ namespace PFD_Assignment.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MemberID { get; set; }
-
+		/*
         public string postPhotoPath { get; set; }
         public string postFileName { get; set; }
 		public string postImageData { get; set; }
-
+		
         [NotMapped]
-        [Display(Name = "Upload File")]
+        [Display(Name = "Upload File")]*/
         public IFormFile fileToUpload { get; set; }
     }
 }

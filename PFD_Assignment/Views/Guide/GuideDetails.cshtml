@@ -12,11 +12,18 @@
 <div class="guidedetailscontainer">
     <h4 class="posttitle">@Html.Display("PostTitle")</h4>
     <hr />
-             
+
+    <!--
     <div class="postphoto">
-        <img src="@Url.Content("~/UploadedImages/" + Model.postFileName)"
-        <!--<img src="~/images/@Model.Photo" />-->
+        @if (!string.IsNullOrEmpty(Model.Photo))
+    {
+        <img src="~/images/@Model.Photo" />
+    }
+    
     </div>
+     -->
+    <!--<img src="@Url.Content("~/UploadedImages/" + @Model.Photo)" alt="Post Image" />-->
+
 
     <div class="postcontent">
         @Html.Display("PostContent")
