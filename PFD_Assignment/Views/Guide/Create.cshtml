@@ -5,7 +5,7 @@
 }
 <h4 class="PageTitle">Create guide</h4>
 <hr />
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" onsubmit="return validateContent()">
 	<fieldset class="FormContent">
 		<div class="row mb-3">
 			<label asp-for="PostTitle"
@@ -26,39 +26,28 @@
 			</div>
 		</div>
 		<div class="row mb-3">
-			<label asp-for="PostContent"
-				   class="col-sm-3 col-form-label"></label>
+			<label asp-for="PostContent" id="PostContent" class="col-sm-3 col-form-label"></label>
 			<div class="col-sm-9 col-md-5">
-				<input asp-for="PostContent" class="form-control" style="height: 100px;"/>
-				<span asp-validation-for="PostContent"
-					  class="text-danger"></span>
+				<input asp-for="PostContent" class="form-control" style="height: 100px;" />
+				<span asp-validation-for="PostContent" class="text-danger" id="postContentValidation"></span>
 			</div>
 		</div>
-		
-		<div class="row mb-3">
-			<label asp-for="fileToUpload"
-				   class="col-sm-3 col-form-label"></label>
-			<div class="col-sm-9 col-md-5">
-				<input asp-for="fileToUpload" class="form-control" style="height: 100px;" />
-				<span asp-validation-for="fileToUpload"
-					  class="text-danger"></span>
-			</div>
+		<div id="apiKeyContainer" data-api-key="@ViewBag.ApiKey">
+			<button type="button" onclick="validatePostContent()">Validate</button>
 		</div>
-
 		
 		<div class="row mb-3">
             <div class="col-sm-9 offset-sm-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
-                
             </div>
         </div>
 	</fieldset>
 </form>
 
-		<div>
+<div>
 			
-			<a asp-action="Index">Back to List</a>
-		</div>
+	<a asp-action="Index">Back to List</a>
+</div>
 
 
 
