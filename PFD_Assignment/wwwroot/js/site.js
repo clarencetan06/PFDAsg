@@ -127,7 +127,7 @@ $(document).ready(function () {
 function validatePostContent() {
     const postContentInput = document.getElementById('PostContent');
     const postContentValidation = document.getElementById('postContentValidation');
-
+    const submitButton = document.getElementById('submitButton');
     // Get the value of the PostContent input
     const text = postContentInput.value;
 
@@ -143,37 +143,26 @@ function validatePostContent() {
                 
             ) {
                 postContentValidation.textContent = 'Content Approved';
+                submitButton.disabled = false;
             } else if (
                 response.data.choices &&
                 response.data.choices.length > 0 &&
                 response.data.choices[0].text.toLowerCase().includes('content rejected')
             ) {
                 postContentValidation.textContent = 'Content rejected';
+                submitButton.disabled = true;
             }
             else {
                 postContentValidation.textContent = 'Error. Please try again.';
+                submitButton.disabled = true;
             }
         })
         .catch(error => {
             // Handle errors
             console.error('Error:', error.message);
+            submitButton.disabled = true;
         });
 }
-/*
-function filterContent(response) {
-    if (response.includes('Singpass is made in Malaysia')) {
-        return 'Content rejected';
-    }
-    if (response.includes('Singpass is made in Singapore')) {
-        return 'Content approved';
-    }
-    if (response.includes('Singpass is made in SG')) {
-        return 'Content approved';
-    }
-    // Add more conditions as needed
-
-    return response;
-}*/
 
 function callOpenAIModel(text) {
     const apiKeyContainer = document.getElementById('apiKeyContainer');
@@ -182,7 +171,9 @@ function callOpenAIModel(text) {
 
     const requestData = {
         model: 'gpt-3.5-turbo-instruct',
-        prompt: `If the text contains: 'Malaysia', respond only with the words: 'Content Rejected'. Otherwise, respond only with the words: 'Content Approved'. The text provided is ${text}.`,
+        prompt: `If the provided text contains harmful, dangerous, unethical content, swear words, respond only with the words: Content rejected.
+                 If the text given is untrue in nature for example: Singpass is made in Malaysia or Singpass is commonly used in Malaysia, respond only with the words: Content rejected. 
+                 Otherwise, respond only with the words: Content Approved. The provided text: ${text}`,
         max_tokens: 10,
         user: 'user123456'
     };
@@ -195,7 +186,8 @@ function callOpenAIModel(text) {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json'
         }
-    })/*
+    })
+}/*
         .then((response) => {
             // Post-processing: Filter content
             const filteredResponse = filterContent(response.data.choices[0].text);
@@ -206,7 +198,7 @@ function callOpenAIModel(text) {
             // Handle error as needed
             throw error;
         })*/;
-}
+
 
 /* api */
 /*function callOpenAIModel() {
