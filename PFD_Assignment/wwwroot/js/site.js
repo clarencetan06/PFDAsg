@@ -124,7 +124,65 @@ $(document).ready(function () {
     attachSortEventHandler("#sort-leastliked", sortTableAscLikes);
 });
 
+function validatePostContent() {
+    const postContentInput = document.getElementById('PostContent');
+    const postContentValidation = document.getElementById('postContentValidation');
 
+    // Get the value of the PostContent input
+    const text = postContentInput.value;
+
+    // Call OpenAI model
+    callOpenAIModel(text)
+        .then(response => {
+            // Handle the response data and update validation message
+            console.log(response.data.choices[0].text);
+            if (
+                response.data.choices &&
+                response.data.choices.length > 0 &&
+                response.data.choices[0].text.toLowerCase().includes('content approved')
+                
+            ) {
+                postContentValidation.textContent = 'Content Approved';
+            } else if (
+                response.data.choices &&
+                response.data.choices.length > 0 &&
+                response.data.choices[0].text.toLowerCase().includes('content rejected')
+            ) {
+                postContentValidation.textContent = 'Content rejected';
+            }
+            else {
+                postContentValidation.textContent = 'Error. Please try again.';
+            }
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error.message);
+        });
+}
+
+
+function callOpenAIModel(text) {
+    const apiKeyContainer = document.getElementById('apiKeyContainer');
+    const apiKey = apiKeyContainer.dataset.apiKey;
+    const endpoint = 'https://api.openai.com/v1/completions';
+
+    const requestData = {
+        model: 'gpt-3.5-turbo-instruct',
+        prompt: `If the provided text contains any false information about Singpass, such as incorrect origins (e.g., made in Malaysia) or common usage (e.g., commonly used in Malaysia), respond only with the words: Content rejected. Otherwise, respond only with the words: Content Approved. The provided text: ${text}`,
+        max_tokens: 10,
+        user: 'user123456'
+    };
+
+    return axios({
+        method: 'post',
+        url: endpoint,
+        data: requestData,
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        }
+    });
+}
 /* api */
 function callOpenAIModel() {
     const apiKeyContainer = document.getElementById('apiKeyContainer');

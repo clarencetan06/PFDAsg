@@ -1,8 +1,21 @@
-﻿<nav class="navbar navbar-expand-md bg-light navbar-light">
+﻿<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SG HandBook</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PFD_Assignment.styles.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+
+<nav class="navbar navbar-expand-md bg-light navbar-light">
     <div class="container-fluid" id="navbar">
         <!-- The brand(or icon) of the navbar -->
         <a class="navbar-brand" href="~/Home/Index"
            style="font-size:32px; font-weight:bold; color:firebrick;">
+            <img class="navimg" src="~/images/sgbook.jpg" width="50" height=auto style="margin-bottom:13px;" alt="SG Handbook Logo">
             SG Handbook
         </a>
         <!-- Toggle/collapsible Button, also known as hamburger button -->
@@ -11,7 +24,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Links in navbar, displayed as drop-down list when collapsed -->
-        <div class="collapse navbar-collapse" id="IndexNavbar">
+        <div class="collapse navbar-collapse" id="IndexNavbar" style="font-size:20px;">
             <!-- Links that are aligned to the left,
             me-auto: margin-end, i.e., right margin, auto-adjusted -->
             <ul class="navbar-nav me-auto">

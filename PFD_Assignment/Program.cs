@@ -1,6 +1,9 @@
 //using Microsoft.AspNetCore.Authentication.Cookies;
 //using Google.Apis.Auth.AspNetCore3;
 using System.Reflection;
+using PFD_Assignment.Models;
+using Microsoft.EntityFrameworkCore;
+using PFD_Assignment.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 var configurationBuilder = new ConfigurationBuilder();
@@ -17,6 +20,12 @@ builder.Services.AddSession(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ImgDBContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString
+        ("SGHandbookConnectionString"));
+});
+
 // This configures Google.Apis.Auth.AspNetCore for use in this app.
 /* will work on it ltr
 builder.Services.AddAuthentication(options =>

@@ -12,8 +12,7 @@ namespace PFD_Assignment.Models
             // Get the email value to validate
             string email = Convert.ToString(value);
             Member member = (Member)validationContext.ObjectInstance;
-            int memberID = member.MemberId;
-            if (memberContext.IsEmailExist(email, memberID))
+            if (memberContext.IsEmailExist(email))
                 // validation failed
                 return new ValidationResult
                 ("Email address already exists!");
