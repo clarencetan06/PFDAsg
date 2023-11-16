@@ -12,11 +12,11 @@ namespace PFD_Assignment.Controllers
     {      
         private PostDAL postContext = new PostDAL();
         private MemberDAL memberContext = new MemberDAL();
+        private CommentsDAL commentsContext = new CommentsDAL();
         // GET: GuideController
         public ActionResult Index(string searchBy, string searchValue)
         {
             List<PostViewModel> postVMList = new List<PostViewModel>();
-
             List<Post> posts = postContext.GetAllPost();
 
             foreach (Post Post in posts)
@@ -24,7 +24,7 @@ namespace PFD_Assignment.Controllers
                 PostViewModel postviewmodel = MapToPostVM(Post);
                 postVMList.Add(postviewmodel);
             }
-
+            
             if (posts.Count == 0)
             {
                 TempData["InfoMessage"] = "Currently there are no guides available in the database.";
@@ -63,10 +63,49 @@ namespace PFD_Assignment.Controllers
 
         public ActionResult GuideDetails(int id)
         {
-            Post post = postContext.GetDetails(id);
+            /*Post post = postContext.GetDetails(id);
             PostViewModel postVM = MapToPostVM(post);
-            return View(postVM);
+            List<Comments> commentList = new List<Comments>();
+            List<Comments> comments = commentsContext.GetAllPostComments(id);
+            foreach (Comments comment in comments)
+            {
+                commentList.Add(comment);
+            }
+
+            return View(postVM, commentList);*/
+            Post post = postContext.GetDetails(id);/*
+            PostViewModel postVM = MapToPostVM(post);*/
+            List<Comments> commentList = new List<Comments>();
+            List<Comments> comments = commentsContext.GetAllPostComments(id);
+            string username = "";
+            if (post.MemberID < int.MaxValue && post.MemberID > int.MinValue)
+            {
+                List<Member> memberList = memberContext.GetAllMembers();
+                foreach (Member member in memberList)
+                {
+                    if (member.MemberId == post.MemberID)
+                    {
+                        username = member.Username;
+                        //Exit the foreach loop once the username is found
+                        break;
+                    }
+                }
+            }
+            foreach (Comments comment in comments)
+            {
+                commentList.Add(comment);
+            }
+
+            PostComments postComments = new PostComments
+            {
+                Post = post,
+                CommentList = commentList,
+                Username = username,
+            };
+            return View(postComments);
         }
+
+
 
         public PostViewModel MapToPostVM(Post post)
         {
