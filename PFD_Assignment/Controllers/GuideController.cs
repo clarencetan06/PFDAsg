@@ -26,8 +26,13 @@ namespace PFD_Assignment.Controllers
         private PostDAL postContext = new PostDAL();
         private MemberDAL memberContext = new MemberDAL();
         private CommentsDAL commentsContext = new CommentsDAL();
-        // GET: GuideController
-        public ActionResult Index(string searchBy, string searchValue)
+		private IConfiguration _configuration;
+		public GuideController(IConfiguration configuration)
+		{
+			_configuration = configuration;
+		}
+		// GET: GuideController
+		public ActionResult Index(string searchBy, string searchValue)
         {
 			List<PostViewModel> postVMList = new List<PostViewModel>();
             List<Post> posts = postContext.GetAllPost();
