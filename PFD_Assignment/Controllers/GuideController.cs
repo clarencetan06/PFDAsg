@@ -26,6 +26,7 @@ namespace PFD_Assignment.Controllers
         private PostDAL postContext = new PostDAL();
         private MemberDAL memberContext = new MemberDAL();
         private CommentsDAL commentsContext = new CommentsDAL();
+
         // GET: GuideController
         public ActionResult Index(string searchBy, string searchValue)
         {
