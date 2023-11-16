@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using PFD_Assignment.DAL;
 using PFD_Assignment.Models;
 using System;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -187,13 +188,14 @@ namespace PFD_Assignment.Controllers
                 return RedirectToAction("Index", "Guide");
             }
 
-			var indexModel = new IndexModel(_configuration);
-			indexModel.OnGet();
-			string apiKey = indexModel.ApiKey;
-			// Pass the API key to the view
-			ViewBag.ApiKey = apiKey;
-			return View();
+	        var indexModel = new IndexModel(_configuration);
+	        indexModel.OnGet();
+	        string apiKey = indexModel.ApiKey;
+	        // Pass the API key to the view
+	        ViewBag.ApiKey = apiKey;
+	        return View();
         }
+
         /*
         private int AddImageToDatabase(IFormFile image)
         {

@@ -30,7 +30,6 @@ namespace PFD_Assignment.Models
 		[Display(Name = "Dislikes")]
 		public int Downvote { get; set; }
 
-		[Required]
 		[DataType(DataType.Date)]
 		[DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
 		public DateTime DateofPost { get; set; }

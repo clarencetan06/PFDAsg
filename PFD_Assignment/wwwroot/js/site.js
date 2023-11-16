@@ -159,7 +159,21 @@ function validatePostContent() {
             console.error('Error:', error.message);
         });
 }
+/*
+function filterContent(response) {
+    if (response.includes('Singpass is made in Malaysia')) {
+        return 'Content rejected';
+    }
+    if (response.includes('Singpass is made in Singapore')) {
+        return 'Content approved';
+    }
+    if (response.includes('Singpass is made in SG')) {
+        return 'Content approved';
+    }
+    // Add more conditions as needed
 
+    return response;
+}*/
 
 function callOpenAIModel(text) {
     const apiKeyContainer = document.getElementById('apiKeyContainer');
@@ -168,7 +182,7 @@ function callOpenAIModel(text) {
 
     const requestData = {
         model: 'gpt-3.5-turbo-instruct',
-        prompt: `If the provided text contains any false information about Singpass, such as incorrect origins (e.g., made in Malaysia) or common usage (e.g., commonly used in Malaysia), respond only with the words: Content rejected. Otherwise, respond only with the words: Content Approved. The provided text: ${text}`,
+        prompt: `If the text contains: 'Malaysia', respond only with the words: 'Content Rejected'. Otherwise, respond only with the words: 'Content Approved'. The text provided is ${text}.`,
         max_tokens: 10,
         user: 'user123456'
     };
@@ -181,10 +195,21 @@ function callOpenAIModel(text) {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json'
         }
-    });
+    })/*
+        .then((response) => {
+            // Post-processing: Filter content
+            const filteredResponse = filterContent(response.data.choices[0].text);
+            return filteredResponse;
+        })
+        .catch((error) => {
+            console.error('Error calling OpenAI model:', error);
+            // Handle error as needed
+            throw error;
+        })*/;
 }
+
 /* api */
-function callOpenAIModel() {
+/*function callOpenAIModel() {
     const apiKeyContainer = document.getElementById('apiKeyContainer');
     const apiKey = apiKeyContainer.dataset.apiKey;
     const endpoint = 'https://api.openai.com/v1/completions';
@@ -216,7 +241,7 @@ function callOpenAIModel() {
             // Handle errors
             console.error('Error:', error.message);
         });
-}
+}*/
 
 let popupCount = 0;
 let zIndexCounter = 1;
