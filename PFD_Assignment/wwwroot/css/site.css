@@ -147,11 +147,16 @@ body {
 .guidePara:nth-child(2) { /*for first (title) para */
     font-size: 28px;
     font-weight: bold;
+
 }
 
 .guidePara:nth-child(3) { /*for second (description) para */
     font-size: 20px;
     font-weight: normal;
+    max-width: 600px; /* Set your desired maximum width */
+    @media screen and (max-width: 1000px) {
+        max-width: 100%; /* Change the maximum width for screens smaller than 600px */
+    }
 }
 
 
