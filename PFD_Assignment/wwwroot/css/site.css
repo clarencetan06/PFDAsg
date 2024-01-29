@@ -117,7 +117,8 @@ body {
     padding: 30px;
     border-radius: 5px;
     /* Maintain 50% opacity for the background rectangle */
-    background-color: beige; /*rgba(112, 128, 144, 0.5);*/
+    /*background-color: beige; /*rgba(112, 128, 144, 0.5);*/
+    background-image: linear-gradient(to right, rgba(205, 205, 247, 0.5), rgba(247, 205, 216, 0.5));
     margin-top: 20px;
     justify-content: space-between; /* Push the button to the right */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -133,7 +134,8 @@ body {
     padding: 30px;
     border-radius: 5px;
     /* Maintain 50% opacity for the background rectangle */
-    background-color: lightskyblue; /*rgba(112, 128, 144, 0.5);*/
+    /*background-color: lightskyblue; /*rgba(112, 128, 144, 0.5);*/
+    background-image: linear-gradient(to right, rgba(205, 247, 240, 0.5), rgba(247, 227, 205, 0.5));
     margin-top: 20px;
     justify-content: space-between; /* Push the button to the right */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -467,12 +469,6 @@ body {
     .guideButton:hover {
         background-color: lightgrey;
     }
-
-iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-}
-
 
 
 /* --------------------------- intro page -------------------------------*/
