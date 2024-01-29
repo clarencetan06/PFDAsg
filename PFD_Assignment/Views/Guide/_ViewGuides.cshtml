@@ -28,7 +28,7 @@
                             View
                         </button>
                     </a>
-                    <div class="guidebuttonposition" data-likes="@item.Upvote" >
+                    <div class="guidebuttonposition">
                         Upvotes: @item.Upvote.ToString() |
                         Downvotes: @item.Downvote.ToString()
                     </div>
@@ -52,7 +52,7 @@
     <div class="guidecontent" id="guidecontent">
         @foreach (var item in Model.Skip(3))
         {
-            <div class="guides" id="guides" data-date="@item.DateofPost.ToString()">
+            <div class="guides" id="guides" data-date="@item.DateofPost.ToString()" data-likes="@item.Upvote">
                 <div>
                     <p class="guideUser">
                         <b> @item.Username.ToString() </b>| @item.DateofPost.ToString()
@@ -72,7 +72,7 @@
                             View
                         </button>
                     </a>
-                    <p class="guidebuttonposition" data-likes="@item.Upvote">
+                    <p class="guidebuttonposition">
                         Upvotes: @item.Upvote.ToString() |
                         Downvotes: @item.Downvote.ToString()
                     </p>

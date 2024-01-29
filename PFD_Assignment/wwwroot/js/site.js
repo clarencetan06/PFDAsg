@@ -45,21 +45,6 @@ $(document).ready(function () {
 
         container.empty().append(rows);
     }
-
-    function sortRowsByLikes(rows, descending) {
-        rows.sort(function (a, b) {
-            var likeA = parseInt($(a).data("likes")) || 0;
-            var likeB = parseInt($(b).data("likes")) || 0;
-
-            return descending ? likeB - likeA : likeA - likeB;
-        });
-
-        // Assuming "container" is defined somewhere in your code
-        // If not, you may need to replace it with the appropriate container reference
-
-        container.empty().append(rows);
-    }
-
     function convertToDateSortableString(dateString) {
         // Custom parsing for the specific date format "DD/MM/YYYY h:mm:ss a"
         var parts = dateString.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) (am|pm)/i);
@@ -85,37 +70,31 @@ $(document).ready(function () {
 
     function sortTableDescLikes() {
         var guides = container.find(".guides").get();
-        console.log("Before sorting:", guides);
-        sortRowsByLikes(guides, false); // Change to true for descending order
-        console.log("After sorting:", guides);
+        sortRowsByLikes(guides, true);
     }
 
     function sortTableAscLikes() {
         var guides = container.find(".guides").get();
-        console.log("Before sorting:", guides);
-        sortRowsByLikes(guides, false); // Change to true for descending order
-        console.log("After sorting:", guides);
+        sortRowsByLikes(guides, false);
     }
-    /*function sortRowsByLikes(rows, descending) {
-        // Create a new container to append the sorted rows
-        var newContainer = $("<div>");
 
-        // Sort the rows
+    function sortRowsByLikes(rows, descending) {
+        console.log("Sorting rows", rows);
+
         rows.sort(function (a, b) {
-            var likesA = parseInt($(a).data("likes"));
-            var likesB = parseInt($(b).data("likes"));
+            var likesA = parseInt($(a).data("likes"),10);
+            var likesB = parseInt($(b).data("likes"),10);
 
-            // Compare the number of likes
+            console.log("Comparing", likesA, likesB);
+
             return descending ? likesB - likesA : likesA - likesB;
         });
 
-        // Append the sorted rows to the new container
-        newContainer.append(rows);
+        console.log("Sorted rows", rows);
 
-        // Replace the content of the original container with the new container's content
-        container.html(newContainer.html());
+        container.empty().append(rows);
     }
-*/
+
 
 
     attachSortEventHandler("#sort-newest", sortTableDesc);
