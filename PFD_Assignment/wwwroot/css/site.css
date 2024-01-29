@@ -281,7 +281,6 @@ body {
         background-color: lightgrey;
     }
 
-
 /* --------------------------- navbar -------------------------------*/
 .sticky {
     position: fixed;
@@ -468,6 +467,11 @@ body {
     .guideButton:hover {
         background-color: lightgrey;
     }
+
+iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
 
 
 
