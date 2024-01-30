@@ -34,7 +34,7 @@
     </div>
 </div>
 <style>
-    input[type="submit"], button {
+    input[type="submit"], .CommentButton {
         padding: 10px 15px;
         border: none;
         outline: none;
@@ -49,7 +49,7 @@
         background-color: #273c75
     }
 
-    button {
+    .CommentButton {
         color: #333;
         background-color: transparent
     }
@@ -74,7 +74,6 @@
         display: block;
     }
 
-
     iframe {
         width: 100%;
         aspect-ratio: 16 / 9;
@@ -93,7 +92,7 @@
             <textarea name="comment" placeholder="Add Your Comment" style=""></textarea>
             <div class="btn">
                 <input type="submit" value="Comment">
-                <button type="button" id="clear" href="#" onclick="hideComments()">Cancel</button>
+                <button type="button" class="CommentButton" id="clear" href="#" onclick="hideComments()">Cancel</button>
             </div>
         </form>
         <h5><b>Comments</b></h5>
