@@ -3,7 +3,10 @@
 <div class="guidedetailscontainer container">
     <h4 class="posttitle">@Html.Display("Post.PostTitle")</h4>
     <hr />
-
+    @if (Model.Post.VideoLink != "")
+    {
+        <iframe src="@Model.Post.VideoLink" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    }
     <div class="postcontent">
         @Html.Display("Post.PostContent")
     </div>
@@ -72,34 +75,6 @@
     }
 
 </style>
-<!--
-<div id="myContainer" class="container" @*style="display:none;"*@>
-<button onclick="showContainer()">Show Container</button>
-    <button class= "fullwidth" style="display: block; background-color: #fafafa; text-align: left; padding-left: 10px;">
-        Comments @*<div> @Model.ToList().Count </div>*@
-    </button>
-    <h2>Leave Us a Comment</h2>
-    <form asp-action="CreateComment" asp-route-postid="@Model.Post.PostID">
-        <textarea name="comment" placeholder='Add Your Comment'style=""></textarea>
-        <button onclick="hideContainer()">Hide Container</button>
-        <div class="btn">
-            <input type="submit" value='Comment'>
-            <button type="button" id='clear' href='#'>Cancel</button>
-        </div>
-    </form>
-    <div class="comments-container">
-        <h2>Comments</h2>
-        @foreach (Comments comment in Model.CommentList)
-        {
-            <div>
-                <p><b>@comment.Username</b> | @comment.DateofComment</p>
-            </div>
-            <div>
-                <p>@comment.UserComments</p>
-            </div>
-        }
-    </div>
-</div>-->
 
 <div id="myContainer" class="container">
     <button class="fullwidth" style="display: block; background-color: #fafafa; text-align: left; padding-left: 10px; font-size:23px;" onclick="toggleComments()">

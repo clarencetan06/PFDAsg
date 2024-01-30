@@ -6,6 +6,8 @@ using Humanizer;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PFD_Assignment.Models;
 using System.IO;
+using System.Text;
+using Microsoft.Extensions.Hosting;
 
 namespace PFD_Assignment.DAL
 {
@@ -53,9 +55,10 @@ namespace PFD_Assignment.DAL
 						Downvote = reader.GetInt32(5), 
                         DateofPost = reader.GetDateTime(6), 
                         MemberID = reader.GetInt32(7),
-                        
+                        VideoLink = !reader.IsDBNull(9) ? reader.GetString(9) : string.Empty
+
                     }
-				);
+                );
 			}
 			//Close DataReader
 			reader.Close();
@@ -128,6 +131,7 @@ WHERE PostID = @selectedPostID";
                     post.Downvote = reader.GetInt32(5);
                     post.DateofPost = reader.GetDateTime(6);
                     post.MemberID = reader.GetInt32(7);
+                    post.VideoLink = !reader.IsDBNull(9) ? reader.GetString(9) : string.Empty;
                 }
             }
             //Close data reader
@@ -262,8 +266,8 @@ WHERE PostID = @selectedPostID";
             //return the auto-generated StaffID after insertion
             //Console.WriteLine(post.PostTitle + post.PostDesc + post.PostContent + memberid);
             cmd.CommandText = @"INSERT INTO Post(PostTitle, PostDesc, PostContent, Upvote, Downvote,
-DateofPost, MemberID) OUTPUT INSERTED.PostID
-VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @MemberID)";
+DateofPost, VideoLink, MemberID) OUTPUT INSERTED.PostID
+VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @VideoLink, @MemberID)";
             //Define the parameters used in SQL statement, value for each parameter
             //is retrieved from respective class's property.
             
@@ -273,6 +277,14 @@ VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @Me
             cmd.Parameters.AddWithValue("@DateofPost", DateTime.Now);
             cmd.Parameters.AddWithValue("@Upvote", 0);
             cmd.Parameters.AddWithValue("@Downvote", 0);
+            if (string.IsNullOrEmpty(post.VideoLink))
+            {
+                cmd.Parameters.AddWithValue("@VideoLink", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@VideoLink", post.VideoLink);
+            }
             cmd.Parameters.AddWithValue("@MemberID" , memberid);
             //cmd.Parameters.AddWithValue("@Image", post.fileToUpload);
 
