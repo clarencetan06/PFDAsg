@@ -291,7 +291,14 @@ body {
     background-color: ghostwhite;
 }
 
-
+.fontButton {
+    border: none;
+    color: rgba(0,0,0,.55);
+    background-color: transparent;
+}
+    .fontButton:hover {
+        color: rgba(0,0,0,.7);
+    }
 /* --------------------------- intro page -------------------------------*/
 
 .title {
