@@ -39,11 +39,23 @@
                     <!-- A link for logging out user -->
                     <a class="nav-link" href="~/Home/LoginPage">Login/Sign Up</a>
                 </li>
-                
-                <div class="fontButtons">
-                    <span class="fBtn">A</span>
-                    <span class="fBtn">A</span>
-                    <span class="fBtn">A</span>
+                <div class="sizeBtn">
+                    <button class="fontButton" style="margin-top: 10px;" onclick="changeFontSize(1.05)">+A</button>
+                    <span style="margin-right: 10px"></span>
+
+                    <button class="fontButton" onclick="changeFontSize(0.95)">-A</button>
+                    <span style="margin-right: 10px"></span>
+                    <script>
+                        function changeFontSize(newSize) {
+                            var allTextElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th');
+
+                            allTextElements.forEach(function (element) {
+                                var currentSize = parseFloat(window.getComputedStyle(element, null).getPropertyValue('font-size'));
+                                var newSizeValue = currentSize * newSize;
+                                element.style.fontSize = newSizeValue + "px";
+                            });
+                        }
+                    </script>
                 </div>
                 <div id="google_translate_element">
                 
