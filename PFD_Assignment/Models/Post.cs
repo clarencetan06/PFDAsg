@@ -33,7 +33,7 @@ namespace PFD_Assignment.Models
 		[DataType(DataType.Date)]
 		[DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
 		public DateTime DateofPost { get; set; }
-        public string VideoLink { get; set; }
+        public string? VideoLink { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MemberID { get; set; }
