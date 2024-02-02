@@ -1,0 +1,32 @@
+﻿@{
+	ViewData["Title"] = "AdminMain";
+}
+
+<div class="mainpage-container">
+    <!-- 1st row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <p style="padding:2px 15px;">
+                @{
+                    string userId = "Anonymous";
+                    string userRole = "Unknown";
+                    string loggedInDateTime = "";
+
+                    if (Context.Session.GetString("LoginID") != null)
+                    {
+                        userId = Context.Session.GetString("LoginID");
+                        loggedInDateTime = "You have logged in since " + Context.Session.GetString("LoggedInTime");
+                    }
+
+                    if (Context.Session.GetString("Role") != null)
+                    {
+                        userRole = Context.Session.GetString("Role");
+                    }
+                }
+                Welcome,&nbsp;
+                <span style="font-weight:bold">@userId</span>&nbsp;
+                (Role: @userRole).&nbsp; @loggedInDateTime
+            </p>
+        </div>
+    </div>
+</div>

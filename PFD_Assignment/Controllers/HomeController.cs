@@ -55,6 +55,11 @@ namespace PFD_Assignment.Controllers
             return View();
         }
 
+        public ActionResult AdminMain()
+        {
+            return View();
+        }
+
         public ActionResult Profile()
         {
             // Get the logged-in member's ID from the session
@@ -101,6 +106,16 @@ namespace PFD_Assignment.Controllers
 
                 // Redirect user to the "Mainpage" view through an action
                 return RedirectToAction("MainPage");
+            }
+            else if (loginID == "admin" && password == "password")
+            {
+                // Store Login ID in session with the key "LoginID"
+                HttpContext.Session.SetString("LoginID", loginID);
+                // Store staff user role as a string in session with the key "Role"
+                HttpContext.Session.SetString("Role", "Admin");
+                // store data and time logged in to session variable
+
+                return RedirectToAction("AdminMain");
             }
             else
             {
