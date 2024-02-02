@@ -25,6 +25,13 @@
             </div>
         </div>
         <div class="row mb-3 create-fields">
+            <label asp-for="VideoLink" class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="VideoLink" class="form-control" data_val ="false" />
+                <span asp-validation-for="VideoLink" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3 create-fields">
             <label asp-for="PostContent" class="col-sm-3 col-form-label" id="PostContent"></label>
             <div class="col-sm-9 col-md-5" style="display: flex; flex-direction: column; align-items: flex-start;">
                 <textarea asp-for="PostContent" class="form-control" id="postContentInput" style="flex-grow: 1; box-sizing: border-box; height: 100px"></textarea>
