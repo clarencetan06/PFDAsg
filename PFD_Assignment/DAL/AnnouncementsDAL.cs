@@ -85,9 +85,9 @@ VALUES(@title, @content, @date)";
             //Instantiate a SqlCommand object, supply it with a DELETE SQL statement
             //to delete a staff record specified by a Staff ID
             SqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = @"DELETE FROM Announcement
+            cmd.CommandText = @"DELETE FROM Announcements
 WHERE AnnouncementID = @selectAnnouncementID";
-            cmd.Parameters.AddWithValue("@selectStaffID", AnnouncementID);
+            cmd.Parameters.AddWithValue("@selectAnnouncementID", AnnouncementID);
             //Open a database connection
             conn.Open();
             int rowAffected = 0;
