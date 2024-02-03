@@ -67,41 +67,47 @@ namespace PFD_Assignment.DAL
 			return postList;
 		}
 
-        public List<Post> GetPopularPost()
+        public List<FeaturedPosts> GetPopularPost()
         {
-            //Create a SqlCommand object from connection object
+            // Create a SqlCommand object from the connection object
             SqlCommand cmd = conn.CreateCommand();
-            //Specify the SELECT SQL statement
-            cmd.CommandText = @"SELECT * FROM Post WHERE PostID in (1,5,6) ORDER BY PostID";
-            //Open a database connection
+            // Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM FeaturedPost BY FeaturedPostID";
+            // Open a database connection
             conn.Open();
-            //Execute the SELECT SQL through a DataReader
+            // Execute the SELECT SQL through a DataReader
             SqlDataReader reader = cmd.ExecuteReader();
-            //Read all records until the end, save data into a staff list
-            List<Post> postList = new List<Post>();
+            // Read all records until the end, save data into a post list
+            List<FeaturedPosts> popzpostList = new List<FeaturedPosts>();
             while (reader.Read())
             {
-                postList.Add(
-                    new Post
+                popzpostList.Add(
+                    new FeaturedPosts
                     {
-                        PostID = reader.GetInt32(0),
-                        PostTitle = reader.GetString(1),
-                        PostDesc = reader.GetString(2),
-                        PostContent = reader.GetString(3),
-                        Upvote = reader.GetInt32(4),
-                        Downvote = reader.GetInt32(5),
-                        DateofPost = reader.GetDateTime(6),
-                        MemberID = reader.GetInt32(7),
-
+                        FeaturedPostID = reader.GetInt32(reader.GetOrdinal("FeaturedPostID")),
+                        Post = new Post
+                        {
+                            PostID = reader.GetInt32(reader.GetOrdinal("PostID")),
+                            PostTitle = reader.GetString(reader.GetOrdinal("PostTitle")),
+                            PostDesc = reader.GetString(reader.GetOrdinal("PostDesc")),
+                            PostContent = reader.GetString(reader.GetOrdinal("PostContent")),
+                            Upvote = reader.GetInt32(reader.GetOrdinal("Upvote")),
+                            Downvote = reader.GetInt32(reader.GetOrdinal("Downvote")),
+                            DateofPost = reader.GetDateTime(reader.GetOrdinal("DateofPost")),
+                            MemberID = reader.GetInt32(reader.GetOrdinal("MemberID")),
+                            VideoLink = !reader.IsDBNull(reader.GetOrdinal("VideoLink")) ? 
+                            reader.GetString(reader.GetOrdinal("VideoLink")) : string.Empty
+                        }
                     }
                 );
             }
-            //Close DataReader
+            // Close DataReader
             reader.Close();
-            //Close the database connection
+            // Close the database connection
             conn.Close();
-            return postList;
+            return popzpostList;
         }
+
         public Post GetDetails(int postId)
         {
             Post post = new Post();

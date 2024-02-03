@@ -2,7 +2,7 @@
 {
     public class FeaturedPosts
     {
-        public string FeaturedPostID { get; set; }
+        public int FeaturedPostID { get; set; }
 
         public Post Post { get; set; }
     }
