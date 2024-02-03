@@ -126,5 +126,32 @@ namespace PFD_Assignment.Controllers
 			return postVM;
 		}
 	}
+        }
+
+
+        // GET: StaffController/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            // Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View();
+        }
+
+        // POST: StaffController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Announcements announcements)
+        {
+            // Delete the staff record from database
+            annContext.Delete(announcements.AnnouncementID);
+            return RedirectToAction("Index");
+        }
+    }
 
 }

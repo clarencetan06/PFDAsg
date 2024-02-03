@@ -22,6 +22,11 @@
                 </div>
 
                 <div class="guidebuttonposition" id="guidebuttonposition">
+                    <a asp-action="GuideDetails" asp-controller="Admin" asp-route-id="@item.AnnouncementID">
+                        <button class="guideButton" id="guideButton" style="color: red">
+                            Delete
+                        </button>
+                    </a>
                     <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@item.AnnouncementID">
                         <button class="guideButton" id="guideButton">
                             View
