@@ -79,5 +79,24 @@ VALUES(@title, @content, @date)";
             return announcementList;
         }
 
+
+        public int Delete(int AnnouncementID)
+        {
+            //Instantiate a SqlCommand object, supply it with a DELETE SQL statement
+            //to delete a staff record specified by a Staff ID
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"DELETE FROM Announcement
+WHERE AnnouncementID = @selectAnnouncementID";
+            cmd.Parameters.AddWithValue("@selectStaffID", AnnouncementID);
+            //Open a database connection
+            conn.Open();
+            int rowAffected = 0;
+            //Execute the DELETE SQL to remove the staff record
+            rowAffected += cmd.ExecuteNonQuery();
+            //Close database connection
+            conn.Close();
+            //Return number of row of staff record updated or deleted
+            return rowAffected;
+        }
     }
 }
