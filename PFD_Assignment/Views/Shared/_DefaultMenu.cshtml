@@ -22,13 +22,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="~/Guide/Index">
-                        Guides
+                    <a class="nav-link" href="~/Home/Index#aboutUs">
+                        About Us
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="~/Home/Index#aboutUs">
-                        About Us
+                    <a class="nav-link" href="~/Guide/Index">
+                        Guides
                     </a>
                 </li>
             </ul>
@@ -39,23 +39,47 @@
                     <!-- A link for logging out user -->
                     <a class="nav-link" href="~/Home/LoginPage">Login/Sign Up</a>
                 </li>
+
                 <li class="nav-item">
                     <div class="fontbuttongrp">
                         <button class="fontButton" onclick="changeFontSize(1.05)">+A</button>
-                        <button class="fontButton" onclick="changeFontSize(0.95)">-A </button>
+                        <button class="fontButton" onclick="changeFontSize(0.95)">-A</button>
                         <script>
-                            function changeFontSize(newSize) {
+                            function changeFontSize(scaleFactor) {
                                 var allTextElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th');
-
                                 allTextElements.forEach(function (element) {
                                     var currentSize = parseFloat(window.getComputedStyle(element, null).getPropertyValue('font-size'));
-                                    var newSizeValue = currentSize * newSize;
-                                    element.style.fontSize = newSizeValue + "px";
+                                    var newSize = currentSize * scaleFactor;
+                                    element.style.fontSize = newSize + "px";
                                 });
+
+                                // Save the font size preference to localStorage
+                                var exampleElement = document.querySelector('p'); // Use any representative text element
+                                var savedFontSize = parseFloat(window.getComputedStyle(exampleElement, null).getPropertyValue('font-size'));
+                                localStorage.setItem('fontSize', savedFontSize);
                             }
+
+                            function applySavedFontSize() {
+                                var savedFontSize = localStorage.getItem('fontSize');
+                                if (savedFontSize) {
+                                    var allTextElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th');
+                                    allTextElements.forEach(function (element) {
+                                        element.style.fontSize = savedFontSize + "px";
+                                    });
+                                }
+                                savedFontSize = 120; // Set your preferred default font size in pixels
+
+                            }
+
+                            // Apply saved font size on page load
+                            window.onload = function () {
+                                applySavedFontSize();
+                                console.log("Page loaded");
+                            };
                         </script>
                     </div>
                 </li>
+
                 <li class="nav-item">
                     <div id="google_translate_element">
                     </div>
