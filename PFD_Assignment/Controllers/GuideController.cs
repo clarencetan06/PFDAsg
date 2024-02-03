@@ -75,7 +75,6 @@ namespace PFD_Assignment.Controllers
         // GET: GuideController/Details/5
         public ActionResult Details(int id)
         {
-
             Post post = postContext.GetDetails(id);
             PostViewModel postVM = MapToPostVM(post);
             List<PostViewModel> postVMList = new List<PostViewModel> { postVM };
@@ -127,7 +126,6 @@ namespace PFD_Assignment.Controllers
             };
             return View(postComments);
         }
-
 
 
         public PostViewModel MapToPostVM(Post post)
