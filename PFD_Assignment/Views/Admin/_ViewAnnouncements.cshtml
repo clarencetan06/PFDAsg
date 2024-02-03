@@ -13,11 +13,14 @@
         {
             <div class="guides" id="guides">
                 <div>
-                    <p class="guidePara">
-                        Title: @item.AnnouncementTitle.ToString()
+                    <p class="announcePara">
+                        <b> @item.AnnouncementTitle.ToString()</b>
                     </p>
-                    <p class="guidePara">
-                        Description: @item.AnnouncementContent.ToString()
+                    <p class="announcePara">
+                        @item.AnnouncementContent.ToString()
+                    </p>
+                    <p class="announcePara">
+                        @item.DateofAnnouncement.ToString()
                     </p>
                 </div>
 
@@ -28,11 +31,6 @@
                             Delete
                         </button>
                     </form>
-                    <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@item.AnnouncementID">
-                        <button class="guideButton" id="viewGuideButton">
-                            View
-                        </button>
-                    </a>
                 </div>
 
             </div>
@@ -51,3 +49,10 @@ else
         alert('@TempData["updateMessage"]');
     </script>
 }
+
+<style>
+    .announcePara {
+        font-size: 16px;
+        letter-spacing: 0.01cm;
+    }
+</style>
