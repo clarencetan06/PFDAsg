@@ -14,7 +14,7 @@ namespace PFD_Assignment.Controllers
             _configuration = configuration;
         }
 
-        public ActionResult Create()
+        public ActionResult CreateAnnounce()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Admin"))
@@ -38,10 +38,10 @@ namespace PFD_Assignment.Controllers
             if (ModelState.IsValid)
             {
                 announce.AnnouncementID = annContext.CreateAnnounce(announce);
-                TempData["SuccessMessage"] = "You have successfully created a post! :)";
+                TempData["SuccessMessage"] = "You have successfully created an announcement! :)";
 
                 //Redirect user to Staff/Index view
-                return RedirectToAction("Index");
+                return RedirectToAction("CreateAnnounce");
             }
 
 
