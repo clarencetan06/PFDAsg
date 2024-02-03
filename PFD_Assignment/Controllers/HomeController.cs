@@ -16,6 +16,8 @@ namespace PFD_Assignment.Controllers
         private readonly ILogger<HomeController> _logger;
         private MemberDAL memberContext = new MemberDAL();
         private IConfiguration _configuration;
+        private AnnouncementsDAL announcementContext = new AnnouncementsDAL();
+
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
@@ -57,7 +59,13 @@ namespace PFD_Assignment.Controllers
 
         public ActionResult AdminMain()
         {
-            return View();
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<Announcements> announcementsList = announcementContext.GetAllAnnouncements();
+            return View(announcementsList);
         }
 
         public ActionResult Profile()
