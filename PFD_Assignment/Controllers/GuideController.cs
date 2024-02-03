@@ -32,44 +32,45 @@ namespace PFD_Assignment.Controllers
 		{
 			_configuration = configuration;
 		}
-		// GET: GuideController
-		public ActionResult Index(string searchBy, string searchValue)
+        // GET: GuideController
+        public ActionResult Index(string searchBy, string searchValue)
         {
-			List<PostViewModel> postVMList = new List<PostViewModel>();
+            var viewModel = new PostIndexViewModel
+            {
+                Posts = new List<PostViewModel>(),
+                FeaturedPosts = new List<PostViewModel>()
+            };
+
+            // Process regular posts
             List<Post> posts = postContext.GetAllPost();
-
-            foreach (Post Post in posts)
+            foreach (Post post in posts)
             {
-                PostViewModel postviewmodel = MapToPostVM(Post);
-                postVMList.Add(postviewmodel);
-            }
-            
-            if (posts.Count == 0)
-            {
-                TempData["InfoMessage"] = "Currently there are no guides available in the database.";
-                return View(postVMList);
-
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(searchValue))
-                {
-                    TempData["InfoMessage"] = "No records found!";
-                    return View(postVMList);
-
-                }
-                else
-                {
-                    if (searchBy == "PostTitle")
-                    {
-                        var searchByPostTitle = postVMList.Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower()));
-                        return View(searchByPostTitle);
-                    }
-                }
-                return View(postVMList);
+                PostViewModel postViewModel = MapToPostVM(post);
+                viewModel.Posts.Add(postViewModel);
             }
 
+            // Process featured posts
+            List<FeaturedPosts> featuredPosts = postContext.GetPopularPost(); 
+            foreach (FeaturedPosts featuredPost in featuredPosts)
+            {
+                PostViewModel postViewModel = MapToPostVM(featuredPost.Post);
+                viewModel.FeaturedPosts.Add(postViewModel);
+            }
+
+            if (!string.IsNullOrEmpty(searchValue) && searchBy == "PostTitle")
+            {
+                viewModel.Posts = viewModel.Posts.Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower())).ToList();
+            }
+
+            // Handle the case where no records are found or there are no posts
+            if (!viewModel.Posts.Any() && !viewModel.FeaturedPosts.Any())
+            {
+                TempData["InfoMessage"] = "No records found!";
+            }
+
+            return View(viewModel);
         }
+
 
         // GET: GuideController/Details/5
         public ActionResult Details(int id)
@@ -83,20 +84,8 @@ namespace PFD_Assignment.Controllers
 
         public ActionResult GuideDetails(int id)
         {
-            /*Post post = postContext.GetDetails(id);
-            PostViewModel postVM = MapToPostVM(post);
-            List<Comments> commentList = new List<Comments>();
-            List<Comments> comments = commentsContext.GetAllPostComments(id);
-            foreach (Comments comment in comments)
-            {
-                commentList.Add(comment);
-            }
-
-            return View(postVM, commentList);*/
-
             Post post = postContext.GetDetails(id);
-            /*
-            PostViewModel postVM = MapToPostVM(post);*/
+
             List<Comments> commentList = new List<Comments>();
             List<Comments> comments = commentsContext.GetAllPostComments(id);
             string username = "";
@@ -108,7 +97,6 @@ namespace PFD_Assignment.Controllers
                     if (member.MemberId == post.MemberID)
                     {
                         username = member.Username;
-                        //Exit the foreach loop once the username is found
                         break;
                     }
                 }
@@ -196,23 +184,12 @@ namespace PFD_Assignment.Controllers
 	        return View();
         }
 
-        /*
-        private int AddImageToDatabase(IFormFile image)
+        [HttpPost]
+        public ActionResult ConvertLinks(string inputText)
         {
-            // Convert the image file to a byte array
-            byte[] imageData = image.ToArray();
-
-            // Insert the image data into the database
-            // ...
-
-            // Return the image ID
-            return imageID;
+            string embeddedText = YoutubeLinkConverter.ConvertYoutubeLinkToEmbed(inputText);
+            return Content(embeddedText);
         }
-        */
-
-
-
-
         // POST: GuideController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -220,35 +197,29 @@ namespace PFD_Assignment.Controllers
         {
             if (ModelState.IsValid)
             {
-                /*// Process and save the image data to the database
-                foreach (var image in images)
+                // Check if the VideoLink is a YouTube link and convert it
+                if (!string.IsNullOrEmpty(post.VideoLink))
                 {
-                    int imageID = AddImageToDatabase(image);
-                    post.Image.Add(imageID);
+                    string embeddedText = YoutubeLinkConverter.ConvertYoutubeLinkToEmbed(post.VideoLink);
+                    post.VideoLink = embeddedText;
                 }
-                */
-                //Add post record to database
+
+                // Add post record to the database
                 post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
                 TempData["SuccessMessage"] = "You have successfully created a post! :)";
 
-                //Redirect user to Staff/Index view
+                // Redirect user to the Index view
                 return RedirectToAction("Index");
             }
-
-
             else
             {
-                //Input validation fails, return to the Create view
-                //to display error message
+                // Input validation fails, return to the Create view to display error message
                 return View(post);
             }
-        
         }
-   
 
-
-		// Helper method to map PostViewModel to Post
-		private Post MapToPost(PostViewModel postVM)
+        // Helper method to map PostViewModel to Post
+        private Post MapToPost(PostViewModel postVM)
         {
             return new Post
             {

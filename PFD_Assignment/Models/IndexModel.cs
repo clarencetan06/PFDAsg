@@ -18,7 +18,6 @@ namespace PFD_Assignment.Models
             // Retrieve the API key from user secrets
             ApiKey = _config["OpenAI:apikey"];
 
-            // call Movies service with the API key
         }
     }
 }

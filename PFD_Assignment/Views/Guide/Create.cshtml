@@ -37,6 +37,7 @@
                 <textarea asp-for="PostContent" class="form-control" id="postContentInput" style="flex-grow: 1; box-sizing: border-box; height: 100px"></textarea>
                 <span asp-validation-for="PostContent" class="text-danger"></span>
             </div>
+            <p style="font-size: smaller;">Please validate content before creating a guide</p>
             <div id="postContentValidation" class="text-danger"></div>
         </div>
 
@@ -55,12 +56,28 @@
 <script defer>
     document.addEventListener('DOMContentLoaded', function () {
         // Your JavaScript code here
+
         function validatePostContent() {
             const postContentInput = document.getElementById('postContentInput');
             const postContentValidation = document.getElementById('postContentValidation');
             const submitButton = document.getElementById('submitButton');
+            const embedContainer = document.getElementById('embedContainer'); // Add this line
+
             // Get the value of the PostContent input
-            const text = postContentInput.value;
+            let text = postContentInput.value;
+
+            // Check if the input contains a YouTube link
+            const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const isYouTubeLink = youtubeRegex.test(text);
+
+            if (isYouTubeLink) {
+                // Convert YouTube link to embed link
+                text = convertYouTubeToEmbed(text);
+
+                // Set the innerHTML of the embed container to the embed code
+                embedContainer.innerHTML = text; // Add this line
+            }
+
             // Call OpenAI model
             callOpenAIModel(text)
                 .then(response => {
@@ -92,6 +109,19 @@
                 });
         }
 
+        function convertYouTubeToEmbed(youtubeLink) {
+            // Use AJAX to call the ConvertLinks action in the GuideController
+            axios.post('/Guide/ConvertLinks', { inputText: youtubeLink })
+                .then(response => {
+                    // Handle the response data and update the postContentInput
+                    document.getElementById('postContentInput').value = response.data;
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('Error:', error.message);
+                });
+        }
+
         function callOpenAIModel(text) {
             const apiKeyContainer = document.getElementById('apiKeyContainer');
             const apiKey = apiKeyContainer.dataset.apiKey;
@@ -99,8 +129,8 @@
             const requestData = {
                 model: 'gpt-3.5-turbo-instruct',
                 prompt: `If the provided text contains harmful, dangerous, unethical content, swear words, gibberish or not in English, respond only with the words: Content rejected.
-                     If the text given is untrue in nature for example: Singpass is made in Malaysia or Singpass is commonly used in Malaysia, respond only with the words: Content rejected.
-                     Otherwise, respond only with the words: Content Approved. The provided text: ${text}`,
+                             If the text given is untrue in nature for example: Singpass is made in Malaysia or Singpass is commonly used in Malaysia, respond only with the words: Content rejected.
+                             Otherwise, respond only with the words: Content Approved. The provided text: ${text}`,
                 max_tokens: 10,
                 user: 'user123456'
             };

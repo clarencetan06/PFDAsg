@@ -1,89 +1,91 @@
-﻿@model IEnumerable<PFD_Assignment.Models.PostViewModel>
+﻿@model PFD_Assignment.Models.PostIndexViewModel
 
-
-<!-- Featured Posts -->
-@if (Model.ToList().Count > 0)
-{
-    <div class="guidecontent" id="guidecontent2">
-        <h2 class="PageTitle" style="font-weight:bold; font-size:60px">Featured Posts</h2>
-        @foreach (var item in Model.Take(3))
-        {
-            <div class="featuredguide" id="featuredguide2" data-date="@item.DateofPost.ToString()">
-                <div>
-                    <p class="guideUser">
-                        <b> @item.Username.ToString() </b>| @item.DateofPost.ToString()
-                    </p>
-                    <p class="guidePara">
-                        Title: @item.PostTitle.ToString()
-                    </p>
-                    <p class="guidePara">
-                        Description: @item.PostDesc.ToString()
-                    </p>
-                </div>
-                
-                  
-                <div class="guidebuttonposition" id="guidebuttonposition2">
-                    <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@item.PostID">
-                        <button class="guideButton" id="guideButton">
-                            View
-                        </button>
-                    </a>
-                    <div class="guidebuttonposition">
-                        Upvotes: @item.Upvote.ToString() |
-                        Downvotes: @item.Downvote.ToString()
-                    </div>
-                </div>
-                
-            </div>
-        }
-        <hr class="solid" />
-    </div>
-}
-
-
-
-
+<img class="bgimg" src="~/images/sgbackground2.jpg"></img>
 
 <h2 class="PageTitle" style="font-weight:bold; font-size:60px">Guides</h2>
 
-<!-- All Posts -->
-@if (Model.ToList().Count > 0)
+<!-- Featured Posts -->
+@if (Model.FeaturedPosts != null && Model.FeaturedPosts.Count > 0)
 {
-    <div class="guidecontent" id="guidecontent">
-        @foreach (var item in Model.Skip(3))
+    <div>
+        <h2>Featured Posts</h2>
+        @foreach (var post in Model.FeaturedPosts)
         {
-            <div class="guides" id="guides" data-date="@item.DateofPost.ToString()" data-likes="@item.Upvote">
+            @if (Model.FeaturedPosts.ToList().Count > 0)
+            {
+                <div class="featuredguide" id="featuredguide2" data-date="@post.DateofPost.ToString()">
+                    <div>
+                        <p class="guideUser">
+                            <b> @post.Username.ToString() </b>| @post.DateofPost.ToString()
+                        </p>
+                        <p class="guidePara">
+                            Title: @post.PostTitle.ToString()
+                        </p>
+                        <p class="guidePara">
+                            Description: @post.PostDesc.ToString()
+                        </p>
+                    </div>
+
+
+                    <div class="guidebuttonposition" id="guidebuttonposition2">
+                        <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@post.PostID">
+                            <button class="guideButton" id="guideButton">
+                                View
+                            </button>
+                        </a>
+                        <div class="guidebuttonposition">
+                            Upvotes: @post.Upvote.ToString() |
+                            Downvotes: @post.Downvote.ToString()
+                        </div>
+                    </div>
+
+                </div>
+            }
+        }
+    </div>
+}
+
+<hr class="solid" />
+
+
+<!-- Regular Posts -->
+@if (Model.Posts != null && Model.Posts.Count > 0)
+{
+    <div>
+        <h2>All Posts</h2>
+        @foreach (var post in Model.Posts)
+        {
+            <div class="guides" id="guides" data-date="@post.DateofPost.ToString()" data-likes="@post.Upvote">
                 <div>
                     <p class="guideUser">
-                        <b> @item.Username.ToString() </b>| @item.DateofPost.ToString()
+                        <b> @post.Username.ToString() </b>| @post.DateofPost.ToString()
                     </p>
                     <p class="guidePara">
-                        Title: @item.PostTitle.ToString()
+                        Title: @post.PostTitle.ToString()
                     </p>
                     <p class="guidePara">
-                        Description: @item.PostDesc.ToString()
+                        Description: @post.PostDesc.ToString()
                     </p>
-                    
+
                 </div>
 
                 <div class="guidebuttonposition" id="guidebuttonposition">
-                    <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@item.PostID">
+                    <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@post.PostID">
                         <button class="guideButton" id="guideButton">
                             View
                         </button>
                     </a>
                     <p class="guidebuttonposition">
-                        Upvotes: @item.Upvote.ToString() |
-                        Downvotes: @item.Downvote.ToString()
+                        Upvotes: @post.Upvote.ToString() |
+                        Downvotes: @post.Downvote.ToString()
                     </p>
                 </div>
             </div>
-
         }
     </div>
 }
+
 else
 {
     <span style="color: black;font-size: 50px; font-weight: bold;">No guides found!</span>
 }
- 
