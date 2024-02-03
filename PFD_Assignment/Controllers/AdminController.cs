@@ -35,7 +35,7 @@ namespace PFD_Assignment.Controllers
             if (ModelState.IsValid)
             {
                 announce.AnnouncementID = annContext.CreateAnnounce(announce);
-                TempData["SuccessMessage"] = "You have successfully created an announcement! :)";
+                TempData["updateMessage"] = "You have successfully created an announcement! :)";
 
                 return RedirectToAction("AdminMain", "Home");
             }
@@ -152,10 +152,13 @@ namespace PFD_Assignment.Controllers
         }
 
         // POST: StaffController/Delete/5
-        public ActionResult Delete(Announcements announcements)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int AnnouncementID)
         {
             // Delete the staff record from database
-            annContext.Delete(announcements.AnnouncementID);
+            string updateMessage = annContext.Delete(AnnouncementID);
+            TempData["updateMessage"] = updateMessage;
             return RedirectToAction("AdminMain", "Home");
         }
     }
