@@ -40,13 +40,6 @@ namespace PFD_Assignment.Models
         
         public string Photo { get; set; }
 
-        /*
-        public string postPhotoPath { get; set; }
-        public string postFileName { get; set; }
-
-        [NotMapped]
-        [Display(Name = "Upload File")]*/
-        public IFormFile fileToUpload { get; set; }
     
     }
 }
