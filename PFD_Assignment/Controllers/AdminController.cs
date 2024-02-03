@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PFD_Assignment.Models;
 using PFD_Assignment.DAL;
+using Microsoft.EntityFrameworkCore;
 
 namespace PFD_Assignment.Controllers
 {
@@ -11,7 +12,7 @@ namespace PFD_Assignment.Controllers
 		private PostDAL postContext = new PostDAL();
 		private MemberDAL memberContext = new MemberDAL();
 
-		public AdminController(IConfiguration configuration)
+        public AdminController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -124,8 +125,30 @@ namespace PFD_Assignment.Controllers
 			};
 
 			return postVM;
-		}
-	}
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Pin(int postId)
+        {
+
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            if (postContext.IfFeaturedExist(postId))
+            {
+                // record already exists, return an error message
+                TempData["updateMessage"] = "This is already a featured post!";
+                return RedirectToAction("PinGuide");
+            }
+            else
+            {
+                string updateMessage = postContext.AddFeaturedPost(postId);
+                TempData["updateMessage"] = updateMessage;
+                return RedirectToAction("PinGuide");
+            }
         }
 
 

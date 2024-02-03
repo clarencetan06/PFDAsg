@@ -69,8 +69,8 @@
                         <td>@post.Downvote</td>
                         <td>
                             <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@post.PostID">Details</a> |
-							<a asp-action="Pin" asp-controller="Admin" asp-route-id="@post.PostID">Pin</a>
-						</td>
+                            <a href="#" data-toggle="modal" data-target="#pinConfirmationModal" data-post-id="@post.PostID" class="pinButton">Pin</a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -83,6 +83,39 @@ else
 {
     <span style="color: red; font-weight: bold;">No guides found!</span>
 }
+
+<!-- Pin Confirmation Modal -->
+<div class="modal fade" id="pinConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="pinConfirmationModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="Pin" asp-controller="Admin" method="post">
+                @Html.AntiForgeryToken() <!-- Include anti-forgery token -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pinModalLongTitle">Pin as Featured Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to pin this as a featured post?
+                    <input type="hidden" name="postId" id="modalPostId" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-primary" value="Pin" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (TempData["updateMessage"] != null)
+{
+    <script>
+        alert('@TempData["updateMessage"]');
+    </script>
+}
+
 
 <style>
     .search-container {
@@ -125,3 +158,16 @@ else
         outline: none;
     }
 </style>
+
+<script>
+    $(document).ready(function () {
+        // Listen for 'click' events on links with the 'pinButton' class
+        $('.pinButton').click(function () {
+            // Get the 'data-post-id' attribute value of the clicked link
+            var postId = $(this).data('post-id');
+
+            // Set the value of the hidden input in the modal
+            $('#modalPostId').val(postId);
+        });
+    });
+</script>
