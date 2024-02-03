@@ -13,6 +13,11 @@ namespace PFD_Assignment.Controllers
         {
             _configuration = configuration;
         }
+        public ActionResult ViewAnnouncements()
+        {
+            List<Announcements> announcements = annContext.GetAllAnnouncements();
+            return View(announcements);
+        }
 
         public ActionResult CreateAnnounce()
         {

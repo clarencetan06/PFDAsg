@@ -49,5 +49,35 @@ VALUES(@title, @content, @date)";
 
         }
 
+        public List<Announcements> GetAllAnnouncements()
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM Announcements";
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            //Read all records until the end, save data into a staff list
+            List<Announcements> announcementList = new List<Announcements>();
+            while (reader.Read())
+            {
+                announcementList.Add(
+                    new Announcements
+                    {
+                        AnnouncementTitle = reader.GetString(1),
+                        AnnouncementContent = reader.GetString(2),
+                        DateofAnnouncement = reader.GetDateTime(3),
+                    }
+                );
+            }
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+            return announcementList;
+        }
+
     }
 }
