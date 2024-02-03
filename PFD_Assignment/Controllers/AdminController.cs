@@ -19,14 +19,8 @@ namespace PFD_Assignment.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Admin"))
             {
-                return RedirectToAction("Index", "Guide");
+                return RedirectToAction("Index", "Home");
             }
-
-            var indexModel = new IndexModel(_configuration);
-            indexModel.OnGet();
-            string apiKey = indexModel.ApiKey;
-            // Pass the API key to the view
-            ViewBag.ApiKey = apiKey;
             return View();
         }
 
@@ -40,8 +34,7 @@ namespace PFD_Assignment.Controllers
                 announce.AnnouncementID = annContext.CreateAnnounce(announce);
                 TempData["SuccessMessage"] = "You have successfully created an announcement! :)";
 
-                //Redirect user to Staff/Index view
-                return RedirectToAction("CreateAnnounce");
+                return RedirectToAction("AdminMain", "Home");
             }
 
 
