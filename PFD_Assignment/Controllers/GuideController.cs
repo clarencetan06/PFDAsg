@@ -32,44 +32,45 @@ namespace PFD_Assignment.Controllers
 		{
 			_configuration = configuration;
 		}
-		// GET: GuideController
-		public ActionResult Index(string searchBy, string searchValue)
+        // GET: GuideController
+        public ActionResult Index(string searchBy, string searchValue)
         {
-			List<PostViewModel> postVMList = new List<PostViewModel>();
+            var viewModel = new PostIndexViewModel
+            {
+                Posts = new List<PostViewModel>(),
+                FeaturedPosts = new List<PostViewModel>()
+            };
+
+            // Process regular posts
             List<Post> posts = postContext.GetAllPost();
-
-            foreach (Post Post in posts)
+            foreach (Post post in posts)
             {
-                PostViewModel postviewmodel = MapToPostVM(Post);
-                postVMList.Add(postviewmodel);
-            }
-            
-            if (posts.Count == 0)
-            {
-                TempData["InfoMessage"] = "Currently there are no guides available in the database.";
-                return View(postVMList);
-
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(searchValue))
-                {
-                    TempData["InfoMessage"] = "No records found!";
-                    return View(postVMList);
-
-                }
-                else
-                {
-                    if (searchBy == "PostTitle")
-                    {
-                        var searchByPostTitle = postVMList.Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower()));
-                        return View(searchByPostTitle);
-                    }
-                }
-                return View(postVMList);
+                PostViewModel postViewModel = MapToPostVM(post);
+                viewModel.Posts.Add(postViewModel);
             }
 
+            // Process featured posts
+            List<FeaturedPosts> featuredPosts = postContext.GetPopularPost(); 
+            foreach (FeaturedPosts featuredPost in featuredPosts)
+            {
+                PostViewModel postViewModel = MapToPostVM(featuredPost.Post);
+                viewModel.FeaturedPosts.Add(postViewModel);
+            }
+
+            if (!string.IsNullOrEmpty(searchValue) && searchBy == "PostTitle")
+            {
+                viewModel.Posts = viewModel.Posts.Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower())).ToList();
+            }
+
+            // Handle the case where no records are found or there are no posts
+            if (!viewModel.Posts.Any() && !viewModel.FeaturedPosts.Any())
+            {
+                TempData["InfoMessage"] = "No records found!";
+            }
+
+            return View(viewModel);
         }
+
 
         // GET: GuideController/Details/5
         public ActionResult Details(int id)
@@ -83,20 +84,8 @@ namespace PFD_Assignment.Controllers
 
         public ActionResult GuideDetails(int id)
         {
-            /*Post post = postContext.GetDetails(id);
-            PostViewModel postVM = MapToPostVM(post);
-            List<Comments> commentList = new List<Comments>();
-            List<Comments> comments = commentsContext.GetAllPostComments(id);
-            foreach (Comments comment in comments)
-            {
-                commentList.Add(comment);
-            }
-
-            return View(postVM, commentList);*/
-
             Post post = postContext.GetDetails(id);
-            /*
-            PostViewModel postVM = MapToPostVM(post);*/
+
             List<Comments> commentList = new List<Comments>();
             List<Comments> comments = commentsContext.GetAllPostComments(id);
             string username = "";
@@ -108,7 +97,6 @@ namespace PFD_Assignment.Controllers
                     if (member.MemberId == post.MemberID)
                     {
                         username = member.Username;
-                        //Exit the foreach loop once the username is found
                         break;
                     }
                 }

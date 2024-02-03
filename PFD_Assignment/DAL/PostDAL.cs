@@ -72,7 +72,7 @@ namespace PFD_Assignment.DAL
             // Create a SqlCommand object from the connection object
             SqlCommand cmd = conn.CreateCommand();
             // Specify the SELECT SQL statement
-            cmd.CommandText = @"SELECT * FROM FeaturedPost BY FeaturedPostID";
+            cmd.CommandText = @"SELECT * FROM FeaturedPost ORDER BY FeaturedPostID";
             // Open a database connection
             conn.Open();
             // Execute the SELECT SQL through a DataReader
