@@ -20,11 +20,6 @@ builder.Services.AddSession(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ImgDBContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString
-        ("SGHandbookConnectionString"));
-});
 
 // This configures Google.Apis.Auth.AspNetCore for use in this app.
 /* will work on it ltr
