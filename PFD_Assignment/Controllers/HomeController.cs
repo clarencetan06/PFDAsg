@@ -90,6 +90,7 @@ namespace PFD_Assignment.Controllers
             ViewData["Username"] = member.Username;
             ViewData["Email"] = member.Email;
             ViewData["BirthDate"] = string.Format("{0:yyyy-MM-dd}", member.BirthDate);
+            ViewData["Status"] = member.Status;
 
             return View();
         }

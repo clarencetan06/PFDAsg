@@ -45,6 +45,8 @@ namespace PFD_Assignment.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         public DateTime? BirthDate { get; set; }
+        public string? Status { get; set; }
+
 
     }
 }
