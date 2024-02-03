@@ -8,6 +8,7 @@ using PFD_Assignment.Models;
 using System.IO;
 using System.Text;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace PFD_Assignment.DAL
 {
@@ -304,6 +305,122 @@ VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @Vi
             conn.Close();
             //Return id when no error occurs.
             return post.PostID;
+        }
+
+        public string AddFeaturedPost(int postId)
+        {
+            Post post = GetPostById(postId); // retrieve a post by its ID
+
+            if (post == null)
+            {
+                return  "Post with the given ID does not exist.";
+            }
+
+            // Now, insert the post into the FeaturedPost table
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"INSERT INTO FeaturedPost (PostID, PostTitle, PostDesc, PostContent, Upvote, Downvote, DateofPost, MemberID, VideoLink) 
+                        OUTPUT INSERTED.FeaturedPostID 
+                        VALUES (@PostID, @PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @MemberID, @VideoLink)";
+
+            // Add the parameters from the Post object
+            cmd.Parameters.AddWithValue("@PostID", post.PostID);
+            cmd.Parameters.AddWithValue("@PostTitle", post.PostTitle);
+            cmd.Parameters.AddWithValue("@PostDesc", post.PostDesc);
+            cmd.Parameters.AddWithValue("@PostContent", post.PostContent);
+            cmd.Parameters.AddWithValue("@Upvote", post.Upvote);
+            cmd.Parameters.AddWithValue("@Downvote", post.Downvote);
+            cmd.Parameters.AddWithValue("@DateofPost", post.DateofPost); 
+            cmd.Parameters.AddWithValue("@MemberID", post.MemberID);
+
+            // If VideoLink is null or empty, insert DBNull
+            if (string.IsNullOrEmpty(post.VideoLink))
+            {
+                cmd.Parameters.AddWithValue("@VideoLink", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@VideoLink", post.VideoLink);
+            }
+
+            // Open connection, execute query, close connection
+            int featuredPostId = 0;
+            try
+            {
+                conn.Open();
+                featuredPostId = (int)cmd.ExecuteScalar();
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return "Successfully updated to a featured post.";
+        }
+
+        public Post GetPostById(int postId)
+        {
+            Post post = null;
+
+            // SQL query to select the post
+            string query = "SELECT PostID, PostTitle, PostDesc, PostContent, Upvote, Downvote, DateofPost, MemberID, VideoLink FROM Post WHERE PostID = @PostID";
+
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                // Use parameters to prevent SQL injection
+                cmd.Parameters.AddWithValue("@PostID", postId);
+
+                try
+                {
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            post = new Post
+                            {
+                                PostID = reader.GetInt32(reader.GetOrdinal("PostID")),
+                                PostTitle = reader.GetString(reader.GetOrdinal("PostTitle")),
+                                PostDesc = reader.GetString(reader.GetOrdinal("PostDesc")),
+                                PostContent = reader.GetString(reader.GetOrdinal("PostContent")),
+                                Upvote = reader.GetInt32(reader.GetOrdinal("Upvote")),
+                                Downvote = reader.GetInt32(reader.GetOrdinal("Downvote")),
+                                DateofPost = reader.GetDateTime(reader.GetOrdinal("DateofPost")),
+                                MemberID = reader.GetInt32(reader.GetOrdinal("MemberID")),
+                                VideoLink = reader.IsDBNull(reader.GetOrdinal("VideoLink")) ? null : reader.GetString(reader.GetOrdinal("VideoLink")),
+                            };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions (e.g., logging)
+                    throw new Exception("Error getting post by ID", ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return post;
+        }
+
+        public bool IfFeaturedExist(int postId)
+        {
+            bool exists = false;
+
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "SELECT COUNT(*) FROM FeaturedPost WHERE PostID = @selectedPostId";
+                cmd.Parameters.AddWithValue("@selectedPostId", postId);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                exists = count > 0;
+                conn.Close();
+                
+            }
+
+            return exists;
         }
 
 

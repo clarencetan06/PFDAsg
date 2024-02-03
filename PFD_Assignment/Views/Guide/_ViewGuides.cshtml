@@ -13,7 +13,7 @@
         {
             @if (Model.FeaturedPosts.ToList().Count > 0)
             {
-                <div class="featuredguide" id="featuredguide2" data-date="@post.DateofPost.ToString()">
+                <div class="featuredguide">
                     <div>
                         <p class="guideUser">
                             <b> @post.Username.ToString() </b>| @post.DateofPost.ToString()
@@ -51,7 +51,7 @@
 <!-- Regular Posts -->
 @if (Model.Posts != null && Model.Posts.Count > 0)
 {
-    <div>
+    <div class="guidecontent" id="guidecontent">
         <h2>All Posts</h2>
         @foreach (var post in Model.Posts)
         {
