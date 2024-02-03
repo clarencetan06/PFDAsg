@@ -16,7 +16,7 @@
         {
             @await Html.PartialAsync("_Mainpage.cshtml")
         }
-        @if (Context.Session.GetString("Role") == "Admin")
+        else if (Context.Session.GetString("Role") == "Admin")
         {
             @await Html.PartialAsync("_AdminMenu.cshtml")
         }

@@ -196,23 +196,12 @@ namespace PFD_Assignment.Controllers
 	        return View();
         }
 
-        /*
-        private int AddImageToDatabase(IFormFile image)
+        [HttpPost]
+        public ActionResult ConvertLinks(string inputText)
         {
-            // Convert the image file to a byte array
-            byte[] imageData = image.ToArray();
-
-            // Insert the image data into the database
-            // ...
-
-            // Return the image ID
-            return imageID;
+            string embeddedText = YoutubeLinkConverter.ConvertYoutubeLinkToEmbed(inputText);
+            return Content(embeddedText);
         }
-        */
-
-
-
-
         // POST: GuideController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -220,35 +209,29 @@ namespace PFD_Assignment.Controllers
         {
             if (ModelState.IsValid)
             {
-                /*// Process and save the image data to the database
-                foreach (var image in images)
+                // Check if the VideoLink is a YouTube link and convert it
+                if (!string.IsNullOrEmpty(post.VideoLink))
                 {
-                    int imageID = AddImageToDatabase(image);
-                    post.Image.Add(imageID);
+                    string embeddedText = YoutubeLinkConverter.ConvertYoutubeLinkToEmbed(post.VideoLink);
+                    post.VideoLink = embeddedText;
                 }
-                */
-                //Add post record to database
+
+                // Add post record to the database
                 post.PostID = postContext.Add(post, HttpContext.Session.GetInt32("MemberID"));
                 TempData["SuccessMessage"] = "You have successfully created a post! :)";
 
-                //Redirect user to Staff/Index view
+                // Redirect user to the Index view
                 return RedirectToAction("Index");
             }
-
-
             else
             {
-                //Input validation fails, return to the Create view
-                //to display error message
+                // Input validation fails, return to the Create view to display error message
                 return View(post);
             }
-        
         }
-   
 
-
-		// Helper method to map PostViewModel to Post
-		private Post MapToPost(PostViewModel postVM)
+        // Helper method to map PostViewModel to Post
+        private Post MapToPost(PostViewModel postVM)
         {
             return new Post
             {
