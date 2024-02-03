@@ -12,7 +12,7 @@
             if (match.Success)
             {
                 // Construct the embed code
-                return "https://www.youtube.com/embed/{match.Groups[1].Value}";
+                return $"https://www.youtube.com/embed/{match.Groups[1].Value}";
             }
 
             // Return original link if no match
