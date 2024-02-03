@@ -107,5 +107,41 @@ WHERE AnnouncementID = @selectAnnouncementID";
                 return "Error Occurred.";
             }
         }
+        public bool IsAnnouncementTableEmpty()
+        {
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT COUNT(*) FROM Announcements";
+
+            conn.Open();
+            int count = (int)cmd.ExecuteScalar();
+            conn.Close();
+
+            return count == 0; //return true if = 0, else return false
+        }
+
+        public Announcements GetMostRecentAnnouncement()
+        {
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT TOP 1 * FROM Announcements ORDER BY DateofAnnouncement DESC";
+
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            Announcements mostRecentAnnouncement = null;
+
+            if (reader.Read())
+            {
+                mostRecentAnnouncement = new Announcements
+                {
+                    AnnouncementTitle = reader.GetString(1),
+                    AnnouncementContent = reader.GetString(2),
+                    DateofAnnouncement = reader.GetDateTime(3),
+                };
+            }
+
+            reader.Close();
+            conn.Close();
+
+            return mostRecentAnnouncement;
+        }
     }
 }
