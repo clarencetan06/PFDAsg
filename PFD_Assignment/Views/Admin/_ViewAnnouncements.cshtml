@@ -1,0 +1,40 @@
+﻿@model IEnumerable<PFD_Assignment.Models.Announcements>
+
+@{
+    ViewData["Title"] = "_ViewAnnouncements";
+}
+
+<p><a asp-controller="Admin" asp-action="CreateAnnounce">Create an Announcement</a></p>
+
+@if (Model?.Count() > 0)
+{
+    <div class="guidecontent" id="guidecontent">
+        @foreach (var item in Model.Skip(3))
+        {
+            <div class="guides" id="guides">
+                <div>
+                    <p class="guidePara">
+                        Title: @item.AnnouncementTitle.ToString()
+                    </p>
+                    <p class="guidePara">
+                        Description: @item.AnnouncementContent.ToString()
+                    </p>
+
+                </div>
+
+                <div class="guidebuttonposition" id="guidebuttonposition">
+                    <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@item.AnnouncementID">
+                        <button class="guideButton" id="guideButton">
+                            View
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+        }
+    </div>
+}
+else
+{
+    <span style="color: black;font-size: 20px; font-weight: bold;">No announcements found!</span>
+}

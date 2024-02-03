@@ -1,7 +1,10 @@
-﻿@{
-	ViewData["Title"] = "AdminMain";
+﻿@model IEnumerable<PFD_Assignment.Models.Announcements>
+
+@{
+	ViewData["Title"] = "View Announcements";
 }
 
-<div class="mainpage-container">
+<h4 class="PageTitle">View Announcements</h4>
 
-</div>
+<partial name="~/Views/Admin/_ViewAnnouncements.cshtml" model="@Model" />
+
