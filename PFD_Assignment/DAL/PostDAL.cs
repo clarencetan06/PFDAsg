@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace PFD_Assignment.DAL
 {
@@ -485,7 +486,36 @@ VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @Vi
 
             return exists;
         }
-
+        public string DeleteFeaturedGuide(int FeaturedPostID)
+        {
+            int rowAffected = 0;
+            //Instantiate a SqlCommand object, supply it with a DELETE SQL statement
+            //to delete a staff record specified by a Staff ID
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.Parameters.AddWithValue("@selectFeaturedPostID", FeaturedPostID);
+            cmd.CommandText = @"DELETE FROM FeaturedPost
+WHERE FeaturedPostID = @selectFeaturedPostID";
+            
+            //cmd.Parameters.AddWithValue("@selectPostID", postId);
+            //Open a database connection
+            conn.Open();
+            
+            //Execute the DELETE SQL to remove the staff record
+            rowAffected += cmd.ExecuteNonQuery();
+            Debug.WriteLine(cmd.ExecuteNonQuery());
+            Debug.WriteLine(FeaturedPostID);
+            //Close database connection
+            conn.Close();
+            //Return number of row of staff record updated or deleted
+            if (rowAffected > 0)
+            {
+                return "Successfully deleted!";
+            }
+            else
+            {
+                return "Error Occurred.";
+            }
+        }
 
     }
 }

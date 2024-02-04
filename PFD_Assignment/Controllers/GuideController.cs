@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace PFD_Assignment.Controllers
         private readonly ImgDBContext _dBContext;
         private readonly IWebHostEnvironment webHostEnvironment;
         */
-        private PostDAL postContext = new PostDAL();
+        private PostDAL postContext = new PostDAL(); 
         private MemberDAL memberContext = new MemberDAL();
         private CommentsDAL commentsContext = new CommentsDAL();
 		private IConfiguration _configuration;
@@ -51,6 +52,7 @@ namespace PFD_Assignment.Controllers
 
             // Process featured posts
             List<FeaturedPosts> featuredPosts = postContext.GetPopularPost(); 
+
             foreach (FeaturedPosts featuredPost in featuredPosts)
             {
                 PostViewModel postViewModel = MapToPostVM(featuredPost.Post);
@@ -295,24 +297,27 @@ namespace PFD_Assignment.Controllers
 
 
         // GET: GuideController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult DeleteFeaturedGuides(int postID)
+        //{
+        //    if ((HttpContext.Session.GetString("Role") == null) || (HttpContext.Session.GetString("Role") != "Admin"))
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    Post post = postContext.GetPostById(postID);
+        //    return View(post);
+        //}
 
         // POST: GuideController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteFeaturedGuide(int FeaturedPostID)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+            // Delete the staff record from database
+            string updateMessage = postContext.DeleteFeaturedGuide(FeaturedPostID);
+            TempData["updateMessage"] = updateMessage;
+            return RedirectToAction("PinGuide", "Admin");
         }
     }
 }

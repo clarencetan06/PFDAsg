@@ -8,49 +8,14 @@
     </div>
 </form>
 
+<div class="container">
 
-@if (Model.FeaturedPosts != null && Model.FeaturedPosts.Count > 0)
-{
-	<div class="table-responsive">
-		<h2>Featured Posts</h2>
-		<table class="table table-striped table-bordered">
-			<thead class="table-dark">
-				<tr>
-					<th>Title</th>
-					<th>Content</th>
-					<th>Likes</th>
-					<th>Dislikes</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var featuredPost in Model.FeaturedPosts)
-				{
-					<tr>
-						<td>@featuredPost.PostTitle</td>
-						<td>@featuredPost.PostContent</td>
-						<td>@featuredPost.Upvote</td>
-						<td>@featuredPost.Downvote</td>
-						<td>
-                            <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@featuredPost.PostID">Details</a> |
-							<a asp-action="Delete" asp-controller="Admin" asp-route-id="@featuredPost.PostID">Delete</a>
-						</td>
-					</tr>
-				}
-			</tbody>
-		</table>
-	</div>
-	<hr class="solid" />
-}
-
-
-<!-- Regular Posts -->
-@if (Model.Posts != null && Model.Posts.Count > 0)
-{
-    <div class="table-responsive">
-        <h2>All Posts</h2>
-        <table class="table table-striped table-bordered">
-            <thead class="table-dark">
+    @if (Model.FeaturedPosts != null && Model.FeaturedPosts.Count > 0)
+    {
+        <div class="table-responsive">
+            <h2>Featured Posts</h2>
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
                 <tr>
                     <th>Title</th>
                     <th>Content</th>
@@ -58,8 +23,52 @@
                     <th>Dislikes</th>
                     <th>Actions</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
+                @foreach (var featuredPost in Model.FeaturedPosts)
+                {
+                    <tr>
+                        <td>@featuredPost.PostTitle</td>
+                        <td>@featuredPost.PostContent</td>
+                        <td>@featuredPost.Upvote</td>
+                        <td>@featuredPost.Downvote</td>
+                        <td>
+                            <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@featuredPost.PostID">Details</a> |
+                            
+                            <div class="guidebuttonposition" id="guidebuttonposition">
+                                <form asp-action="DeleteFeaturedGuide" asp-controller="Guide" method="post" style="display: inline;">
+                                    <input  name="FeaturedPostID" value="@featuredPost.PostID" />
+                                    <button type="submit" class="guideButton" id="deleteGuideButton" style="color: red; margin-right:50px;">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <hr class="solid" />
+    }
+
+
+    <!-- Regular Posts -->
+    @if (Model.Posts != null && Model.Posts.Count > 0)
+    {
+        <div class="table-responsive">
+            <h2>All Posts</h2>
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Likes</th>
+                    <th>Dislikes</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
                 @foreach (var post in Model.Posts)
                 {
                     <tr>
@@ -73,42 +82,42 @@
                         </td>
                     </tr>
                 }
-            </tbody>
-        </table>
-    </div>
-}
+                </tbody>
+            </table>
+        </div>
+    }
 
 
-else
-{
-    <span style="color: red; font-weight: bold;">No guides found!</span>
-}
+    else
+    {
+        <span style="color: red; font-weight: bold;">No guides found!</span>
+    }
 
-<!-- Pin Confirmation Modal -->
-<div class="modal fade" id="pinConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="pinConfirmationModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form asp-action="Pin" asp-controller="Admin" method="post">
-                @Html.AntiForgeryToken() <!-- Include anti-forgery token -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pinModalLongTitle">Pin as Featured Post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to pin this as a featured post?
-                    <input type="hidden" name="postId" id="modalPostId" value="" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <input type="submit" class="btn btn-primary" value="Pin" />
-                </div>
-            </form>
+    <!-- Pin Confirmation Modal -->
+    <div class="modal fade" id="pinConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="pinConfirmationModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form asp-action="Pin" asp-controller="Admin" method="post">
+                    @Html.AntiForgeryToken() <!-- Include anti-forgery token -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pinModalLongTitle">Pin as Featured Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to pin this as a featured post?
+                        <input type="hidden" name="postId" id="modalPostId" value="" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-primary" value="Pin" />
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-
 @if (TempData["updateMessage"] != null)
 {
     <script>
