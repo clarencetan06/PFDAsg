@@ -42,7 +42,7 @@ namespace PFD_Assignment.Models
 
         public string Status { get; set; }
 
-        public int FeaturedPostID { get; set; }
+        public int? FeaturedPostID { get; set; }
 
     }
 }

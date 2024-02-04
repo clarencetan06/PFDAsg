@@ -219,7 +219,8 @@ namespace PFD_Assignment.Controllers
             else
             {
                 // Input validation fails, return to the Create view to display error message
-                return View(post);
+                TempData["ErrorMessage"] = "Error creating post! Please fill in all required areas! (Title, Description, Content)";
+                return RedirectToAction("Create", "Guide");
             }
         }
 
@@ -311,11 +312,11 @@ namespace PFD_Assignment.Controllers
         // POST: GuideController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteFeaturedGuide(int FeaturedPostID)
+        public ActionResult DeleteFeaturedGuide(int postId)
         {
 
             // Delete the staff record from database
-            string updateMessage = postContext.DeleteFeaturedGuide(FeaturedPostID);
+            string updateMessage = postContext.DeleteFeaturedGuide(postId);
             TempData["updateMessage"] = updateMessage;
             return RedirectToAction("PinGuide", "Admin");
         }

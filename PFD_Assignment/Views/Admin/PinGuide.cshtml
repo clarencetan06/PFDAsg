@@ -1,14 +1,15 @@
 ﻿@model PFD_Assignment.Models.PostIndexViewModel
 
-<form action="@Url.Action("PinGuide", "Admin")" method="get">
-    <div class="search-container">
-        <input type="text" placeholder="Search..." name="searchValue" required>
-        <input type="hidden" name="searchBy" value="PostTitle" />
-        <button type="submit"><i class="fa fa-search"></i></button>
-    </div>
-</form>
-
 <div class="container">
+    <br />
+    <form action="@Url.Action("PinGuide", "Admin")" method="get">
+        <div class="search-container">
+            <input type="text" placeholder="Search..." name="searchValue" required>
+            <input type="hidden" name="searchBy" value="PostTitle" />
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+    <br />
 
     @if (Model.FeaturedPosts != null && Model.FeaturedPosts.Count > 0)
     {
@@ -34,15 +35,7 @@
                         <td>@featuredPost.Downvote</td>
                         <td>
                             <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@featuredPost.PostID">Details</a> |
-                            
-                            <div class="guidebuttonposition" id="guidebuttonposition">
-                                <form asp-action="DeleteFeaturedGuide" asp-controller="Guide" method="post" style="display: inline;">
-                                    <input  name="FeaturedPostID" value="@featuredPost.PostID" />
-                                    <button type="submit" class="guideButton" id="deleteGuideButton" style="color: red; margin-right:50px;">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
+                            <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal" data-featured-post-id="@featuredPost.FeaturedPostID" class="deleteButton">Delete</a>
                         </td>
                     </tr>
                 }
@@ -117,6 +110,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Pin Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form asp-action="DeleteFeaturedGuide" asp-controller="Guide" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLongTitle">Remove as Featured Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to remove this as a featured post?
+                        <input type="hidden" name="postId" id="featuredPostIdInput" value="" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-primary" value="Delete" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 @if (TempData["updateMessage"] != null)
 {
@@ -178,5 +197,14 @@
             // Set the value of the hidden input in the modal
             $('#modalPostId').val(postId);
         });
+
+        $('.deleteButton').click(function () {
+            // Get the 'data-featured-post-id' attribute value of the clicked link
+            var featuredPostId = $(this).data('featured-post-id');
+
+            // Set the value of the hidden input in the delete modal
+            $('#featuredPostIdInput').val(featuredPostId);
+        });
+
     });
 </script>
