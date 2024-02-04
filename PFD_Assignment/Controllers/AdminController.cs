@@ -96,7 +96,9 @@ namespace PFD_Assignment.Controllers
 		public PostViewModel MapToPostVM(Post post)
 		{
 			string username = "";
-			if (post.MemberID != null)
+            int featuredid = 0;
+
+            if (post.MemberID != null)
 			{
 				List<Member> memberList = memberContext.GetAllMembers();
 				foreach (Member member in memberList)
@@ -108,7 +110,17 @@ namespace PFD_Assignment.Controllers
 						break;
 					}
 				}
-			}
+                List<FeaturedPosts> featuredlist = postContext.GetPopularPost();
+                foreach (FeaturedPosts featured in featuredlist)
+                {
+                    if (featured.Post.PostID == post.PostID)
+                    {
+                        featuredid = featured.FeaturedPostID;
+                        //Exit the foreach loop once the username is found
+                        break;
+                    }
+                }
+            }
 
 			PostViewModel postVM = new PostViewModel
 			{
@@ -121,7 +133,8 @@ namespace PFD_Assignment.Controllers
 				DateofPost = post.DateofPost,
 				MemberID = post.MemberID,
 				Username = username,
-				Photo = post.PostTitle + ".jpg"
+				Photo = post.PostTitle + ".jpg",
+                FeaturedPostID = featuredid
 			};
 
 			return postVM;
@@ -161,7 +174,6 @@ namespace PFD_Assignment.Controllers
             TempData["updateMessage"] = updateMessage;
             return RedirectToAction("AdminMain", "Home");
         }
-
 
     }
 

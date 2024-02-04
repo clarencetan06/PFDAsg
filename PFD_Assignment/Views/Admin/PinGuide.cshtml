@@ -28,21 +28,15 @@
                 @foreach (var featuredPost in Model.FeaturedPosts)
                 {
                     <tr>
+                            <td>@featuredPost.FeaturedPostID</td>
+
                         <td>@featuredPost.PostTitle</td>
                         <td>@featuredPost.PostContent</td>
                         <td>@featuredPost.Upvote</td>
                         <td>@featuredPost.Downvote</td>
                         <td>
                             <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@featuredPost.PostID">Details</a> |
-                            
-                            <div class="guidebuttonposition" id="guidebuttonposition">
-                                <form asp-action="DeleteFeaturedGuide" asp-controller="Guide" method="post" style="display: inline;">
-                                    <input  name="FeaturedPostID" value="@featuredPost.PostID" />
-                                    <button type="submit" class="guideButton" id="deleteGuideButton" style="color: red; margin-right:50px;">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
+                            <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal" data-post-id="@featuredPost.FeaturedPostID" class="pinButton">Delete</a>
                         </td>
                     </tr>
                 }
@@ -112,6 +106,31 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <input type="submit" class="btn btn-primary" value="Pin" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Pin Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="pinConfirmationModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form asp-action="DeleteFeaturedGuide" asp-controller="Guide" method="post">
+                    @Html.AntiForgeryToken() <!-- Include anti-forgery token -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pinModalLongTitle">Remove as Featured Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to remove this as a featured post?
+                        <input type="hidden" name="postId" id="modalPostId" value="" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-primary" value="Delete" />
                     </div>
                 </form>
             </div>
