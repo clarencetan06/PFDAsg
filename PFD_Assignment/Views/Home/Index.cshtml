@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Index";
 }
+@model PFD_Assignment.Models.Announcements
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <!DOCTYPE html>
 <html>
@@ -11,22 +13,21 @@
             <h1><b>Did You Know?</b></h1>
             <h1><i>We plan to sell trips to the moon in the 2020s</i></h1>
         </div>
-        <img class="mySlides" src="~/images/sgbackground.jpg" style="width:100%">
+        <img class="mySlides" src="~/images/sgbackground.jpg" style="width:100%"> 
         <img class="mySlides" src="~/images/sgbackground2.jpg" style="width:100%"> *@
         
         @if (Model != null)
         {
-            @foreach (var item in Model)
-            {
-                <div class="mySlides w3-container w3-red">
-                    <h1><b>@item.AnnouncementTitle</b></h1>
-                    <h1><i>@item.AnnouncementContent</i></h1>
-                </div>
-            }
+        <div class="mySlides w3-container w3-red">
+            <h1><b>@Model.AnnouncementTitle</b></h1>
+            <h1><i>@Model.AnnouncementContent</i></h1>
+        </div>
         }
         else
         {
-            <p>No announcements available.</p>
+            <div class="mySlides w3-container w3-red">
+                <p style="text-align:center">No announcements available!!.</p>
+            </div>
         }
 	</div>
     <div class="home">

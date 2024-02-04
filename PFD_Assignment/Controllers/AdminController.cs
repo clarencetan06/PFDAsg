@@ -165,11 +165,22 @@ namespace PFD_Assignment.Controllers
 
         public ActionResult Index()
         {
-            // Retrieve announcements from data source
-            List<Announcements> announcements = annContext.GetAllAnnouncements();
 
-            // Pass announcements to the view
-            return View(announcements);
+            if (annContext.IsAnnouncementTableEmpty())
+            {
+                // The announcement table is empty, handle accordingly (e.g., display a message)
+                TempData["InfoMessage"] = "No announcements available.";
+            }
+            else
+            {
+                // Retrieve the most recent announcement
+                Announcements mostRecentAnnouncement = annContext.GetMostRecentAnnouncement();
+
+                // Pass the most recent announcement to the view
+                return View(mostRecentAnnouncement);
+            }
+
+            return View(); // You might want to have a separate view for the case when there are no announcements
         }
     }
 
