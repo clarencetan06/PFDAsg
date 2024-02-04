@@ -37,12 +37,17 @@
                 <textarea asp-for="PostContent" class="form-control" id="postContentInput" style="flex-grow: 1; box-sizing: border-box; height: 100px"></textarea>
                 <span asp-validation-for="PostContent" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="validation-note">
-                <div class="error-icon">⚠️</div> <!-- This is the Unicode character for a warning sign -->
-                Please validate content before creating a guide
+        <div class="row me-0 create-fields">
+            <div class="col-sm-3"></div> <!-- This div is used to offset the column so that it aligns with the PostContent input box -->
+            <div class="col-sm-9 col-md-5">
+                <div class="validation-note">
+                    <div class="error-icon">⚠️</div> <!-- This is the Unicode character for a warning sign -->
+                    Please validate content before creating a guide
+                </div>
+                <div id="postContentValidation" class="text-danger"></div>
             </div>
-            <div id="postContentValidation" class="text-danger"></div>
         </div>
 
         <div class="row me-0">
