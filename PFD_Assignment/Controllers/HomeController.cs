@@ -8,6 +8,7 @@ using System.Buffers.Text;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Metrics;
+using Microsoft.EntityFrameworkCore;
 
 namespace PFD_Assignment.Controllers
 {
@@ -32,7 +33,8 @@ namespace PFD_Assignment.Controllers
             string apiKey = indexModel.ApiKey;
             // Pass the API key to the view
             ViewBag.ApiKey = apiKey;
-            return View();
+            Announcements announcement = announcementContext.GetMostRecentAnnouncement();
+            return View(announcement);
         }
         public IActionResult Guide()
         {

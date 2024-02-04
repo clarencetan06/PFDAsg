@@ -163,14 +163,6 @@ namespace PFD_Assignment.Controllers
         }
 
 
-        public ActionResult Index()
-        {
-            // Retrieve announcements from data source
-            List<Announcements> announcements = annContext.GetAllAnnouncements();
-
-            // Pass announcements to the view
-            return View(announcements);
-        }
     }
 
 }

@@ -132,6 +132,7 @@ WHERE AnnouncementID = @selectAnnouncementID";
             {
                 mostRecentAnnouncement = new Announcements
                 {
+                    AnnouncementID = reader.GetInt32(0),
                     AnnouncementTitle = reader.GetString(1),
                     AnnouncementContent = reader.GetString(2),
                     DateofAnnouncement = reader.GetDateTime(3),
