@@ -12,8 +12,7 @@
         <iframe src="@Model.Post.VideoLink" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     }
     <div class="postcontent">
-        <!--@Html.Raw(Model.Post.PostContent.Replace("\n", "<br>"))-->
-        @Html.Display("Post.PostContent")
+        @Html.Raw(Model.Post.PostContent.Replace("\n", "<br>"))
     </div>
 </div> 
 
@@ -150,6 +149,13 @@
         btn.style.display = 'none';
         feild.value = '';
     }
+    function replaceNewlinesWithBr(content) {
+        return content.replace(/\n/g, "<br>");
+    }
+
+    // Example usage for the post content
+    var postContentElement = document.querySelector('.postcontent');
+    postContentElement.innerHTML = replaceNewlinesWithBr('@Html.Raw(Model.Post.PostContent)');
 
 </script>
 
