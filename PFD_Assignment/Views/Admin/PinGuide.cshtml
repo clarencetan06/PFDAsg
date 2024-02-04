@@ -37,8 +37,8 @@
                             
                             <div class="guidebuttonposition" id="guidebuttonposition">
                                 <form asp-action="DeleteFeaturedGuide" asp-controller="Guide" method="post" style="display: inline;">
-                                    <input  name="FeaturedPostID" value="@featuredPost.FeaturedPostID" />
-                                    <button type="submit" class="guideButton" id="deleteGuideButton" style="color: red">
+                                    <input  name="FeaturedPostID" value="@featuredPost.PostID" />
+                                    <button type="submit" class="guideButton" id="deleteGuideButton" style="color: red; margin-right:50px;">
                                         Delete
                                     </button>
                                 </form>
