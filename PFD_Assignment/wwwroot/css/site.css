@@ -38,6 +38,9 @@ body {
      font-size: 20px;
      font-weight:bold;
 }
+* {
+    border: 1px solid red !important;
+}
 /*searchbar*/
 .searchbarguide {
     margin-left: 45px;
@@ -292,13 +295,26 @@ body {
     background-color: ghostwhite;
 }
 
+.fontbuttongrp {
+    display: flex;
+    border-radius: 8px; /* This creates the rounded corners for the container */
+    overflow: hidden; /* Ensures child elements do not spill outside the border */
+}
+
 .fontButton {
+    border: thick;
+    /*color: rgba(0,0,0,.55);*/
+    background-color: darkred; /* The background color for buttons; use your own color */
+    padding: 10px 20px;
+   /* flex: 1; *//* Ensures buttons have equal width */
+    flex-basis: 1;
     border: none;
-    color: rgba(0,0,0,.55);
-    background-color: transparent;
+    color: black; /* Text color for buttons */
+    cursor: pointer;
 }
     .fontButton:hover {
-        color: rgba(0,0,0,.7);
+        background-color: grey;
+        transform: perspective();
     }
 /* --------------------------- intro page -------------------------------*/
 

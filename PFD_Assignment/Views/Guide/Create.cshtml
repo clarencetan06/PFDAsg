@@ -4,34 +4,34 @@
     ViewData["Title"] = "Create";
 }
 
-<h4 class="PageTitle">Create guide</h4>
+<h2 class="PageTitle" style="text-align:center; padding-top:20px;font-weight:bold;">Create guide</h2>
 <hr />
 
 <form asp-action="Create" method="post" onsubmit="return validatePostContent()" id="createForm">
 
     <fieldset class="FormContent">
-        <div class="row mb-3 create-fields">
+        <div class="row me-0 create-fields">
             <label asp-for="PostTitle" class="col-sm-3 col-form-label"></label>
             <div class="col-sm-9 col-md-5">
                 <input asp-for="PostTitle" class="form-control" />
                 <span asp-validation-for="PostTitle" class="text-danger"></span>
             </div>
         </div>
-        <div class="row mb-3 create-fields">
+        <div class="row me-0 create-fields">
             <label asp-for="PostDesc" class="col-sm-3 col-form-label"></label>
             <div class="col-sm-9 col-md-5">
                 <input asp-for="PostDesc" class="form-control" />
                 <span asp-validation-for="PostDesc" class="text-danger"></span>
             </div>
         </div>
-        <div class="row mb-3 create-fields">
+        <div class="row me-0 create-fields">
             <label asp-for="VideoLink" class="col-sm-3 col-form-label"></label>
             <div class="col-sm-9 col-md-5">
                 <input asp-for="VideoLink" class="form-control" data_val ="false" />
                 <span asp-validation-for="VideoLink" class="text-danger"></span>
             </div>
         </div>
-        <div class="row mb-3 create-fields">
+        <div class="row me-0 create-fields">
             <label asp-for="PostContent" class="col-sm-3 col-form-label" id="PostContent"></label>
             <div class="col-sm-9 col-md-5" style="display: flex; flex-direction: column; align-items: flex-start;">
                 <textarea asp-for="PostContent" class="form-control" id="postContentInput" style="flex-grow: 1; box-sizing: border-box; height: 100px"></textarea>
@@ -45,7 +45,7 @@
             <div id="postContentValidation" class="text-danger"></div>
         </div>
 
-        <div class="row mb-3">
+        <div class="row me-0">
             <div class="col-sm-6 offset-sm-6">
                 <div id="apiKeyContainer" data-api-key="@ViewBag.ApiKey">
                     <button type="button" class="btn btn-success" id="validateButton">Validate</button>

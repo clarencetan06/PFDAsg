@@ -1,8 +1,27 @@
 ﻿@model PFD_Assignment.Models.PostIndexViewModel
 
-@*  <img class="bgimg" src="~/images/sgbackground2.jpg"></img> *@ 
+<img class="bgimg" style="opacity: 0.4;" src="~/images/sgbackground2.jpg"></img>
 
-<h2 class="PageTitle" style="font-weight:bold; font-size:60px">Guides</h2>
+<h1 class="PageTitle"  style="font-weight:bold; font-size:60px; padding-top:10px" >Guides</h1>
+
+@functions {
+    string GetStatusColor(string status)
+    {
+        switch (status.ToLower())
+        {
+            case "Bronze":
+                return "ronze"; // You can set your desired color or class here
+            case "Silver":
+                return "silver-color"; // You can set your desired color or class here
+            case "Gold":
+                return "gold-color"; // You can set your desired color or class here
+            default:
+                return "default-color"; // You can set a default color or class here
+        }
+    }
+}
+
+<hr class="solid" />
 
 <!-- Featured Posts -->
 @if (Model.FeaturedPosts != null && Model.FeaturedPosts.Count > 0)
@@ -15,9 +34,31 @@
             {
                 <div class="featuredguide">
                     <div>
-                        <p class="guideUser">
+                        <p class="guideUser" style="color:
+    @{
+        var statusColor = GetStatusColor(post.Status.ToString()).ToLower();
+
+        if (post.Status.ToString() == "Bronze")
+        {
+                @:saddlebrown;
+        }
+        else if (post.Status.ToString() == "Silver")
+        {
+                @:silver;
+        }
+        else if (post.Status.ToString() == "Gold")
+        {
+                @:gold;
+        }
+        else
+        {
+                @:defaultColor; // Set a default color if needed
+        }
+    }
+            ">
                             <b> @post.Username.ToString() </b>| @post.Status.ToString()
                         </p>
+
                         <p class="guidePara">
                             Title: @post.PostTitle.ToString()
                         </p>
@@ -61,9 +102,31 @@
         {
             <div class="guides" id="guides" data-date="@post.DateofPost.ToString()" data-likes="@post.Upvote">
                 <div>
-                    <p class="guideUser">
+                    <p class="guideUser" style="color:
+    @{
+        var statusColor = GetStatusColor(post.Status.ToString()).ToLower();
+
+        if (post.Status.ToString() == "Bronze")
+        {
+                @:saddlebrown;
+        }
+        else if (post.Status.ToString() == "Silver")
+        {
+                @:silver;
+        }
+        else if (post.Status.ToString() == "Gold")
+        {
+                @:gold;
+        }
+        else
+        {
+                @:defaultColor; // Set a default color if needed
+        }
+    }
+        ">
                         <b> @post.Username.ToString() </b>| @post.Status.ToString()
                     </p>
+
                     <p class="guidePara">
                         Title: @post.PostTitle.ToString()
                     </p>
