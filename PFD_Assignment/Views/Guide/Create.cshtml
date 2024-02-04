@@ -37,7 +37,11 @@
                 <textarea asp-for="PostContent" class="form-control" id="postContentInput" style="flex-grow: 1; box-sizing: border-box; height: 100px"></textarea>
                 <span asp-validation-for="PostContent" class="text-danger"></span>
             </div>
-            <p style="font-size: smaller;">Please validate content before creating a guide</p>
+
+            <div class="validation-note">
+                <div class="error-icon">⚠️</div> <!-- This is the Unicode character for a warning sign -->
+                Please validate content before creating a guide
+            </div>
             <div id="postContentValidation" class="text-danger"></div>
         </div>
 
@@ -150,4 +154,24 @@
         document.getElementById('validateButton').addEventListener('click', validatePostContent);
     });
 </script>
+
+<style>
+    .validation-note {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #fedc2a;
+        background-color: #fff3cd;
+        color: #856404;
+        text-align: left; 
+        border-radius: 5px;
+        font-weight: bold;
+        display: flex; 
+        align-items: center; /* Align items vertically */
+    }
+
+        .validation-note .error-icon {
+            margin-right: 5px; 
+            font-weight: bold; 
+        }
+</style>
 
