@@ -422,7 +422,26 @@ VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @Vi
 
             return exists;
         }
-
+        public int DeleteFeaturedGuide(int postId)
+        {
+            int rowAffected = 0;
+            //Instantiate a SqlCommand object, supply it with a DELETE SQL statement
+            //to delete a staff record specified by a Staff ID
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.Parameters.AddWithValue("@selectPostID", postId);
+            cmd.CommandText = @"DELETE FROM FeaturedPost
+WHERE PostID = @selectPostID";
+            //cmd.Parameters.AddWithValue("@selectPostID", postId);
+            //Open a database connection
+            conn.Open();
+            
+            //Execute the DELETE SQL to remove the staff record
+            rowAffected += cmd.ExecuteNonQuery();
+            //Close database connection
+            conn.Close();
+            //Return number of row of staff record updated or deleted
+            return rowAffected;
+        }
 
     }
 }
