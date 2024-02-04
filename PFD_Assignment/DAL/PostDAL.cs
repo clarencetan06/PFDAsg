@@ -492,9 +492,10 @@ VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @Vi
             //Instantiate a SqlCommand object, supply it with a DELETE SQL statement
             //to delete a staff record specified by a Staff ID
             SqlCommand cmd = conn.CreateCommand();
+            Console.WriteLine(FeaturedPostID);
             cmd.Parameters.AddWithValue("@selectFeaturedPostID", FeaturedPostID);
             cmd.CommandText = @"DELETE FROM FeaturedPost
-WHERE FeaturedPostID = @selectFeaturedPostID";
+WHERE PostID = @selectFeaturedPostID";
             
             //cmd.Parameters.AddWithValue("@selectPostID", postId);
             //Open a database connection
