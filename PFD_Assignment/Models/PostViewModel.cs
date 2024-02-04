@@ -40,6 +40,7 @@ namespace PFD_Assignment.Models
         
         public string Photo { get; set; }
 
+        public string Status { get; set; }
     
     }
 }

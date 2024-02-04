@@ -131,6 +131,7 @@ namespace PFD_Assignment.Controllers
         public PostViewModel MapToPostVM(Post post)
         {
             string username = "";
+            string status = "";
             if (post.MemberID != null)
             {
                 List<Member> memberList = memberContext.GetAllMembers();
@@ -139,7 +140,7 @@ namespace PFD_Assignment.Controllers
                     if (member.MemberId == post.MemberID)
                     {
                         username = member.Username;
-                        //Exit the foreach loop once the username is found
+                        status = member.Status;
                         break;
                     }
                 }
@@ -156,6 +157,7 @@ namespace PFD_Assignment.Controllers
                 DateofPost = post.DateofPost,
                 MemberID = post.MemberID,
                 Username = username,
+                Status = status,
                 Photo = post.PostTitle + ".jpg"
             };
 
@@ -224,7 +226,7 @@ namespace PFD_Assignment.Controllers
                 PostTitle = postVM.PostTitle,
                 PostDesc = postVM.PostDesc,
                 PostContent = postVM.PostContent,
-                // Add other properties as needed
+                
             };
         }
 

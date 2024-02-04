@@ -149,7 +149,7 @@ VALUES(@first, @last, @username, @pass,
                         UserPassword = reader.GetString(4),
                         Email = reader.GetString(5),
                         BirthDate = reader.GetDateTime(6),
-                        Status = reader.GetString(reader.GetOrdinal("MemberStatus")),
+                        Status = reader.GetString(reader.GetOrdinal("MemberStatus"))
                     }
                 );
             }
