@@ -27,7 +27,7 @@
 @if (Model.FeaturedPosts != null && Model.FeaturedPosts.Count > 0)
 {
     <div>
-        <h2>Featured Posts</h2>
+        <h2 style="font-weight:bold">Featured Posts</h2>
         @foreach (var post in Model.FeaturedPosts)
         {
             @if (Model.FeaturedPosts.ToList().Count > 0)
@@ -97,7 +97,7 @@
 @if (Model.Posts != null && Model.Posts.Count > 0)
 {
     <div class="guidecontent" id="guidecontent">
-        <h2>All Posts</h2>
+        <h2 style="font-weight:bold">All Posts</h2>
         @foreach (var post in Model.Posts)
         {
             <div class="guides" id="guides" data-date="@post.DateofPost.ToString()" data-likes="@post.Upvote">
