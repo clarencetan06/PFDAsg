@@ -51,15 +51,37 @@
                         <button class="fontButton" onclick="changeFontSize(1.05)">+A</button>
                         <button class="fontButton" onclick="changeFontSize(0.95)">-A</button>
                         <script>
-                            function changeFontSize(newSize) {
+                            function changeFontSize(scaleFactor) {
                                 var allTextElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th');
-
                                 allTextElements.forEach(function (element) {
                                     var currentSize = parseFloat(window.getComputedStyle(element, null).getPropertyValue('font-size'));
-                                    var newSizeValue = currentSize * newSize;
-                                    element.style.fontSize = newSizeValue + "px";
+                                    var newSize = currentSize * scaleFactor;
+                                    element.style.fontSize = newSize + "px";
                                 });
+
+                                // Save the font size preference to localStorage
+                                var exampleElement = document.querySelector('p'); // Use any representative text element
+                                var savedFontSize = parseFloat(window.getComputedStyle(exampleElement, null).getPropertyValue('font-size'));
+                                localStorage.setItem('fontSize', savedFontSize);
                             }
+
+                            function applySavedFontSize() {
+                                var savedFontSize = localStorage.getItem('fontSize');
+                                if (savedFontSize) {
+                                    var allTextElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th');
+                                    allTextElements.forEach(function (element) {
+                                        element.style.fontSize = savedFontSize + "px";
+                                    });
+                                }
+                                savedFontSize = 120; // Set your preferred default font size in pixels
+
+                            }
+
+                            // Apply saved font size on page load
+                            window.onload = function () {
+                                applySavedFontSize();
+                                console.log("Page loaded");
+                            };
                         </script>
                     </div>
                 </li>
@@ -82,32 +104,39 @@
 </nav>
 
 <style>
-    .fontbuttongrp {
-        display: flex;
-        border-radius: 25px; /* This creates the rounded corners for the container */
-        overflow: hidden; /* Ensures child elements do not spill outside the border */
-    }
-
-    .fontButton {
-        flex: 1; /* Ensures buttons have equal width */
-        padding: 10px 20px;
-        border: none;
-        background-color: lightgray; /* The background color for buttons; use your own color */
-        color: black; /* Text color for buttons */
-        cursor: pointer;
-        border-right: 1px solid #000;
-    }
-
-        .fontButton:hover {
-            background-color: grey;
-        }
-
-
+    
     .nav-item {
         margin-right: 10px !important; /* Creates space between nav items */
     }
 
     #google_translate_element {
-        margin-left: 10px; /* Creates space between the font buttons and translate element */
+        margin-left: 10px;
+        border: 1px solid #ccc; /* Add a border */
+        padding: 10px; /* Add some padding */
+        background-color: #f5f5f5; /* Set a background color */
+        border-radius: 5px; /* Add rounded corners */
     }
+
+    /* Style the language dropdown button */
+    .goog-te-combo {
+        background-color: #fff; /* Set background color */
+        border: 1px solid #ccc; /* Add a border */
+        padding: 5px; /* Add padding */
+    }
+
+    /* Style the language dropdown list */
+    .goog-te-menu-value {
+        padding: 5px;
+    }
+
+    /* Style the font size buttons */
+    .goog-te-menu2-item {
+        font-size: 14px; /* Set the font size */
+    }
+
+        /* Style the hover effect on font size buttons */
+        .goog-te-menu2-item:hover {
+            background-color: #e0e0e0; /* Set hover background color */
+        }
+
 </style>

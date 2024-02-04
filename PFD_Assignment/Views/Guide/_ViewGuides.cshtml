@@ -1,8 +1,8 @@
 ﻿@model PFD_Assignment.Models.PostIndexViewModel
 
-<img class="bgimg" style="opacity: 0.4;" src="~/images/sgbackground2.jpg"></img>
+<img class="bgimg" style="opacity: 0.2;" src="~/images/sgbackground2.jpg"></img>
 
-<h1 class="PageTitle"  style="font-weight:bold; font-size:60px; padding-top:10px" >Guides</h1>
+<h1 class="PageTitle"  style="font-weight:bold;  padding-top:10px" >Guides</h1>
 
 @functions {
     string GetStatusColor(string status)
@@ -10,7 +10,7 @@
         switch (status.ToLower())
         {
             case "Bronze":
-                return "ronze"; // You can set your desired color or class here
+                return "Bronze"; // You can set your desired color or class here
             case "Silver":
                 return "silver-color"; // You can set your desired color or class here
             case "Gold":
@@ -44,7 +44,7 @@
         }
         else if (post.Status.ToString() == "Silver")
         {
-                @:silver;
+                    @:grey;
         }
         else if (post.Status.ToString() == "Gold")
         {
@@ -112,7 +112,7 @@
         }
         else if (post.Status.ToString() == "Silver")
         {
-                @:silver;
+                @:grey;
         }
         else if (post.Status.ToString() == "Gold")
         {

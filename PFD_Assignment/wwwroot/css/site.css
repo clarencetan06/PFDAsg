@@ -28,6 +28,7 @@ body {
   margin-bottom: 60px;
 }btn btn-primary
 
+
 /* --------------------------- guides -------------------------------*/
 .guidecontent {
     align-items: center;
@@ -38,9 +39,7 @@ body {
      font-size: 20px;
      font-weight:bold;
 }
-* {
-    border: 1px solid red !important;
-}
+
 /*searchbar*/
 .searchbarguide {
     margin-left: 45px;
@@ -48,6 +47,7 @@ body {
     padding: 10px;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for a stylish look */
+    
 }
 
     /* Adjust the styles for the form and text box */
@@ -305,7 +305,7 @@ body {
     border: thick;
     /*color: rgba(0,0,0,.55);*/
     background-color: darkred; /* The background color for buttons; use your own color */
-    padding: 10px 20px;
+    padding: 5px 20px;
    /* flex: 1; *//* Ensures buttons have equal width */
     flex-basis: 1;
     border: none;
@@ -314,7 +314,7 @@ body {
 }
     .fontButton:hover {
         background-color: grey;
-        transform: perspective();
+        
     }
 /* --------------------------- intro page -------------------------------*/
 
@@ -800,4 +800,14 @@ textarea {
     outline-style: solid;
     outline-width: 2px;
     padding: 5px;
+}
+
+.button-style {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4285f4;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-left:20px
 }
