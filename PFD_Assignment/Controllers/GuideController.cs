@@ -88,6 +88,7 @@ namespace PFD_Assignment.Controllers
             List<Comments> commentList = new List<Comments>();
             List<Comments> comments = commentsContext.GetAllPostComments(id);
             string username = "";
+            string status = "";
             if (post.MemberID < int.MaxValue && post.MemberID > int.MinValue)
             {
                 List<Member> memberList = memberContext.GetAllMembers();
@@ -96,6 +97,7 @@ namespace PFD_Assignment.Controllers
                     if (member.MemberId == post.MemberID)
                     {
                         username = member.Username;
+                        status = member.Status;
                         break;
                     }
                 }
@@ -123,6 +125,7 @@ namespace PFD_Assignment.Controllers
                 Post = post,
                 CommentList = commentList,
                 Username = username,
+                Status = status,
             };
             return View(postComments);
         }
