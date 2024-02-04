@@ -17,6 +17,7 @@
                 <span asp-validation-for="PostTitle" class="text-danger"></span>
             </div>
         </div>
+        <br />
         <div class="row me-0 create-fields">
             <label asp-for="PostDesc" class="col-sm-3 col-form-label"></label>
             <div class="col-sm-9 col-md-5">
@@ -24,6 +25,7 @@
                 <span asp-validation-for="PostDesc" class="text-danger"></span>
             </div>
         </div>
+        <br />
         <div class="row me-0 create-fields">
             <label asp-for="VideoLink" class="col-sm-3 col-form-label"></label>
             <div class="col-sm-9 col-md-5">
@@ -31,6 +33,7 @@
                 <span asp-validation-for="VideoLink" class="text-danger"></span>
             </div>
         </div>
+        <br />
         <div class="row me-0 create-fields">
             <label asp-for="PostContent" class="col-sm-3 col-form-label" id="PostContent"></label>
             <div class="col-sm-9 col-md-5" style="display: flex; flex-direction: column; align-items: flex-start;">
@@ -38,12 +41,12 @@
                 <span asp-validation-for="PostContent" class="text-danger"></span>
             </div>
         </div>
-
+        <br />
         <div class="row me-0 create-fields">
             <div class="col-sm-3"></div> <!-- This div is used to offset the column so that it aligns with the PostContent input box -->
             <div class="col-sm-9 col-md-5">
                 <div class="validation-note">
-                    <div class="error-icon">⚠️</div> <!-- This is the Unicode character for a warning sign -->
+                    <div class="error-icon">⚠️</div> 
                     Please validate content before creating a guide
                 </div>
                 <div id="postContentValidation" class="text-danger"></div>
