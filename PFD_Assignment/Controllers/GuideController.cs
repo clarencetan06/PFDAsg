@@ -88,6 +88,7 @@ namespace PFD_Assignment.Controllers
             List<Comments> commentList = new List<Comments>();
             List<Comments> comments = commentsContext.GetAllPostComments(id);
             string username = "";
+            string status = "";
             if (post.MemberID < int.MaxValue && post.MemberID > int.MinValue)
             {
                 List<Member> memberList = memberContext.GetAllMembers();
@@ -96,6 +97,7 @@ namespace PFD_Assignment.Controllers
                     if (member.MemberId == post.MemberID)
                     {
                         username = member.Username;
+                        status = member.Status;
                         break;
                     }
                 }
@@ -123,6 +125,7 @@ namespace PFD_Assignment.Controllers
                 Post = post,
                 CommentList = commentList,
                 Username = username,
+                Status = status,
             };
             return View(postComments);
         }
@@ -131,6 +134,7 @@ namespace PFD_Assignment.Controllers
         public PostViewModel MapToPostVM(Post post)
         {
             string username = "";
+            string status = "";
             if (post.MemberID != null)
             {
                 List<Member> memberList = memberContext.GetAllMembers();
@@ -139,7 +143,7 @@ namespace PFD_Assignment.Controllers
                     if (member.MemberId == post.MemberID)
                     {
                         username = member.Username;
-                        //Exit the foreach loop once the username is found
+                        status = member.Status;
                         break;
                     }
                 }
@@ -156,6 +160,7 @@ namespace PFD_Assignment.Controllers
                 DateofPost = post.DateofPost,
                 MemberID = post.MemberID,
                 Username = username,
+                Status = status,
                 Photo = post.PostTitle + ".jpg"
             };
 
@@ -224,7 +229,7 @@ namespace PFD_Assignment.Controllers
                 PostTitle = postVM.PostTitle,
                 PostDesc = postVM.PostDesc,
                 PostContent = postVM.PostContent,
-                // Add other properties as needed
+                
             };
         }
 
