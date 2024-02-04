@@ -219,7 +219,8 @@ namespace PFD_Assignment.Controllers
             else
             {
                 // Input validation fails, return to the Create view to display error message
-                return View(post);
+                TempData["ErrorMessage"] = "Error creating post! Please fill in all required areas! (Title, Description, Content)";
+                return RedirectToAction("Create", "Guide");
             }
         }
 

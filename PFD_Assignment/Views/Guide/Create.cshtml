@@ -175,3 +175,10 @@
         }
 </style>
 
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        alert('@TempData["ErrorMessage"]');
+    </script>
+}
