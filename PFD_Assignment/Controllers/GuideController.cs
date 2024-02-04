@@ -311,11 +311,11 @@ namespace PFD_Assignment.Controllers
         // POST: GuideController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteFeaturedGuide(int FeaturedPostID)
+        public ActionResult DeleteFeaturedGuide(int PostID)
         {
 
             // Delete the staff record from database
-            string updateMessage = postContext.DeleteFeaturedGuide(FeaturedPostID);
+            string updateMessage = postContext.DeleteFeaturedGuide(PostID);
             TempData["updateMessage"] = updateMessage;
             return RedirectToAction("PinGuide", "Admin");
         }
