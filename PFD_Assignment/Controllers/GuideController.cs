@@ -52,6 +52,7 @@ namespace PFD_Assignment.Controllers
 
             // Process featured posts
             List<FeaturedPosts> featuredPosts = postContext.GetPopularPost(); 
+
             foreach (FeaturedPosts featuredPost in featuredPosts)
             {
                 PostViewModel postViewModel = MapToPostVM(featuredPost.Post);
@@ -310,11 +311,13 @@ namespace PFD_Assignment.Controllers
         // POST: GuideController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteFeaturedGuide(int postID)
+        public ActionResult DeleteFeaturedGuide(int FeaturedPostID)
         {
+
             // Delete the staff record from database
-            postContext.DeleteFeaturedGuide(postID);
-            return RedirectToAction("AdminMain", "Admin");
+            string updateMessage = postContext.DeleteFeaturedGuide(FeaturedPostID);
+            TempData["updateMessage"] = updateMessage;
+            return RedirectToAction("PinGuide", "Admin");
         }
     }
 }

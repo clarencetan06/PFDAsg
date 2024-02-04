@@ -33,7 +33,15 @@
 						<td>@featuredPost.Downvote</td>
 						<td>
                             <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@featuredPost.PostID">Details</a> |
-                            <a asp-action="DeleteFeaturedGuide" asp-controller="Guide" asp-route-id="@featuredPost.PostID">Delete</a>
+                            
+                            <div class="guidebuttonposition" id="guidebuttonposition">
+                                <form asp-action="DeleteFeaturedGuide" asp-controller="Guide" method="post" style="display: inline;">
+                                    <input  name="FeaturedPostID" value="@featuredPost.FeaturedPostID" />
+                                    <button type="submit" class="guideButton" id="deleteGuideButton" style="color: red">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
 						</td>
 					</tr>
 				}
