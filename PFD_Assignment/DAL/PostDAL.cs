@@ -486,15 +486,15 @@ VALUES(@PostTitle, @PostDesc, @PostContent, @Upvote, @Downvote, @DateofPost, @Vi
 
             return exists;
         }
-        public string DeleteFeaturedGuide(int FeaturedPostID)
+        public string DeleteFeaturedGuide(int PostID)
         {
             int rowAffected = 0;
             //Instantiate a SqlCommand object, supply it with a DELETE SQL statement
             //to delete a staff record specified by a Staff ID
             SqlCommand cmd = conn.CreateCommand();
-            cmd.Parameters.AddWithValue("@selectFeaturedPostID", FeaturedPostID);
+            cmd.Parameters.AddWithValue("@selectPostID", PostID);
             cmd.CommandText = @"DELETE FROM FeaturedPost
-WHERE FeaturedPostID = @selectFeaturedPostID";
+WHERE PostID = @selectPostID";
             
             //cmd.Parameters.AddWithValue("@selectPostID", postId);
             //Open a database connection
@@ -503,7 +503,7 @@ WHERE FeaturedPostID = @selectFeaturedPostID";
             //Execute the DELETE SQL to remove the staff record
             rowAffected += cmd.ExecuteNonQuery();
             Debug.WriteLine(cmd.ExecuteNonQuery());
-            Debug.WriteLine(FeaturedPostID);
+            Debug.WriteLine(PostID);
             //Close database connection
             conn.Close();
             //Return number of row of staff record updated or deleted
