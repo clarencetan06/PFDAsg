@@ -1,14 +1,15 @@
 ﻿@model PFD_Assignment.Models.PostIndexViewModel
 
-<form action="@Url.Action("PinGuide", "Admin")" method="get">
-    <div class="search-container">
-        <input type="text" placeholder="Search..." name="searchValue" required>
-        <input type="hidden" name="searchBy" value="PostTitle" />
-        <button type="submit"><i class="fa fa-search"></i></button>
-    </div>
-</form>
-
 <div class="container">
+    <br />
+    <form action="@Url.Action("PinGuide", "Admin")" method="get">
+        <div class="search-container">
+            <input type="text" placeholder="Search..." name="searchValue" required>
+            <input type="hidden" name="searchBy" value="PostTitle" />
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+    <br />
 
     @if (Model.FeaturedPosts != null && Model.FeaturedPosts.Count > 0)
     {
