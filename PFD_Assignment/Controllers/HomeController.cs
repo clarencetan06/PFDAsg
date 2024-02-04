@@ -56,7 +56,8 @@ namespace PFD_Assignment.Controllers
 
         public ActionResult MainPage()
         {
-            return View();
+            Announcements announcement = announcementContext.GetMostRecentAnnouncement();
+            return View(announcement);
         }
 
         public ActionResult AdminMain()

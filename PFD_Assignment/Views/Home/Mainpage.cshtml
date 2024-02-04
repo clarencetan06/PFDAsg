@@ -1,9 +1,23 @@
 ﻿@{
-ViewData["Title"] = "MainPage";
+    ViewData["Title"] = "MainPage";
 }
+
+@model PFD_Assignment.Models.Announcements
+
 <!DOCTYPE html>
 <html>
 <body>
+    <div>
+
+        @if (Model != null)
+        {
+            <div id="notification-bar" class="notification-bar">
+                <b><p>@Html.Raw(Model.AnnouncementTitle) :</p></b>
+                <p>@Html.Raw(Model.AnnouncementContent)</p>
+                <button onclick="closeNotificationBar()">X</button>
+            </div>
+        }
+
     <div class="home">
         <img class="bgimg" src="~/images/sgbackground.jpg"></img>
         <div class="content">
@@ -40,4 +54,39 @@ ViewData["Title"] = "MainPage";
         alert('@TempData["SuccessMessage"]');
     </script>
 }
+
+
+<style>
+    .notification-bar {
+        background-color: lightsalmon;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        padding: 10px 0;
+        position: relative;
+        width: 100%;
+        z-index: 9;
+    }
+
+        .notification-bar p {
+            margin: 0;
+            display: inline;
+        }
+
+        .notification-bar button {
+            background: none;
+            border: none;
+            color: white;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+    .notification-bar-hide {
+        display: none;
+    }
+</style>
+
 
