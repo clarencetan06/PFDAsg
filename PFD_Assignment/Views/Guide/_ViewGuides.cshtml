@@ -16,7 +16,7 @@
                 <div class="featuredguide">
                     <div>
                         <p class="guideUser">
-                            <b> @post.Username.ToString() </b>| @post.DateofPost.ToString()
+                            <b> @post.Username.ToString() </b>| @post.Status.ToString()
                         </p>
                         <p class="guidePara">
                             Title: @post.PostTitle.ToString()
@@ -24,6 +24,10 @@
                         <p class="guidePara">
                             Description: @post.PostDesc.ToString()
                         </p>
+                        <p class="guideUser">
+                            @post.DateofPost.ToString()
+                        </p>
+
                     </div>
 
 
@@ -58,13 +62,16 @@
             <div class="guides" id="guides" data-date="@post.DateofPost.ToString()" data-likes="@post.Upvote">
                 <div>
                     <p class="guideUser">
-                        <b> @post.Username.ToString() </b>| @post.DateofPost.ToString()
+                        <b> @post.Username.ToString() </b>| @post.Status.ToString()
                     </p>
                     <p class="guidePara">
                         Title: @post.PostTitle.ToString()
                     </p>
                     <p class="guidePara">
                         Description: @post.PostDesc.ToString()
+                    </p>
+                    <p class="guideUser">
+                        @post.DateofPost.ToString()
                     </p>
 
                 </div>

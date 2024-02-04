@@ -1,8 +1,12 @@
 ﻿@model PFD_Assignment.Models.PostComments
 
-<div class="guidedetailscontainer container">
-    <h4 class="posttitle">@Html.Display("Post.PostTitle")</h4>
-    <hr />
+<div class=" container" style="padding-top: 10px ">
+    <h4 class="posttitle" style="text-align:center;">@Html.Display("Post.PostTitle")</h4>
+    <div class="postdetails">
+        <p>Author: @Html.Display("Username") | Level: @Html.Display("Status") </p>
+        <p>Date: @Html.Display("Post.DateofPost") </p>
+    </div>
+    <hr style="margin-bottom:30px;"/>
     @if (Model.Post.VideoLink != "")
     {
         <iframe src="@Model.Post.VideoLink" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -10,16 +14,10 @@
     <div class="postcontent">
         @Html.Display("Post.PostContent")
     </div>
-
-    <div class="postdetails"> 
-        <p>Author: @Html.Display("Username") </p>
-        <p>Date: @Html.Display("Post.DateofPost") </p>
-    </div>
-
-</div>
+</div> 
 
 <div class="postvotes container">
-    <p>Upvotes: @Html.Display("Post.Upvote") | Downvotes: @Html.Display("Post.Downvote") </p>
+    <p style="margin">Upvotes: @Html.Display("Post.Upvote") | Downvotes: @Html.Display("Post.Downvote") </p>
 
     <div class="postvotingcontainer">
         <form asp-action="Vote" asp-route-postid="@Model.Post.PostID" asp-route-voteType=1>

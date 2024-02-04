@@ -232,6 +232,8 @@ WHERE PostID = @selectedPostID";
                         updateCmd.CommandText = "INSERT INTO Votes (PostID, MemberID, Vote) VALUES (@postId, @memberId, @vote)";
                         updateCmd.Parameters.AddWithValue("@vote", 1);
                         updateCmd.ExecuteNonQuery();
+                        int postCreatorId = GetPostCreatorId(postid);
+                        UpdateMemberStatusBasedOnVotes(postCreatorId);
                         return "You have successfully upvoted.";
                     }
                     else if (voteType == 2)
@@ -243,6 +245,8 @@ WHERE PostID = @selectedPostID";
                         updateCmd.CommandText = "INSERT INTO Votes (PostID, MemberID, Vote) VALUES (@postId, @memberId, @vote)";
                         updateCmd.Parameters.AddWithValue("@vote", 2);
                         updateCmd.ExecuteNonQuery();
+                        int postCreatorId = GetPostCreatorId(postid);
+                        UpdateMemberStatusBasedOnVotes(postCreatorId);
                         return "You have successfully downvoted.";
                     }
                     else
@@ -258,6 +262,65 @@ WHERE PostID = @selectedPostID";
                 }
             }
 
+        }
+
+        private int GetPostCreatorId(int postId)
+        {
+            using (SqlCommand cmd = new SqlCommand("SELECT MemberID FROM Post WHERE PostID = @postId", conn))
+            {
+                cmd.Parameters.AddWithValue("@postId", postId);
+                var result = cmd.ExecuteScalar();
+                conn.Close();
+
+                if (result != null)
+                {
+                    return (int)result;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Post not found.");
+                }
+            }
+        }
+
+        public void UpdateMemberStatusBasedOnVotes(int? memberId)
+        {
+            if (memberId == null)
+            {
+                return; // Member ID is null, cannot proceed
+            }
+
+            // Logic to calculate net upvotes and update member status
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                conn.Open();
+
+                // Calculate the net upvotes for the member's posts and update status if criteria met
+                cmd.CommandText = @"
+            WITH MemberPostsVotes AS (
+                SELECT 
+                    p.MemberID, 
+                    SUM(p.Upvote - p.Downvote) AS NetUpvotes
+                FROM Post p
+                WHERE p.MemberID = @MemberID
+                GROUP BY p.MemberID
+            )
+            UPDATE Members
+            SET MemberStatus = CASE 
+                WHEN NetUpvotes >= 10 AND MemberStatus = 'Bronze' THEN 'Silver'
+                WHEN NetUpvotes >= 20 AND MemberStatus = 'Silver' THEN 'Gold'
+                ELSE MemberStatus
+            END
+            FROM Members m
+            INNER JOIN MemberPostsVotes mpv ON m.MemberID = mpv.MemberID
+            WHERE m.MemberID = @MemberID";
+
+                cmd.Parameters.AddWithValue("@MemberID", memberId);
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
         }
 
 

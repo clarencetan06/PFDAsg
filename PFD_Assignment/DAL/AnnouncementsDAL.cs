@@ -66,6 +66,7 @@ VALUES(@title, @content, @date)";
                 announcementList.Add(
                     new Announcements
                     {
+                        AnnouncementID = reader.GetInt32(0),
                         AnnouncementTitle = reader.GetString(1),
                         AnnouncementContent = reader.GetString(2),
                         DateofAnnouncement = reader.GetDateTime(3),
@@ -80,23 +81,67 @@ VALUES(@title, @content, @date)";
         }
 
 
-        public int Delete(int AnnouncementID)
+        public string Delete(int AnnouncementID)
         {
+            int rowAffected = 0;
             //Instantiate a SqlCommand object, supply it with a DELETE SQL statement
             //to delete a staff record specified by a Staff ID
             SqlCommand cmd = conn.CreateCommand();
+            cmd.Parameters.AddWithValue("@selectAnnouncementID", AnnouncementID);
             cmd.CommandText = @"DELETE FROM Announcements
 WHERE AnnouncementID = @selectAnnouncementID";
-            cmd.Parameters.AddWithValue("@selectAnnouncementID", AnnouncementID);
             //Open a database connection
             conn.Open();
-            int rowAffected = 0;
             //Execute the DELETE SQL to remove the staff record
             rowAffected += cmd.ExecuteNonQuery();
             //Close database connection
             conn.Close();
             //Return number of row of staff record updated or deleted
-            return rowAffected;
+
+            if (rowAffected > 0)
+            {
+                return "Successfully deleted!";
+            }
+            else
+            {
+                return "Error Occurred.";
+            }
+        }
+        public bool IsAnnouncementTableEmpty()
+        {
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT COUNT(*) FROM Announcements";
+
+            conn.Open();
+            int count = (int)cmd.ExecuteScalar();
+            conn.Close();
+
+            return count == 0; //return true if = 0, else return false
+        }
+
+        public Announcements GetMostRecentAnnouncement()
+        {
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT TOP 1 * FROM Announcements ORDER BY DateofAnnouncement DESC";
+
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            Announcements mostRecentAnnouncement = null;
+
+            if (reader.Read())
+            {
+                mostRecentAnnouncement = new Announcements
+                {
+                    AnnouncementTitle = reader.GetString(1),
+                    AnnouncementContent = reader.GetString(2),
+                    DateofAnnouncement = reader.GetDateTime(3),
+                };
+            }
+
+            reader.Close();
+            conn.Close();
+
+            return mostRecentAnnouncement;
         }
     }
 }

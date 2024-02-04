@@ -13,26 +13,26 @@
         {
             <div class="guides" id="guides">
                 <div>
-                    <p class="guidePara">
-                        Title: @item.AnnouncementTitle.ToString()
+                    <p class="announcePara">
+                        <b> @item.AnnouncementTitle.ToString()</b>
                     </p>
-                    <p class="guidePara">
-                        Description: @item.AnnouncementContent.ToString()
+                    <p class="announcePara">
+                        @item.AnnouncementContent.ToString()
+                    </p>
+                    <p class="announcePara">
+                        @item.DateofAnnouncement.ToString()
                     </p>
                 </div>
 
                 <div class="guidebuttonposition" id="guidebuttonposition">
-                    <a asp-action="Delete" asp-controller="Admin" asp-route-id="@item.AnnouncementID">
-                        <button class="guideButton" id="guideButton" style="color: red">
+                    <form asp-action="Delete" asp-controller="Admin" method="post" style="display: inline;">
+                        <input type="hidden" name="AnnouncementID" value="@item.AnnouncementID" />
+                        <button type="submit" class="guideButton" id="deleteGuideButton" style="color: red">
                             Delete
                         </button>
-                    </a>
-                    <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@item.AnnouncementID">
-                        <button class="guideButton" id="guideButton">
-                            View
-                        </button>
-                    </a>
+                    </form>
                 </div>
+
             </div>
         }
     </div>
@@ -41,3 +41,18 @@ else
 {
     <span style="color: black; font-size: 20px; font-weight: bold;">No announcements found!</span>
 }
+
+
+@if (TempData["updateMessage"] != null)
+{
+    <script>
+        alert('@TempData["updateMessage"]');
+    </script>
+}
+
+<style>
+    .announcePara {
+        font-size: 16px;
+        letter-spacing: 0.01cm;
+    }
+</style>

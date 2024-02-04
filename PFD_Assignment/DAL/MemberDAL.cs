@@ -1,5 +1,6 @@
 ﻿using PFD_Assignment.Models;
 using System.Data.SqlClient;
+using System.Diagnostics.Metrics;
 
 namespace PFD_Assignment.DAL
 {
@@ -147,7 +148,8 @@ VALUES(@first, @last, @username, @pass,
                         Username = reader.GetString(3),
                         UserPassword = reader.GetString(4),
                         Email = reader.GetString(5),
-                        BirthDate = reader.GetDateTime(6)
+                        BirthDate = reader.GetDateTime(6),
+                        Status = reader.GetString(reader.GetOrdinal("MemberStatus"))
                     }
                 );
             }
@@ -186,6 +188,7 @@ WHERE MemberID = @selectedMemberID";
                     member.Email = reader.GetString(5);
                     member.BirthDate = !reader.IsDBNull(6) ?
                         reader.GetDateTime(6) : (DateTime?)null;
+                    member.Status = reader.GetString(reader.GetOrdinal("MemberStatus"));
                 }
             }
             //Close data reader
