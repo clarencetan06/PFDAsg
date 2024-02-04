@@ -1,34 +1,29 @@
 ﻿@{
     ViewData["Title"] = "Index";
 }
+
 @model PFD_Assignment.Models.Announcements
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <!DOCTYPE html>
 <html>
 <body>
-	<h2 style="text-align: center">Notification</h2>
-    <div class="w3-content" style="max-width:400px">
+    <div>
         @* <div class="mySlides w3-container w3-red">
             <h1><b>Did You Know?</b></h1>
             <h1><i>We plan to sell trips to the moon in the 2020s</i></h1>
         </div>
         <img class="mySlides" src="~/images/sgbackground.jpg" style="width:100%"> 
         <img class="mySlides" src="~/images/sgbackground2.jpg" style="width:100%"> *@
-        
+
         @if (Model != null)
         {
-        <div class="mySlides w3-container w3-red">
-            <h1><b>@Model.AnnouncementTitle</b></h1>
-            <h1><i>@Model.AnnouncementContent</i></h1>
-        </div>
+                <div id="notification-bar" class="notification-bar">
+                    <b><p>@Html.Raw(Model.AnnouncementTitle) :</p></b>
+                    <p>@Html.Raw(Model.AnnouncementContent)</p>
+                    <button onclick="closeNotificationBar()">X</button>
+                </div>
         }
-        else
-        {
-            <div class="mySlides w3-container w3-red">
-                <p style="text-align:center">No announcements available!!.</p>
-            </div>
-        }
+
 	</div>
     <div class="home">
         <img class="bgimg" src="~/images/sgbackground.jpg"></img>
@@ -70,18 +65,43 @@
 }
 
 <script>
-    var myIndex = 0;
-    carousel();
-
-    function carousel() {
-        var i;
-        var x = document.getElementsByClassName("mySlides");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        myIndex++;
-        if (myIndex > x.length) { myIndex = 1 }
-        x[myIndex - 1].style.display = "block";
-        setTimeout(carousel, 3500); // Change image every 3.5 seconds
+    function closeNotificationBar() {
+        var bar = document.getElementById('notification-bar');
+        bar.style.display = 'none';
     }
 </script>
+
+<style>
+    .notification-bar {
+        background-color: lightsalmon; 
+        color: white; 
+        padding: 10px;
+        text-align: center;
+        padding: 10px 0; 
+        position: relative; 
+        width: 100%;
+        z-index: 999; 
+    }
+
+        .notification-bar p {
+            margin: 0;
+            display: inline;
+        }
+
+        .notification-bar button {
+            background: none;
+            border: none;
+            color: white;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+    .notification-bar-hide {
+        display: none;
+    }
+</style>
+
+        
