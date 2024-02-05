@@ -35,7 +35,7 @@
                         <td>@featuredPost.Downvote</td>
                         <td>
                             <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@featuredPost.PostID">Details</a> |
-                            <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal" data-featured-post-id="@featuredPost.FeaturedPostID" class="deleteButton">Delete</a>
+                            <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal" data-featured-post-id="@featuredPost.PostID" class="deleteButton">Delete</a>
                         </td>
                     </tr>
                 }
