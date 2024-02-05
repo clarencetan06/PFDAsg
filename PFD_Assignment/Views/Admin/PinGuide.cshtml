@@ -35,7 +35,7 @@
                         <td>@featuredPost.Downvote</td>
                         <td>
                             <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@featuredPost.PostID">Details</a> |
-                            <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal" data-featured-post-id="@featuredPost.FeaturedPostID" class="deleteButton">Delete</a>
+                            <a href="#" data-toggle="modal" data-target="#deletefeaturedConfirmationModal" data-featured-post-id="@featuredPost.FeaturedPostID" class="deleteButton">Delete</a>
                         </td>
                     </tr>
                 }
@@ -71,7 +71,8 @@
                         <td>@post.Downvote</td>
                         <td>
                             <a asp-action="GuideDetails" asp-controller="Guide" asp-route-id="@post.PostID">Details</a> |
-                            <a href="#" data-toggle="modal" data-target="#pinConfirmationModal" data-post-id="@post.PostID" class="pinButton">Pin</a>
+                            <a href="#" data-toggle="modal" data-target="#pinConfirmationModal" data-post-id="@post.PostID" class="pinButton">Pin</a>|
+                            <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal" data-delete-post-id="@post.PostID" class="deleteButton">Delete</a>
                         </td>
                     </tr>
                 }
@@ -111,8 +112,8 @@
         </div>
     </div>
 
-    <!-- Delete Pin Confirmation Modal -->
-    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalCenterTitle" aria-hidden="true">
+    <!-- Delete featured Pin Confirmation Modal -->
+    <div class="modal fade" id="deletefeaturedConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form asp-action="DeleteFeaturedGuide" asp-controller="Guide" method="post">
@@ -126,6 +127,31 @@
                     <div class="modal-body">
                         Are you sure you want to remove this as a featured post?
                         <input type="hidden" name="postId" id="featuredPostIdInput" value="" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-primary" value="Delete" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Pin Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form asp-action="DeleteGuide" asp-controller="Guide" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLongTitle">Delete Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this post?
+                        <input type="hidden" name="postId" id="deletePostIdInput" value="" />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -204,6 +230,14 @@
 
             // Set the value of the hidden input in the delete modal
             $('#featuredPostIdInput').val(featuredPostId);
+        }); 
+
+        $('.deleteButton').click(function () {
+            // Get the 'data-featured-post-id' attribute value of the clicked link
+            var deletePostId = $(this).data('delete-post-id');
+
+            // Set the value of the hidden input in the delete modal
+            $('#deletePostIdInput').val(deletePostId);
         });
 
     });
