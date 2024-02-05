@@ -4,7 +4,7 @@
     ViewData["Title"] = "_ViewAnnouncements";
 }
 
-<p><a asp-controller="Admin" asp-action="CreateAnnounce">Create an Announcement</a></p>
+<p><a asp-controller="Admin" asp-action="CreateAnnounce" class="button-style" style="padding-left:20px">Create an Announcement</a></p>
 
 @if (Model.Count() > 0)
 {
@@ -39,7 +39,7 @@
 }
 else
 {
-    <span style="color: black; font-size: 20px; font-weight: bold;">No announcements found!</span>
+    <span style="color: black; font-size: 20px; font-weight: bold;padding-left:20px">No announcements found!</span>
 }
 
 

@@ -518,5 +518,34 @@ WHERE PostID = @selectFeaturedPostID";
             }
         }
 
+        public string DeleteGuide(int postid)
+        {
+            int rowAffected = 0;
+            //Instantiate a SqlCommand object, supply it with a DELETE SQL statement
+            //to delete a staff record specified by a Staff ID
+            SqlCommand cmd = conn.CreateCommand();
+            Console.WriteLine(postid);
+            cmd.Parameters.AddWithValue("@selectPostID", postid);
+            cmd.CommandText = @"DELETE FROM Comments
+WHERE PostID = @selectPostID";
+            conn.Open();
+            rowAffected += cmd.ExecuteNonQuery();
+
+            cmd.CommandText = @"DELETE FROM Post
+WHERE PostID = @selectPostID";
+            //Open a database connection
+            rowAffected += cmd.ExecuteNonQuery();
+            //Close database connection
+            conn.Close();
+            if (rowAffected > 0)
+            {
+                return "Successfully deleted!";
+            }
+            else
+            {
+                return "Error Occurred.";
+            }
+        }
+
     }
 }

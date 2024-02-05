@@ -320,5 +320,16 @@ namespace PFD_Assignment.Controllers
             TempData["updateMessage"] = updateMessage;
             return RedirectToAction("PinGuide", "Admin");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGuide(int postId)
+        {
+
+            // Delete the staff record from database
+            string updateMessage = postContext.DeleteGuide(postId);
+            TempData["updateMessage"] = updateMessage;
+            return RedirectToAction("PinGuide", "Admin");
+        }
     }
 }
